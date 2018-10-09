@@ -4,8 +4,8 @@
 
 ### project ###
 /webapp/
-/src/main/resources/mybatis/mybatis-config.xml
-/bin/
+#/src/main/resources/mybatis/mybatis-config.xml
+/bin/*
 
 ### STS ###
 .apt_generated
