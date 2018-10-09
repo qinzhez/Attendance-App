@@ -5,7 +5,7 @@
 ### project ###
 /webapp/
 /src/main/resources/mybatis/mybatis-config.xml
-*.class
+/bin/
 
 ### STS ###
 .apt_generated
