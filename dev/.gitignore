@@ -2,8 +2,14 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 
+### Front ###
+/webapp/logs/*
+/webapp/node_modules/
+/webapp/tmp
+/webapp/app/bower_components/
+
+
 ### project ###
-/webapp/
 #/src/main/resources/mybatis/mybatis-config.xml
 /bin/*
 
