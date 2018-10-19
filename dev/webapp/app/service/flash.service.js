@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('attendU')
         .factory('FlashService', FlashService);
 
     FlashService.$inject = ['$rootScope'];

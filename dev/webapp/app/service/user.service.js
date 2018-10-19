@@ -2,22 +2,30 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('attendU')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http'];
-    function UserService($http) {
+    UserService.$inject = ['$http', '$timeout', '$q'];
+    function UserService($http, $timeout, $q) {
+		var backend = "localhost";
+		var userPort = "8004";
+		
         var service = {};
 
         service.GetAll = GetAll;
         service.GetById = GetById;
         service.GetByUsername = GetByUsername;
-        service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
 
+		service.Registration = Registration;
+		
         return service;
 
+		function Registration(info) {
+			return $http.post('http://'+backend+':'+userPort+'/user/registration', info).then(handleSuccess, handleError('Error register with server'));		
+		}
+		
         function GetAll() {
             return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }
@@ -28,10 +36,6 @@
 
         function GetByUsername(username) {
             return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
-        }
-
-        function Create(user) {
-            return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
         }
 
         function Update(user) {

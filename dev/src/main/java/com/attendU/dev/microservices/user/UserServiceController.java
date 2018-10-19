@@ -2,6 +2,7 @@ package com.attendU.dev.microservices.user;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,5 +30,11 @@ public class UserServiceController {
 	public void getUser(@PathVariable String id) {
 		User user = new User();
 
+	}
+
+	@CrossOrigin
+	@RequestMapping(value = "/user/registration", method = RequestMethod.POST)
+	public void registration() {
+		//TODO
 	}
 }
