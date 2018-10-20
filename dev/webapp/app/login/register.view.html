@@ -6,6 +6,11 @@
             <input type="text" name="firstName" id="firstName" class="form-control" ng-model="vm.user.firstName" required />
             <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
         </div>
+		<div class="form-group" ng-class="{ 'has-error': form.middlename.$dirty}">
+            <label for="username">Middle name</label>
+            <input type="text" name="middleName" id="middleName" class="form-control" ng-model="vm.user.middleName" />
+            <span ng-show="form.middleName.$dirty && form.firstName.$error.required" class="help-block"></span>
+        </div>
         <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
             <label for="username">Last name</label>
             <input type="text" name="lastName" id="Text1" class="form-control" ng-model="vm.user.lastName" required />
@@ -22,9 +27,14 @@
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
 		<div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
-            <label for="password">Email</label>
+            <label for="username">Email</label>
             <input type="text" name="email" id="email" class="form-control" ng-model="vm.user.email" required />
             <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+        </div>
+		<div class="form-group" ng-class="{ 'has-error': form.cell.$dirty}">
+            <label for="username">Cell</label>
+            <input type="text" name="cell" id="cell" class="form-control" ng-model="vm.user.cell" />
+            <span ng-show="form.cell.$dirty && form.cell.$error.required" class="help-block"></span>
         </div>
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Register</button>

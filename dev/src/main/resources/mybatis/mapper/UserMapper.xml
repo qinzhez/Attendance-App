@@ -6,7 +6,14 @@
 
 <mapper namespace="com.attendU.dev.microservices.user.UserMapper">
 
+	<insert id="registerUser" parameterType="com.attendU.dev.microservices.bean.User">
+		insert into users (FirstName, MiddleName, LastName, EmailAddress, UserName, Password, CellPhone)
+		values (#{firstName}, #{middleName}, #{lastName}, #{email}, #{username}, #{password}, #{cell})
+	</insert>
 
+	<select id="getUsers" resultType="map">
+		select * from users
+	</select>
 
 
 </mapper>
