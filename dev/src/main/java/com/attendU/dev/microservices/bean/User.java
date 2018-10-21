@@ -7,8 +7,7 @@ import lombok.Setter;
 
 public class User implements Serializable{
 
-	@Getter
-	@Setter
+	@Getter@Setter
 	private Long id;
 
 	@Getter@Setter
