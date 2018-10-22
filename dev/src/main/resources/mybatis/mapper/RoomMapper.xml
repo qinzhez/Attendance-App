@@ -15,8 +15,8 @@
      </select>
      
      <insert id="createRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="rid">  
-        insert into Rooms (name, participationNum, rcid) 
-        values(#{name},#{participationNum},#{rcid})  
+        insert into Rooms (name, participantNum, rcid) 
+        values(#{name},#{participantNum},#{rcid})  
      </insert>  
      
      <delete id="removeRoom" parameterType="int">  
@@ -24,7 +24,7 @@
      </delete> 
 
 	 <update id="updateRoom" parameterType="Room">  
-        update Rooms set name = #{room_name},participationNum= #{participationNum}
+        update Rooms set name = #{room_name},participantNum= #{participantNum}
         ,rcid=#{rcid}  where rid = #{rid}  
     </update>  
 
