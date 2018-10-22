@@ -40,3 +40,6 @@ public class ActivityServiceController {
 		});
 	}
 }
+//check the valid information: null or not valid format
+//use try catch
+//check the edge of format
