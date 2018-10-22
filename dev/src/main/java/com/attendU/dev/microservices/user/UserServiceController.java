@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.User;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
-import com.netflix.discovery.converters.Auto;
 
 @RestController
 @CrossOrigin(origins = "*")

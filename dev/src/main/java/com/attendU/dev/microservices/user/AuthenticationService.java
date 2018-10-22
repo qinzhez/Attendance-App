@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.attendU.dev.microservices.bean.TokenBean;
-import com.mysql.fabric.xmlrpc.base.Data;
 
 public class AuthenticationService {
 	private UserMapper userMapper;

@@ -1,8 +1,5 @@
 package com.attendU.dev.microservices.room;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.attendU.dev.microservices.bean.Room;

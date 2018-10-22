@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.attendU.dev.microservices.bean.User;
 import com.attendU.dev.microservices.bean.TokenBean;
+import com.attendU.dev.microservices.bean.User;
 
 @Mapper
 public interface UserMapper {
