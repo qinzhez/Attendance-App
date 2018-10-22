@@ -8,17 +8,23 @@ angular.
       //$locationProvider.hashPrefix('!');
 
       $routeProvider.
-		when('/login', {
-		  controller: 'LoginController',
-          templateUrl: 'login/login.view.html',
-          controllerAs: 'vm'
-		}).
-		when('/register', {
-		  controller: 'RegisterController',
-          templateUrl: 'login/register.view.html',
-          controllerAs: 'vm'
-		}).
-        otherwise({redirectTo: '/register'});
+//		when('', {
+//	      templateUrl: 'index.html'
+//		}).
+        when('/home', {
+          templateUrl: 'dashboard/home.html'
+        }).
+//		when('/login', {
+//		  controller: 'LoginController',
+//          templateUrl: 'login/login.view.html',
+//          controllerAs: 'vm'
+//		}).
+//		when('/register', {
+//		  controller: 'RegisterController',
+//          templateUrl: 'login/register.view.html',
+//          controllerAs: 'vm'
+//		}).
+        otherwise({redirectTo: '/home'});
   
       //首页
       // $stateProvider.state('Login', {

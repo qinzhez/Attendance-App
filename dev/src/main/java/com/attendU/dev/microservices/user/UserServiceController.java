@@ -59,10 +59,12 @@ public class UserServiceController {
 		try {
 			int ret = userMapper.registerUser(reg);
 			check = ret == 1 ? true : false;
+			sqlSession.commit();
 		} catch (Exception e) {
+			sqlSession.rollback();
 			log.error(e);
 		}
-		getUsers();
+
 		if (check)
 			return new ResponseEntity<>(HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -84,5 +86,4 @@ public class UserServiceController {
 
 		return true;
 	}
-	
 }

@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" href="bootstrap.css" />
-<script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script> 
-<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <link href="index.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="bootstrap.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Test page</title>
@@ -32,7 +29,7 @@
   				<input type="text" class="span2">
   				<button type="submit" class="btn">Search rooms</button>
 			  </form>
-              <p class = "navbar-text pull-right" style = "font-size:15px;><font color = "#FFFFFF"><a href="#contact" style = "color:#FFFFFF">Log in or Sign up</a></font></p>
+              <p class = "navbar-text pull-right" style = "font-size:15px;><font color = "#FFFFFF"><a href="login/login.html" style = "color:#FFFFFF">Log in or Sign up</a></font></p>
           </div><!-- /.navbar-inner -->
         </div><!-- /.navbar -->
     </div><!-- /.navbar-wrapper -->
@@ -115,5 +112,21 @@
     	</div>
     </div>
 </div>
+<script type="text/javascript" src="bootstrap.js"></script>
+<script src="https://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script src="https://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script> 
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.module.js"></script>
+<script src="app.config.js"></script>
+
+<script src="service/flash.service.js"></script>
+	<script src="service/user.service.js"></script>
+	<script src="service/authentication.service.js"></script>
+	<script src="login/login.controller.js"></script>
+	<script src="login/register.controller.js"></script>
+
 </body>
 </html>
