@@ -1,6 +1,5 @@
 package com.attendU.dev.microservices.user;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,10 +30,12 @@ public class UserServiceController {
 
 	private UserMapper userMapper;
 	private SqlSession sqlSession;
+	private AuthenticationService auth;
 
 	public UserServiceController() {
 		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
 		userMapper = sqlSession.getMapper(UserMapper.class);
+		auth = new AuthenticationService(userMapper, sqlSession);
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -70,9 +72,12 @@ public class UserServiceController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	public void getUsers() {
-		List<Map<String, Object>> list = userMapper.getUsers();
-
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, String>> login(@RequestParam("username") String username, @RequestParam("password") String password){
+		Token token = auth.login(username, password);
+		if(token == null)
+			return null; // TODO:
+		return null;
 	}
 
 	private boolean validEmail(String email) {

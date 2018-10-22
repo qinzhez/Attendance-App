@@ -1,20 +1,18 @@
 package com.attendU.dev.microservices.room;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 
 import com.attendU.dev.microservices.bean.Room;
 
-@Mapper
-public interface RoomMapper {
+public interface RoomService {
 	
 	public Room findRoomById(int rid);
 	
-	public Room findRoomByAdmin(int adminId);
+	public List<Room> findRoomByAdmin(int adminId);
 	
 	public void createRoom(Room room);
 	
 	public void removeRoom(int rid);
 	
 	public void updateRoom(Room room);
-	
 }
