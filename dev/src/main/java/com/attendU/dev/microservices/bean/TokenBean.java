@@ -11,5 +11,7 @@ public class TokenBean {
 	@Getter@Setter
 	private String token;
 	@Getter@Setter
+	private Date createTime;
+	@Getter@Setter
 	private Date expiration;
 }

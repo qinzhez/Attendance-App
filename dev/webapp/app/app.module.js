@@ -3,5 +3,6 @@
 // Define the `attendU` module
 angular.module('attendU', [
   'ngAnimate',
-  'ngRoute'
+  'ngCookies',
+  'ui.router'
 ]);

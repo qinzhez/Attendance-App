@@ -19,7 +19,6 @@
         service.Delete = Delete;
 
 		service.Registration = Registration;
-		service.Login = Login;
 		
         return service;
 
@@ -58,6 +57,6 @@
                 return { success: false, message: error };
             };
         }
-      
+    }  
 
 })();
