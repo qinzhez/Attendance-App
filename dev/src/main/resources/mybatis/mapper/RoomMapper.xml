@@ -7,16 +7,16 @@
 <mapper namespace="com.attendU.dev.microservices.room.RoomMapper">
 
      <select id="findRoomById" parameterType="int" resultType="Room">
-    	select * from Rooms where rid =#{rid}
+    	select * from Rooms where rid = #{rid}
      </select>
      
-     <select id="findRoomByAdmin" parameterType="int" resultType="Room">
-     	select * from Rooms where adminId =#{adminId}
+     <select id="findRoomByAdmin" parameterType="int" resultType="map">
+     	select * from Rooms where adminId = #{adminId}
      </select>
      
-     <insert id="createRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="rid">  
+     <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room" useGeneratedKeys="true" keyProperty="rid">  
         insert into Rooms (name, participantNum, rcid) 
-        values(#{name},#{participantNum},#{rcid})  
+        values (#{name},#{participantNum},#{rcid})  
      </insert>  
      
      <delete id="removeRoom" parameterType="int">  
@@ -24,8 +24,11 @@
      </delete> 
 
 	 <update id="updateRoom" parameterType="Room">  
-        update Rooms set name = #{room_name},participantNum= #{participantNum}
-        ,rcid=#{rcid}  where rid = #{rid}  
+        update Rooms set 
+        name = #{room_name},
+        participantNum = #{participantNum},
+        rcid=#{rcid}  
+        where rid = #{rid}  
     </update>  
 
 </mapper>

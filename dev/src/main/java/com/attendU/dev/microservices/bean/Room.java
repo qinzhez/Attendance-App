@@ -6,14 +6,14 @@ import lombok.Setter;
 public class Room{
 
 	@Getter@Setter
-	private Long id;
+	private Long uid;
 	
 	@Getter@Setter
 	private String name;
 	@Getter@Setter
 	private RoomConfig rcid;
 	@Getter@Setter
-	private int participationNum;
+	private Integer participationNum;
 	@Getter@Setter
 	private User adminId;
 	

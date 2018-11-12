@@ -20,9 +20,6 @@ public class RoomServiceController {
 
 	@Autowired
 	private RestTemplate restTemplate;
-	
-	@Autowired
-	private RoomService roomService;
 
 	private static RoomMapper roomMapper;
 	private static SqlSession sqlSession;
@@ -39,27 +36,27 @@ public class RoomServiceController {
 	
 	@RequestMapping(value = "/findRoomById", method = RequestMethod.GET)
 	public Room findRoomById(int rid) {
-		return roomService.findRoomById(rid);
+		return roomMapper.findRoomById(rid);
 	}
 	
 	@RequestMapping(value = "/findRoomByAdmin", method = RequestMethod.GET)
 	public List<Room> findRoomByAdmin(int adminId) {
-		return roomService.findRoomByAdmin(adminId);
+		return roomMapper.findRoomByAdmin(adminId);
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.POST)
-	public @ResponseBody void createRoom(Room room) {
-		roomService.createRoom(room);	
+	public @ResponseBody int createRoom(Room room) {
+		return roomMapper.createRoom(room);	
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.DELETE)
-	public void removeRoom(int rid) {
-		roomService.removeRoom(rid);
+	public int removeRoom(int rid) {
+		return roomMapper.removeRoom(rid);
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.PUT)
-	public void updateRoom(Room room) {
-		roomService.updateRoom(room);	
+	public int updateRoom(Room room) {
+		return roomMapper.updateRoom(room);	
 	}
 
 }
