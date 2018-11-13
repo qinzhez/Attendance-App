@@ -14,7 +14,9 @@ public interface UserMapper {
 
 	public List<Map<String, Object>> getUsers();
 
-	public Map<String, Object> getUserbyName(String username);
+	public User getUserbyId(long id);
+
+	public User getUserbyName(String username);
 
 	public TokenBean getAuth(long uid);
 }

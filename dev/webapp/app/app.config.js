@@ -10,6 +10,8 @@ angular.
 
       $stateProvider.state('index',{
         url: '/index',
+        controller: 'IndexController',
+        controllerAs: 'vm',
         templateUrl: 'dashboard/index.html'
       }).
       state('login',{
@@ -26,6 +28,8 @@ angular.
       }).
       state('home',{
         url: '/home',
+        controller: 'HomeController',
+        controllerAs: 'vm',
         templateUrl: 'dashboard/home.html'
       }).
       state('home.room',{
@@ -72,5 +76,6 @@ angular.
     //        controllerAs: 'vm'
   		// }).
     //       otherwise({redirectTo: '/index'});
+    
     }
   ]);
