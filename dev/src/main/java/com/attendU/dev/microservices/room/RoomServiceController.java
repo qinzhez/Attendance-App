@@ -50,12 +50,12 @@ public class RoomServiceController {
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.DELETE)
-	public int removeRoom(int rid) {
+	public Room removeRoom(int rid) {
 		return roomMapper.removeRoom(rid);
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.PUT)
-	public int updateRoom(Room room) {
+	public Room updateRoom(Room room) {
 		return roomMapper.updateRoom(room);	
 	}
 

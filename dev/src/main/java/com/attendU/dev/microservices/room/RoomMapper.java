@@ -13,10 +13,10 @@ public interface RoomMapper {
 	
 	public List<Room> findRoomByAdmin(int adminId);
 	
-	public int createRoom(String name, int rcid, int participationNum);
+	public Integer createRoom(String name, int rcid, int participationNum);
 	
-	public int removeRoom(int rid);
+	public Room removeRoom(int rid);
 	
-	public int updateRoom(Room room);
+	public Room updateRoom(Room room);
 	
 }
