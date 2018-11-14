@@ -11,7 +11,7 @@ public class Room{
 	@Getter@Setter
 	private String name;
 	@Getter@Setter
-	private RoomConfig rcid;
+	private Long rcid; //RoomConfig id
 	@Getter@Setter
 	private Integer participationNum;
 	@Getter@Setter

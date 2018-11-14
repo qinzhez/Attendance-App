@@ -8,7 +8,7 @@ public class RoomConfig{
 	private Long id;
 	
 	@Getter
-	private RoomConfig sid;
+	private Long sid; // scenario id
 	@Getter@Setter
 	private Boolean anonymous;
 }
