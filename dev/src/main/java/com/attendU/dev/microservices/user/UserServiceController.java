@@ -1,7 +1,5 @@
 package com.attendU.dev.microservices.user;
 
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +36,21 @@ public class UserServiceController {
 		auth = new AuthenticationService(userMapper, sqlSession);
 	}
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public void getUser(@PathVariable String id) {
-		User user = new User();
+	@RequestMapping(value = "/user/id/{id}", method = RequestMethod.GET)
+	public ResponseEntity<User> getUser(@PathVariable String id) {
+		User user = userMapper.getUserbyId(Long.parseLong(id));
+		if (user == null)
+			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 
+	}
+
+	@RequestMapping(value = "/user/username/{username}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getUserByName(@PathVariable String username) {
+		User user = userMapper.getUserbyName(username);
+		if (user == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/registration", method = RequestMethod.POST)
@@ -52,19 +61,23 @@ public class UserServiceController {
 				check = false;
 			if (reg.getLastName() == null || reg.getLastName().length() < 2)
 				check = false;
-			if (reg.getEmail() == null || !validEmail(reg.getEmail()))
+			if (reg.getEmailAddress() == null || !validEmail(reg.getEmailAddress()))
+				check = false;
+			if (getUserByName(reg.getUsername()) != null)
 				check = false;
 		} else
 			check = false;
 
 		// Update into db
-		try {
-			int ret = userMapper.registerUser(reg);
-			check = ret == 1 ? true : false;
-			sqlSession.commit();
-		} catch (Exception e) {
-			sqlSession.rollback();
-			log.error(e);
+		if (check) {
+			try {
+				int ret = userMapper.registerUser(reg);
+				check = (ret == 1) ? true : false;
+				sqlSession.commit();
+			} catch (Exception e) {
+				sqlSession.rollback();
+				log.error(e);
+			}
 		}
 
 		if (check)
@@ -73,11 +86,23 @@ public class UserServiceController {
 	}
 
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, String>> login(@RequestParam("username") String username, @RequestParam("password") String password){
+	public ResponseEntity<Object> login(@RequestParam("username") String username,
+			@RequestParam("password") String password) {
 		Token token = auth.login(username, password);
-		if(token == null)
-			return null; // TODO:
-		return null;
+		if (token == null)
+			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+		else {
+			return new ResponseEntity<Object>(HttpStatus.OK);
+		}
+	}
+
+	@RequestMapping(value = "/user/validToken", method = RequestMethod.POST)
+	public ResponseEntity<Token> validToken(@RequestParam("uid") Long uid, @RequestParam("token") String token) {
+		Token ret = auth.validToken(uid, token);
+		if (ret == null)
+			return new ResponseEntity<Token>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<Token>(ret, HttpStatus.OK);
+
 	}
 
 	private boolean validEmail(String email) {

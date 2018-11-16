@@ -8,20 +8,20 @@ import lombok.Setter;
 public class User implements Serializable{
 
 	@Getter@Setter
-	private Long id;
+	private Long uid;
 
 	@Getter@Setter
-	private String firstName;
+	private String FirstName;
 	@Getter@Setter
-	private String middleName;
+	private String MiddleName;
 	@Getter@Setter
-	private String lastName;
+	private String LastName;
 	@Getter@Setter
-	private String username;
+	private String Username;
 	@Getter@Setter
-	private String password;
+	private String Password;
 	@Getter@Setter
-	private String email;
+	private String EmailAddress;
 	@Getter@Setter
-	private String cell;
+	private String CellPhone;
 }

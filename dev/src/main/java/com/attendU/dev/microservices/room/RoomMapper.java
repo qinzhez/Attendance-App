@@ -1,5 +1,7 @@
 package com.attendU.dev.microservices.room;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.attendU.dev.microservices.bean.Room;
@@ -9,12 +11,12 @@ public interface RoomMapper {
 	
 	public Room findRoomById(int rid);
 	
-	public Room findRoomByAdmin(int adminId);
+	public List<Room> findRoomByAdmin(int adminId);
 	
-	public void createRoom(Room room);
+	public Integer createRoom(String name, int rcid, int participationNum);
 	
-	public void removeRoom(int rid);
+	public Room removeRoom(int rid);
 	
-	public void updateRoom(Room room);
+	public Room updateRoom(Room room);
 	
 }

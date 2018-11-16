@@ -13,8 +13,10 @@
         <property name="driver" value="com.mysql.jdbc.Driver"/>
         <!--
             mysql://address=(protocol=tcp)(host=2604:6000:1419:60d9:259f:aa3a:27f4:d29a)(port=3306)
+            192.168.1.167
+            67.241.12.117
         -->
-        <property name="url" value="jdbc:mysql://67.241.12.117:3306/cse682?autoReconnect=true"/>
+        <property name="url" value="jdbc:mysql://192.168.1.167:3306/cse682?autoReconnect=true"/>
         <property name="username" value="cse682"/>
         <property name="password" value="syracuse"/>
       </dataSource>

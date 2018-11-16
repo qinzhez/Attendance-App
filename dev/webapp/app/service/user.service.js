@@ -19,12 +19,27 @@
         service.Delete = Delete;
 
 		service.Registration = Registration;
+        service.Login = Login;
+        service.ValidLogin = ValidLogin;
 		
         return service;
 
 		function Registration(info) {
 			return $http.post('http://'+backend+':'+userPort+'/user/registration', info).then(handleSuccess, handleError('Error register with server'));		
 		}
+
+        function Login(info) {
+            return $http.post('http://'+backend+':'+userPort+'/user/login', info).then(handleSuccess, handleError('Error register with server'));        
+        }
+
+        function ValidLogin(uid, token) {
+            var info = {uid:uid, token:token};
+            return $http.post('http://'+backend+':'+userPort+'/user/validToken', info).then(handleSuccess, handleError('Login validation failed'));
+        }
+
+        function GetByUsername(username) {
+            return $http.get('http://'+backend+':'+userPort+'/user/username/' + username).then(handleSuccess, handleError('Error getting user by username'));
+        }
 		
         function GetAll() {
             return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
@@ -34,10 +49,7 @@
             return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
         }
 
-        function GetByUsername(username) {
-            return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
-        }
-
+        
         function Update(user) {
             return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
         }
