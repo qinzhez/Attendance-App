@@ -1,22 +1,26 @@
 package com.attendU.dev.microservices.room;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.http.ResponseEntity;
 
 import com.attendU.dev.microservices.bean.Room;
 
 @Mapper
 public interface RoomMapper {
 	
-	public Room findRoomById(int rid);
+	public Integer createRoom(Room room);
 	
-	public List<Room> findRoomByAdmin(int adminId);
+	public Void removeRoom(Long rid);
 	
-	public Integer createRoom(String name, int rcid, int participationNum);
+	public Void updateRoom(Long rid, String name, Long rcid, Integer participationNum);
+
+	public Room getRoomById(Long rid);
 	
-	public Room removeRoom(int rid);
-	
-	public Room updateRoom(Room room);
+	public Room getRoombyName(String name);
+
+	public List<Map<String, Object>> getRoomByAdmin(Long adminId);
 	
 }

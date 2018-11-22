@@ -5,7 +5,7 @@ import lombok.Setter;
 
 public class Scenarios{
 	@Getter@Setter
-	private int id;
+	private Long id;
 	
 	@Getter@Setter
 	private String text;
