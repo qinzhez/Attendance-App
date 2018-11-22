@@ -42,7 +42,6 @@ public class UserServiceController {
 		if (user == null)
 			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
-
 	}
 
 	@RequestMapping(value = "/user/username/{username}", method = RequestMethod.GET)

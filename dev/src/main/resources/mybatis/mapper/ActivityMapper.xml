@@ -6,9 +6,21 @@
 
 <mapper namespace="com.attendU.dev.microservices.activity.ActivityMapper">
 
-  <select id="selectTest" resultType="map">
-    select ID from city
-  </select>
+	<insert id="registerActivityByUser" parameterType="com.attendU.dev.microservices.bean.Activity">
+		insert into activities (aid, Name, Date, acid)
+		values (#{aid}, #{Name}, #{Date}, #{acid})
+	</insert>
 
+	<select id="getActivity" resultType="map">
+		select * from activities
+	</select>
+
+ 	<select id="getActivitybyId" resultType="com.attendU.dev.microservices.bean.Activity">
+		select * from activities where aid = #{aid}
+	</select>
+
+	<select id="getActivitybyName" resultType="com.attendU.dev.microservices.bean.Activity">
+		select * from activities where Name=#{Name}
+	</select>
 
 </mapper>
