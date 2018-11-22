@@ -5,23 +5,31 @@
 
 
 <mapper namespace="com.attendU.dev.microservices.activity.ActivityMapper">
-
-  <insert id="registerActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
-		insert into activities (Name, Date)
-		values (#{Name}, #{Date})
-  </insert>
-  
-  <select id="getActivities" resultType="map">
-		select * from activities
-  </select>
   
   <select id="getActivitybyId" resultType="com.attendU.dev.microservices.bean.Activity">
-		select * from activities where aid= #{id}
+		select * from activities where aid= #{aid}
   </select>
-
   <select id="getActivitybyName" resultType="com.attendU.dev.microservices.bean.Activity">
-		select * from activities where Activityname=#{activityname}
+		select * from activities where name= #{name}
   </select>
+  <select id="getActivityByConfigId" resultType="map">
+     	select * from activities where acid = #{acid}
+  </select>
+  
 
+  <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
+		insert into activities (Name, Date, acid)
+		values (#{Name}, #{Date}, #{acid})
+  </insert>
+  
+  <delete id="removeActivity">  
+        delete from activities where aid = #{aid}  
+  </delete> 
+  
+  <update id="updateActivity" >  
+        update activities set 
+        name = #{activity_name}, date = #{date}, acid = #{acid}  
+        where aid = #{aid}  
+  </update>  
 
 </mapper>

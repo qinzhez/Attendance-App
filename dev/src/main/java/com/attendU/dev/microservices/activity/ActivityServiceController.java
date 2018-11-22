@@ -1,5 +1,6 @@
 package com.attendU.dev.microservices.activity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
+import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.microservices.bean.User;
 import com.attendU.dev.microservices.user.UserServiceController;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
+@RequestMapping("/activity")
 public class ActivityServiceController {
 
 	static private Logger log = Logger.getLogger(ActivityServiceController.class.getName());
@@ -36,51 +39,71 @@ public class ActivityServiceController {
 		activityMapper = sqlSession.getMapper(ActivityMapper.class);
 	}
 	
-	@RequestMapping(value = "/activity/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/aid/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Activity> getUser(@PathVariable String id) {
-		Activity activity = activityMapper.getActivitybyId(Long.parseLong(id));
+		Activity activity = activityMapper.getActivityById(Long.parseLong(id));
 		if (activity == null)
 			return new ResponseEntity<Activity>(activity, HttpStatus.NOT_FOUND);
 		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
 
 	}
 	
-	@RequestMapping(value = "/activity/activityname/{activityname}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getActivityByName(@PathVariable String activityname) {
-		Activity activity = activityMapper.getActivitybyName(activityname);
+	@RequestMapping(value = "/activityname/{name}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getActivityByName(@PathVariable String name) {
+		Activity activity = activityMapper.getActivitybyName(name);
 		if (activity == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/activity/registration_activity", method = RequestMethod.POST)
-	public ResponseEntity<Object> registration(@RequestBody Activity reg) {
-		boolean check = true;
-		if (reg != null) {
-			if (reg.getName() == null || reg.getName().length() < 2)
-				check = false;
-			if (reg.getDate()== null || reg.getDate().length() < 2)
-				check = false;
-		} else
-			check = false;
-
-		// Update into db
-		if (check) {
-			try {
-				int ret = activityMapper.registerActivity(reg);
-				check = (ret == 1) ? true : false;
-				sqlSession.commit();
-			} catch (Exception e) {
-				sqlSession.rollback();
-				log.error(e);
-			}
-		}
-
-		if (check)
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	@RequestMapping(value = "/findRoomByConfigId/{acid}", method = RequestMethod.GET)
+	public List<Map<String, Object>> getActivityByConfigId(long acid) {
+		return activityMapper.getActivityByConfigId(acid);
 	}
+	
+	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)
+	public ResponseEntity<Object> createActivity(@RequestBody Activity reg) {
+		// sanity check
+				boolean check = true;
+				if (reg != null) {	
+					if (reg.getName() == null || reg.getDate() == null || reg.getAcid() == null)
+						check = false;
+				}
+				else
+					check = false;
+				if (check) {
+					try {
+						int ret = activityMapper.createActivity(reg);
+						check = (ret == 1) ? true : false;
+						sqlSession.commit();
+					} catch (Exception e) {
+						sqlSession.rollback();
+						log.error(e);
+					}
+				}
+				if (check) 
+					return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/removeActivity", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> removeActivity(long aid) {
+		Activity activity = activityMapper.getActivityById(aid);
+		if (activity != null) {
+			activityMapper.removeActivity(aid);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@RequestMapping(value = "/updateActivity", method = RequestMethod.PUT)
+	public ResponseEntity<Object> updateActivity(long aid, String name, Date date, Long acid) {
+		Activity activity = activityMapper.getActivityById(aid);
+		if (activity != null) {
+			activityMapper.updateActivity(aid, name, date, acid);	
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
 }
-//check the valid information: null or not valid format
-//use try catch
-//check the edge of format
