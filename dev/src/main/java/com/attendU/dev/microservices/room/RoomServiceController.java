@@ -1,10 +1,15 @@
 package com.attendU.dev.microservices.room;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,11 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Room;
+import com.attendU.dev.microservices.bean.User;
+import com.attendU.dev.microservices.user.UserServiceController;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
 @RequestMapping("/room")
 public class RoomServiceController {
+
+	static private Logger log = Logger.getLogger(RoomServiceController.class.getName());
+
 
 	@Autowired
 	private RestTemplate restTemplate;
@@ -29,34 +39,71 @@ public class RoomServiceController {
 		roomMapper = sqlSession.getMapper(RoomMapper.class);
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public void getRoom(@PathVariable String id) {
-		Room room = new Room();
+	@RequestMapping(value = "/rid/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Room> getRoom(@PathVariable String id) {
+		Room room = roomMapper.getRoomById(Long.parseLong(id));
+		if (room == null)
+			return new ResponseEntity<Room>(room, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/findRoomById", method = RequestMethod.GET)
-	public Room findRoomById(int rid) {
-		return roomMapper.findRoomById(rid);
+	@RequestMapping(value = "/roomName/{name}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getRoomByName(@PathVariable String name) {
+		Room room = roomMapper.getRoombyName(name);
+		if (room == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
 	
-	@RequestMapping(value = "/findRoomByAdmin", method = RequestMethod.GET)
-	public List<Room> findRoomByAdmin(int adminId) {
-		return roomMapper.findRoomByAdmin(adminId);
+	@RequestMapping(value = "/findRoomByAdmin/{adminId}", method = RequestMethod.GET)
+	public List<Map<String, Object>> getRoomByAdmin(long adminId) {
+		return roomMapper.getRoomByAdmin(adminId);
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.POST)
-	public @ResponseBody int createRoom(Room room) {
-		return roomMapper.createRoom(room);	
+	public ResponseEntity<Object> createRoom(@RequestBody Room room) {
+		// sanity check
+		boolean check = true;
+		if (room != null) {	
+			if (room.getName() == null || room.getParticipationNum() <= 0 || room.getRcid()  == null)
+				check = false;
+		}
+		else
+			check = false;
+		if (check) {
+			try {
+				int ret = roomMapper.createRoom(room);
+				check = (ret == 1) ? true : false;
+				sqlSession.commit();
+			} catch (Exception e) {
+				sqlSession.rollback();
+				log.error(e);
+			}
+		}
+		if (check) 
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@RequestMapping(value = "/createRoom", method = RequestMethod.DELETE)
-	public Room removeRoom(int rid) {
-		return roomMapper.removeRoom(rid);
+	@RequestMapping(value = "/removeRoom", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> removeRoom(long rid) {
+		Room room = roomMapper.getRoomById(rid);
+		if (room != null) {
+			roomMapper.removeRoom(rid);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(value = "/createRoom", method = RequestMethod.PUT)
-	public Room updateRoom(Room room) {
-		return roomMapper.updateRoom(room);	
+	@RequestMapping(value = "/updateRoom", method = RequestMethod.PUT)
+	public ResponseEntity<Object> updateRoom(long rid, String name, long rcid, int participationNum) {
+		Room room = roomMapper.getRoomById(rid);
+		if (room != null) {
+			roomMapper.updateRoom(rid, name, rcid, participationNum);	
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 }
