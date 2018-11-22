@@ -18,5 +18,7 @@ public interface RoomMapper {
 	public Room removeRoom(int rid);
 	
 	public Room updateRoom(Room room);
+
+	public int createRoom(Room room);
 	
 }
