@@ -1,3 +1,4 @@
+<link href="dashboard/home.css" rel="stylesheet" type="text/css"/>
 <script> 
 	$('.dropdown-toggle').dropdown()
 </script>   
@@ -5,7 +6,7 @@
 	<div class = "part1">
 		<div class = "nv1">
 			<ul class="breadcrumb" style = "background-color:#17202A;">
-  				<li><font size = "3px;" color = #FFFFFF>Overall Check In Performance</font></li>
+  				<div ui-view></div>
 			</ul>
 		</div>
 		
@@ -16,19 +17,19 @@
 		<ul class="nav nav-list" style = "background-color:#1B2631;height:740px;">
   			<li class="nav-header"><font color = "#85929E"; size = "4px;">Menu</font></li>
   			<hr style = "background-color:#85929E;height:1px;border:none;"></hr>
-  			<li class="active"><font color = "#85929E" size = "4px"><a href="#" style = "color:#85929E"><b>Home</b></a></font></li>
+  			<li class="active"><font color = "#85929E" size = "4px"><a href="#/home" style = "color:#85929E"><b>Home</b></a></font></li>
   			<hr style = "background-color:#85929E;height:1px;border:none;"></hr>
   			<li><font size = "4px;"><a href="#"  style = "color:#85929E"><b>Data</b></a></font></li>
   			<hr style = "background-color:#85929E;height:1px;border:none;"></hr></li>
   			<li><font size = "4px;color:" color = "#85929E"><b>Room</b></font></li>
   			<br/>
-  			<li><font size = "3px;"><a href="#"  style = "color:#85929E"><b>Search room</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="#"  style = "color:#85929E"><b>Search room</b></a></font></li>
   			<br/>
-  			<li><font size = "3px;"><a href="#"  style = "color:#85929E"><b>Create room</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="home.createRoom"  style = "color:#85929E"><b>Create room</b></a></font></li>
   			<br/>
-  			<li><font size = "3px;"><a href="#"  style = "color:#85929E"><b>Room setting</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="home.configRoom"  style = "color:#85929E"><b>Room setting</b></a></font></li>
   			<br/>
-  			<li><font size = "3px;"><a href="#"  style = "color:#85929E"><b>Delete room</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="home.createRoom"  style = "color:#85929E"><b>Delete room</b></a></font></li>
 		</ul>
 	</div>
 	

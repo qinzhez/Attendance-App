@@ -15,5 +15,15 @@
 		select * from users
 	</select>
 
+	<select id="getUserbyId" resultType="com.attendU.dev.microservices.bean.User">
+		select * from users where uid=#{id}
+	</select>
+
+	<select id="getUserbyName" resultType="com.attendU.dev.microservices.bean.User">
+		select * from users where Username=#{username}
+	</select>
+
+	<select id="getAuth" resultType="com.attendU.dev.microservices.bean.TokenBean">
+	</select>
 
 </mapper>

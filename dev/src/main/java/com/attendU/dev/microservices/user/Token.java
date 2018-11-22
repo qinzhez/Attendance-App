@@ -6,11 +6,19 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.attendU.dev.microservices.bean.TokenBean;
 
 import lombok.Getter;
 
+
+/**
+ * Token bean object but containing more features and tools
+ * @author Qinzhe Zhang (qinzhez@gmail.com)
+ *
+ */
 public class Token {
 	@Getter
 	private long uid;
@@ -23,6 +31,16 @@ public class Token {
 	@Getter
 	private Date expiration;
 
+
+	/**
+	 * Token constructor
+	 *
+	 * It will use secret argument and uid argument to generate a new token
+	 * The new token can be saved into db, and pass to user
+	 *
+	 * @param sec
+	 * @param id
+	 */
 	public Token(String sec, long id) {
 		uid = id;
 		secret = sec;
@@ -34,6 +52,12 @@ public class Token {
 		token = tokenGenerate(Long.toString(createTime.getTime()), Long.toString(uid));
 	}
 
+
+	/**
+	 * A constructor can translate db token bean into rich-functioning token
+	 * @param sec
+	 * @param tokenBean
+	 */
 	public Token(String sec, TokenBean tokenBean) {
 		uid = tokenBean.getUid();
 		token = tokenBean.getToken();
@@ -42,6 +66,12 @@ public class Token {
 		expiration = tokenBean.getExpiration();
 	}
 
+	/**
+	 * Token generation
+	 * @param time
+	 * @param uid
+	 * @return
+	 */
 	private String tokenGenerate(String time, String uid) {
 		String token = time+secret+uid;
         String tokenMd5="";
@@ -56,5 +86,21 @@ public class Token {
         }
 
         return tokenMd5;
+	}
+
+	/**
+	 * Token data translate
+	 *
+	 * It is convenient for data transmission over network
+	 *
+	 * @return
+	 */
+	public Map<String, String> toMap(){
+		HashMap<String, String> res = new HashMap<>();
+		res.put("uid", Long.toString(uid));
+		res.put("token", token);
+		res.put("expiration", expiration.toString());
+
+		return res;
 	}
 }
