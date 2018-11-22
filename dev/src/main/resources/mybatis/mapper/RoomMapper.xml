@@ -6,28 +6,28 @@
 
 <mapper namespace="com.attendU.dev.microservices.room.RoomMapper">
 
-     <select id="findRoomById" parameterType="int" resultType="com.attendU.dev.microservices.bean.Room">
+     <select id="getRoomById" resultType="com.attendU.dev.microservices.bean.Room">
     	select * from Rooms where rid = #{rid}
      </select>
-     
-     <select id="findRoomByAdmin" parameterType="int" resultType="map">
-     	select * from Rooms where adminId = #{adminId}
+     <select id="getRoombyName" resultType="com.attendU.dev.microservices.bean.Room">
+		select * from rooms where name = #{name}
+	</select>
+     <select id="getRoomByAdmin" resultType="map">
+     	select * from rooms where adminId = #{adminId}
      </select>
      
-     <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room" useGeneratedKeys="true" keyProperty="rid">  
-        insert into Rooms (name, participantNum, rcid) 
-        values (#{name},#{participantNum},#{rcid})  
+     <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room">  
+        insert into rooms (name, participantNum, rcid, adminId) 
+        values (#{name},#{participantNum},#{rcid},#{rid})  
      </insert>  
      
-     <delete id="removeRoom" parameterType="int">  
-        delete from Rooms where rid = #{rid}  
+     <delete id="removeRoom">  
+        delete from rooms where rid = #{rid}  
      </delete> 
 
-	 <update id="updateRoom" parameterType="com.attendU.dev.microservices.bean.Room">  
-        update Rooms set 
-        name = #{room_name},
-        participantNum = #{participantNum},
-        rcid=#{rcid}  
+	 <update id="updateRoom" >  
+        update rooms set 
+        name = #{room_name}, participantNum = #{participantNum}, rcid = #{rcid}  
         where rid = #{rid}  
     </update>  
 
