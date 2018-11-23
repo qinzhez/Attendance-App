@@ -8,7 +8,7 @@
 
 	<insert id="registerUser" parameterType="com.attendU.dev.microservices.bean.User">
 		insert into users (FirstName, MiddleName, LastName, EmailAddress, UserName, Password, CellPhone)
-		values (#{firstName}, #{middleName}, #{lastName}, #{email}, #{username}, #{password}, #{cell})
+		values (#{FirstName}, #{MiddleName}, #{LastName}, #{EmailAddress}, #{Username}, #{Password}, #{CellPhone})
 	</insert>
 
 	<select id="getUsers" resultType="map">
@@ -24,6 +24,16 @@
 	</select>
 
 	<select id="getAuth" resultType="com.attendU.dev.microservices.bean.TokenBean">
+		select * from token where uid=#{uid}
 	</select>
+
+	<insert id="insertToken" parameterType="com.attendU.dev.microservices.bean.TokenBean">
+		insert into token (uid, token, createTime, expiration)
+		values (#{uid}, #{token}, #{createTime}, #{expiration})
+	</insert>
+
+	<delete id="removeToken">
+		delete from token where uid=#{uid}
+	</delete>
 
 </mapper>

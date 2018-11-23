@@ -18,8 +18,9 @@
         return service;
 
         function Login(username, password, callback) {
-            UserService.Login({ username: username, password: password })
-               .success(function (response) {
+            var credential = { username: username, password: password };
+            UserService.Login(credential)
+               .then(function (response) {
                    callback(response);
                });
 
@@ -53,21 +54,21 @@
             }
         }
 
-        function ValidCredentials() {
+        function ValidCredentials(callback) {
             $rootScope.globals = $cookies.getObject('globals');
             if ($rootScope.globals === undefined || $rootScope.globals == null) {
-                return false;
+                callback(false);
             }
             else{
                 var user = $rootScope.globals.currentUser;
                 UserService.ValidLogin(user.uid, user.token)
                     .then(function (response) {
-                        if(response.status == 200){
-                            return true;
+                        if(response.status == 200 && response.data==true){
+                            callback(true);
                         }
                         else{
                             ClearCredentials();
-                            return false;
+                            callback(false);
                         }
                     });
             }
