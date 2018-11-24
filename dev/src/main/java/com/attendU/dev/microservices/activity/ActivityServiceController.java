@@ -43,7 +43,7 @@ public class ActivityServiceController {
 		});
 	}
 	
-	@RequestMapping(value = "/activity/{id}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/activity/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Activity> getActivitybyId(@PathVariable long id) {
 		Activity activity = new Activity();
 		activity = activityMapper.getActivitybyId(id);
@@ -51,7 +51,7 @@ public class ActivityServiceController {
 			return new ResponseEntity<Activity>(activity, HttpStatus.NOT_FOUND);
 		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
 		
-	}
+	}*/
 	
 	@RequestMapping(value = "/activity/{name}", method = RequestMethod.GET)
 	public ResponseEntity<Activity> getActivitybyName(@PathVariable String name) {
