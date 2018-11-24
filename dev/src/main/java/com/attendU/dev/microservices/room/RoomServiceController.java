@@ -48,11 +48,11 @@ public class RoomServiceController {
 	}
 	
 	@RequestMapping(value = "/roomName/{name}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getRoomByName(@PathVariable String name) {
+	public ResponseEntity<Boolean> getRoomByName(@PathVariable String name) {
 		Room room = roomMapper.getRoombyName(name);
 		if (room == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
 	
@@ -62,7 +62,7 @@ public class RoomServiceController {
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.POST)
-	public ResponseEntity<Object> createRoom(@RequestBody Room room) {
+	public ResponseEntity<Boolean> createRoom(@RequestBody Room room) {
 		// sanity check
 		boolean check = true;
 		if (room != null) {	
@@ -82,28 +82,28 @@ public class RoomServiceController {
 			}
 		}
 		if (check) 
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/removeRoom", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> removeRoom(long rid) {
+	public ResponseEntity<Boolean> removeRoom(long rid) {
 		Room room = roomMapper.getRoomById(rid);
 		if (room != null) {
 			roomMapper.removeRoom(rid);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 	}
 	
 	@RequestMapping(value = "/updateRoom", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateRoom(long rid, String name, long rcid, int participationNum) {
+	public ResponseEntity<Room> updateRoom(long rid, String name, long rcid, int participationNum) {
 		Room room = roomMapper.getRoomById(rid);
 		if (room != null) {
 			roomMapper.updateRoom(rid, name, rcid, participationNum);	
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Room>(room, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 
 }

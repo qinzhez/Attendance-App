@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.http.ResponseEntity;
 
 import com.attendU.dev.microservices.bean.Room;
 
@@ -13,9 +12,9 @@ public interface RoomMapper {
 	
 	public Integer createRoom(Room room);
 	
-	public Void removeRoom(Long rid);
+	public Integer removeRoom(Long rid);
 	
-	public Void updateRoom(Long rid, String name, Long rcid, Integer participationNum);
+	public Integer updateRoom(Long rid, String name, Long rcid, Integer participationNum);
 
 	public Room getRoomById(Long rid);
 	
