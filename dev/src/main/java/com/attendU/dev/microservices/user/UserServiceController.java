@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.attendU.dev.microservices.bean.TokenBean;
 import com.attendU.dev.microservices.bean.User;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
@@ -40,20 +40,20 @@ public class UserServiceController {
 	public ResponseEntity<User> getUser(@PathVariable String id) {
 		User user = userMapper.getUserbyId(Long.parseLong(id));
 		if (user == null)
-			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/username/{username}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getUserByName(@PathVariable String username) {
+	public ResponseEntity<Boolean> getUserByName(@PathVariable String username) {
 		User user = userMapper.getUserbyName(username);
 		if (user == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/registration", method = RequestMethod.POST)
-	public ResponseEntity<Object> registration(@RequestBody User reg) {
+	public ResponseEntity<Boolean> registration(@RequestBody User reg) {
 		boolean check = true;
 		if (reg != null) {
 			if (reg.getFirstName() == null || reg.getFirstName().length() < 2)
@@ -61,8 +61,6 @@ public class UserServiceController {
 			if (reg.getLastName() == null || reg.getLastName().length() < 2)
 				check = false;
 			if (reg.getEmailAddress() == null || !validEmail(reg.getEmailAddress()))
-				check = false;
-			if (getUserByName(reg.getUsername()) != null)
 				check = false;
 		} else
 			check = false;
@@ -75,32 +73,32 @@ public class UserServiceController {
 				sqlSession.commit();
 			} catch (Exception e) {
 				sqlSession.rollback();
+				check=false;
 				log.error(e);
 			}
 		}
 
 		if (check)
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public ResponseEntity<Object> login(@RequestParam("username") String username,
-			@RequestParam("password") String password) {
-		Token token = auth.login(username, password);
+	public ResponseEntity<Token> login(@RequestBody User user) {
+		Token token = auth.login(user.getUsername(), user.getPassword());
 		if (token == null)
-			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<Token>(new Token(), HttpStatus.OK);
 		else {
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			return new ResponseEntity<Token>(token, HttpStatus.OK);
 		}
 	}
 
 	@RequestMapping(value = "/user/validToken", method = RequestMethod.POST)
-	public ResponseEntity<Token> validToken(@RequestParam("uid") Long uid, @RequestParam("token") String token) {
-		Token ret = auth.validToken(uid, token);
+	public ResponseEntity<Boolean> validToken(@RequestBody TokenBean token) {
+		Token ret = auth.validToken(token.getUid(), token.getToken());
 		if (ret == null)
-			return new ResponseEntity<Token>(HttpStatus.UNAUTHORIZED);
-		return new ResponseEntity<Token>(ret, HttpStatus.OK);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 
 	}
 

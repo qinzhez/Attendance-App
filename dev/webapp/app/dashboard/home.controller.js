@@ -5,17 +5,23 @@
         .module('attendU')
         .controller('HomeController', HomeController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
+    HomeController.$inject = ['$location', 'AuthenticationService', 'FlashService', '$q'];
+    function HomeController($location, AuthenticationService, FlashService, $q) {
         var vm = this;
 
 
         (function initController() {
-            var isLogin = AuthenticationService.ValidLogin();
+            var deferred = $q.defer();
+            var promise = deferred.promise;
 
-            if(!isLogin){
-                $location.path('/');
-            }
+            AuthenticationService.ValidCredentials(deferred);
+
+            promise.then(function(result){
+                if(!result){
+                    $location.path('/');
+                }
+            });
+           
         })();
 
     }

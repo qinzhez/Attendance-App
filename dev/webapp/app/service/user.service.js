@@ -25,49 +25,43 @@
         return service;
 
 		function Registration(info) {
-			return $http.post('http://'+backend+':'+userPort+'/user/registration', info).then(handleSuccess, handleError('Error register with server'));		
+			return $http.post('http://'+backend+':'+userPort+'/user/registration', info).then(handleReponse);		
 		}
 
         function Login(info) {
-            return $http.post('http://'+backend+':'+userPort+'/user/login', info).then(handleSuccess, handleError('Error register with server'));        
+            return $http.post('http://'+backend+':'+userPort+'/user/login', info).then(handleReponse);        
         }
 
         function ValidLogin(uid, token) {
             var info = {uid:uid, token:token};
-            return $http.post('http://'+backend+':'+userPort+'/user/validToken', info).then(handleSuccess, handleError('Login validation failed'));
+            return $http.post('http://'+backend+':'+userPort+'/user/validToken', info).then(handleReponse);
         }
 
         function GetByUsername(username) {
-            return $http.get('http://'+backend+':'+userPort+'/user/username/' + username).then(handleSuccess, handleError('Error getting user by username'));
+            return $http.get('http://'+backend+':'+userPort+'/user/username/' + username).then(handleReponse);
         }
 		
         function GetAll() {
-            return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
+            return $http.get('/api/users').then(handleReponse);
         }
 
         function GetById(id) {
-            return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
+            return $http.get('/api/users/' + id).then(handleReponse);
         }
 
         
         function Update(user) {
-            return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
+            return $http.put('/api/users/' + user.id, user).then(handleReponse);
         }
 
         function Delete(id) {
-            return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
+            return $http.delete('/api/users/' + id).then(handleReponse);
         }
 
         // private functions
 
-        function handleSuccess(res) {
-            return res.data;
-        }
-
-        function handleError(error) {
-            return function () {
-                return { success: false, message: error };
-            };
+        function handleReponse(res) {
+            return res;
         }
     }  
 

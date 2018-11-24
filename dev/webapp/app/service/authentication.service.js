@@ -17,10 +17,11 @@
 
         return service;
 
-        function Login(username, password, callback) {
-            UserService.Login({ username: username, password: password })
-               .success(function (response) {
-                   callback(response);
+        function Login(username, password, deferred) {
+            var credential = { username: username, password: password };
+            UserService.Login(credential)
+               .then(function (response) {
+                   deferred.resolve(response);
                });
 
         }
@@ -53,21 +54,21 @@
             }
         }
 
-        function ValidCredentials() {
+        function ValidCredentials(deferred) {
             $rootScope.globals = $cookies.getObject('globals');
             if ($rootScope.globals === undefined || $rootScope.globals == null) {
-                return false;
+                deferred.resolve(false);
             }
             else{
                 var user = $rootScope.globals.currentUser;
                 UserService.ValidLogin(user.uid, user.token)
                     .then(function (response) {
-                        if(response.status == 200){
-                            return true;
+                        if(response.status == 200 && response.data==true){
+                            deferred.resolve(true);
                         }
                         else{
                             ClearCredentials();
-                            return false;
+                            deferred.resolve(false);
                         }
                     });
             }
