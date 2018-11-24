@@ -14,6 +14,7 @@ public class ActivityServer {
 	public static void main(String[] args) {
 		System.setProperty("spring.config.name", "ActivityServer");
 		SpringApplication.run(ActivityServer.class, args);
+	//make a http package
 	}
 
 	@LoadBalanced

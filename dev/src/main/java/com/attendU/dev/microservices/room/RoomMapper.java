@@ -23,3 +23,4 @@ public interface RoomMapper {
 	public List<Map<String, Object>> getRoomByAdmin(Long adminId);
 	
 }
+
