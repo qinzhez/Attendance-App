@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
+import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -39,6 +42,27 @@ public class ActivityServiceController {
 			});
 		});
 	}
+	
+	@RequestMapping(value = "/activity/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Activity> getActivitybyId(@PathVariable long id) {
+		Activity activity = new Activity();
+		activity = activityMapper.getActivitybyId(id);
+		if (activity == null)
+			return new ResponseEntity<Activity>(activity, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/activity/{name}", method = RequestMethod.GET)
+	public ResponseEntity<Activity> getActivitybyName(@PathVariable String name) {
+		Activity activity = new Activity();
+		activity = activityMapper.getActivitybyName(name);
+		if (activity == null)
+			return new ResponseEntity<Activity>(activity, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+		
+	}
+	
 }
 //check the valid information: null or not valid format
 //use try catch
