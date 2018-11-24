@@ -19,4 +19,8 @@ public interface UserMapper {
 	public User getUserbyName(String username);
 
 	public TokenBean getAuth(long uid);
+
+	public int insertToken(TokenBean token);
+
+	public int removeToken(long uid);
 }

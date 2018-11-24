@@ -20,11 +20,11 @@
             vm.dataLoading = true;
             //AuthenticationService.ClearCredentials();
             AuthenticationService.Login(vm.username, vm.password, function (response) {
-                if (response.success) {
-                    AuthenticationService.SetCredentials(response['uid'], response['token']);
+                if (response.status == 200 && response.data['uid']>0) {
+                    AuthenticationService.SetCredentials(response.data['uid'], response.data['token']);
                     $location.path('/');
                 } else {
-                    FlashService.Error(response.message);
+                    FlashService.Error("Login failed");
                     vm.dataLoading = false;
                 }
             });

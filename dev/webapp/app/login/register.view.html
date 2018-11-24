@@ -9,7 +9,6 @@
 		<div class="form-group" ng-class="{ 'has-error': form.middlename.$dirty}">
             <label for="username">Middle name</label>
             <input type="text" name="middleName" id="middleName" class="form-control" ng-model="vm.user.middleName" />
-            <span ng-show="form.middleName.$dirty && form.firstName.$error.required" class="help-block"></span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
             <label for="username">Last name</label>
@@ -29,12 +28,12 @@
         </div>
 		<div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
             <label for="username">Email</label>
-            <input type="text" name="email" id="email" class="form-control" ng-model="vm.user.email" required />
+            <input type="text" name="email" id="email" class="form-control" ng-model="vm.user.emailAddress" required />
             <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
         </div>
 		<div class="form-group" ng-class="{ 'has-error': form.cell.$dirty}">
             <label for="username">Cell</label>
-            <input type="text" name="cell" id="cell" class="form-control" ng-model="vm.user.cell" />
+            <input type="text" name="cell" id="cell" class="form-control" ng-model="vm.user.cellPhone" />
             <span ng-show="form.cell.$dirty && form.cell.$error.required" class="help-block"></span>
         </div>
         <div class="form-actions">

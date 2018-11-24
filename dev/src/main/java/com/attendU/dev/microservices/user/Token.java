@@ -13,9 +13,9 @@ import com.attendU.dev.microservices.bean.TokenBean;
 
 import lombok.Getter;
 
-
 /**
  * Token bean object but containing more features and tools
+ *
  * @author Qinzhe Zhang (qinzhez@gmail.com)
  *
  */
@@ -24,68 +24,72 @@ public class Token {
 	private long uid;
 	@Getter
 	private String token;
-	private String secret;
 
 	@Getter
 	private Date createTime;
 	@Getter
 	private Date expiration;
 
+	public Token() {
+		uid = -1;
+		token = null;
+		createTime = null;
+		expiration = null;
+	}
 
 	/**
 	 * Token constructor
 	 *
-	 * It will use secret argument and uid argument to generate a new token
-	 * The new token can be saved into db, and pass to user
+	 * It will use secret argument and uid argument to generate a new token The new
+	 * token can be saved into db, and pass to user
 	 *
 	 * @param sec
 	 * @param id
 	 */
 	public Token(String sec, long id) {
 		uid = id;
-		secret = sec;
 		createTime = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(createTime);
 		calendar.add(Calendar.DAY_OF_MONTH, 1);
 		expiration = calendar.getTime();
-		token = tokenGenerate(Long.toString(createTime.getTime()), Long.toString(uid));
+		token = tokenGenerate(sec, Long.toString(createTime.getTime()), Long.toString(uid));
 	}
-
 
 	/**
 	 * A constructor can translate db token bean into rich-functioning token
+	 *
 	 * @param sec
 	 * @param tokenBean
 	 */
-	public Token(String sec, TokenBean tokenBean) {
+	public Token(TokenBean tokenBean) {
 		uid = tokenBean.getUid();
 		token = tokenBean.getToken();
-		secret = sec;
 		createTime = tokenBean.getCreateTime();
 		expiration = tokenBean.getExpiration();
 	}
 
 	/**
 	 * Token generation
+	 *
 	 * @param time
 	 * @param uid
 	 * @return
 	 */
-	private String tokenGenerate(String time, String uid) {
-		String token = time+secret+uid;
-        String tokenMd5="";
-        try {
-            MessageDigest md = MessageDigest.getInstance("md5");
-            byte[] md5 = md.digest(token.getBytes());
-            Encoder base = Base64.getEncoder();
-            tokenMd5 = base.encodeToString(md5);
+	private String tokenGenerate(String sec, String time, String uid) {
+		String token = time + sec + uid;
+		String tokenMd5 = "";
+		try {
+			MessageDigest md = MessageDigest.getInstance("md5");
+			byte[] md5 = md.digest(token.getBytes());
+			Encoder base = Base64.getEncoder();
+			tokenMd5 = base.encodeToString(md5);
 
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
-        return tokenMd5;
+		return tokenMd5;
 	}
 
 	/**
@@ -95,7 +99,7 @@ public class Token {
 	 *
 	 * @return
 	 */
-	public Map<String, String> toMap(){
+	public Map<String, String> toMap() {
 		HashMap<String, String> res = new HashMap<>();
 		res.put("uid", Long.toString(uid));
 		res.put("token", token);

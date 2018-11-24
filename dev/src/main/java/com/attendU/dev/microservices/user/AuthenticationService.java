@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import com.attendU.dev.microservices.bean.TokenBean;
 import com.attendU.dev.microservices.bean.User;
 
-
 /**
  * A non-reachable service for internal usage
  *
@@ -39,7 +38,7 @@ public class AuthenticationService {
 		if (token == null)
 			return null;
 
-		if (validToken(token))
+		if (!validToken(token))
 			return null;
 
 		return token;
@@ -48,27 +47,65 @@ public class AuthenticationService {
 
 	/**
 	 * Get token from db by using username and password
+	 *
 	 * @param username
 	 * @param password
 	 * @return valid token object or null
 	 */
 	private Token get(String username, String password) {
-		User userInfo = userMapper.getUserbyName(username);
+		User userInfo = null;
+		Token ret = null;
+		try {
+			userInfo = userMapper.getUserbyName(username);
+		} catch (Exception e) {
+			return ret;
+		}
+
 		if (!userInfo.getPassword().equals(password))
 			return null;
 
-		TokenBean tokenBean = userMapper.getAuth((long) userInfo.getUid());
+		TokenBean tokenBean = null;
+		try {
+			tokenBean = userMapper.getAuth((long) userInfo.getUid());
+		} catch (Exception e) {
+			tokenBean = null;
+		}
 
-		Token ret;
-		if (tokenBean == null)
+		if (tokenBean == null) {
 			ret = new Token(SECRET, (long) userInfo.getUid());
-		else
-			ret = new Token(SECRET, tokenBean);
+			tokenBean = new TokenBean();
+			tokenBean.setUid(ret.getUid());
+			tokenBean.setToken(ret.getToken());
+			tokenBean.setCreateTime(ret.getCreateTime());
+			tokenBean.setExpiration(ret.getExpiration());
+			try {
+				userMapper.insertToken(tokenBean);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				sqlSession.rollback();
+				return null;
+			}
+		} else {
+			ret = new Token(SECRET, tokenBean.getUid());
+			try {
+				userMapper.removeToken(tokenBean.getUid());
+				tokenBean.setUid(ret.getUid());
+				tokenBean.setToken(ret.getToken());
+				tokenBean.setCreateTime(ret.getCreateTime());
+				tokenBean.setExpiration(ret.getExpiration());
+				userMapper.insertToken(tokenBean);
+			} catch (Exception e) {
+				sqlSession.rollback();
+				return null;
+			}
+		}
+		sqlSession.commit();
 		return ret;
 	}
 
 	/**
 	 * Valid a token object is valid comparing with db record
+	 *
 	 * @param token
 	 * @return true if valid
 	 */
@@ -76,7 +113,11 @@ public class AuthenticationService {
 		if (token == null)
 			return false;
 
-		TokenBean tokenBean = userMapper.getAuth(token.getUid());
+		TokenBean tokenBean = null;
+		try {
+			tokenBean = userMapper.getAuth(token.getUid());
+		} catch (Exception e) {
+		}
 
 		if (tokenBean == null)
 			return false;
@@ -91,6 +132,7 @@ public class AuthenticationService {
 
 	/**
 	 * Valid a token with specific uid with db record
+	 *
 	 * @param uid
 	 * @param token
 	 * @return token if valid; otherwise, null
@@ -109,6 +151,6 @@ public class AuthenticationService {
 
 		if (!tokenBean.getExpiration().after(new Date()))
 			return null;
-		return new Token(SECRET, tokenBean);
+		return new Token(tokenBean);
 	}
 }

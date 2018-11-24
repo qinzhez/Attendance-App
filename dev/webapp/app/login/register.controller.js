@@ -8,7 +8,7 @@
     RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
     function RegisterController(UserService, $location, $rootScope, FlashService) {
         var vm = this;
-        vm.availableUsername = true;
+        vm.availableUsername = false;
         vm.checkNewUsername = checkNewUsername;
         vm.register = register;
 
@@ -17,7 +17,7 @@
 			
             UserService.Registration(vm.user)
                 .then(function (response) {
-                    if (response.success) {
+                    if (response.status == 200 && response.data == true) {
                         FlashService.Success('Registration successful', true);
                         $location.path('/login');
                     } else {
@@ -30,7 +30,7 @@
         function checkNewUsername() {
             UserService.GetByUsername(vm.user.username)
                 .then(function (response) {
-                    if(response.success) {
+                    if(response.status == 200 && response.data == true) {
                         vm.availableUsername = false;
                     } else {
                         vm.availableUsername = true;

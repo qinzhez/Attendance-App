@@ -5,17 +5,18 @@
         .module('attendU')
         .controller('HomeController', HomeController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
+    HomeController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
+    function HomeController($location, AuthenticationService, FlashService) {
         var vm = this;
 
 
         (function initController() {
-            var isLogin = AuthenticationService.ValidLogin();
-
-            if(!isLogin){
-                $location.path('/');
-            }
+            AuthenticationService.ValidCredentials(function(result){
+                if(!result){
+                    $location.path('/');
+                }
+            });
+           
         })();
 
     }
