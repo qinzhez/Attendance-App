@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
+    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService','$q'];
+    function LoginController($location, AuthenticationService, FlashService, $q) {
         var vm = this;
 
         vm.login = login;
@@ -19,7 +19,13 @@
         function login() {
             vm.dataLoading = true;
             //AuthenticationService.ClearCredentials();
-            AuthenticationService.Login(vm.username, vm.password, function (response) {
+
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            AuthenticationService.Login(vm.username, vm.password, deferred);
+
+            promise.then(function (response) {
                 if (response.status == 200 && response.data['uid']>0) {
                     AuthenticationService.SetCredentials(response.data['uid'], response.data['token']);
                     $location.path('/');
