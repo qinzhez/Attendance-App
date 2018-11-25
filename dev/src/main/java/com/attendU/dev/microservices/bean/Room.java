@@ -6,7 +6,7 @@ import lombok.Setter;
 public class Room{
 
 	@Getter@Setter
-	private Long uid;
+	private Long rid;
 	
 	@Getter@Setter
 	private String name;
@@ -16,5 +16,6 @@ public class Room{
 	private Integer participationNum;
 	@Getter@Setter
 	private User adminId;
-	
+	@Getter@Setter
+	String description;
 }

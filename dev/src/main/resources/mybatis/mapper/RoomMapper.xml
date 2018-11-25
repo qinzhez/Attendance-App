@@ -27,7 +27,7 @@
 
 	 <update id="updateRoom" >  
         update rooms set 
-        name = #{room_name}, participationNum = #{participationNum}, rcid = #{rcid}  
+        name = #{name}, participationNum = #{participationNum}, description = #{description}  
         where rid = #{rid}  
     </update>  
 

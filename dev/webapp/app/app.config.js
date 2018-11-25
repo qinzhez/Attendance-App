@@ -43,8 +43,10 @@ angular.
         templateUrl: 'room/createroom.view.html'
       }).
       state('home.configRoom',{
-        url: '/home/configRoom',
-        templateUrl: 'login/register.view.html'
+    	controller: 'configRoomController',  
+    	controllerAs: 'vm',  
+        url: '/configRoom',
+        templateUrl: 'room/configRoom.view.html'
       }).
       state('home.activity',{
         url: '/activity',

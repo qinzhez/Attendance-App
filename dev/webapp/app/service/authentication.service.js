@@ -88,7 +88,6 @@
             StateService.user.CurrentToken = null;
                     
         }
-
     }
 
 })();
