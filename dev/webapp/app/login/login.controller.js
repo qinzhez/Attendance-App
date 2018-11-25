@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService','$q'];
-    function LoginController($location, AuthenticationService, FlashService, $q) {
+    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService', 'StateService','$q'];
+    function LoginController($location, AuthenticationService, FlashService, StateService,$q) {
         var vm = this;
 
         vm.login = login;

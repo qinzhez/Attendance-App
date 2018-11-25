@@ -58,26 +58,6 @@ angular.
         url: '/home/configActivity',
         templateUrl: 'login/register.view.html'
       })
-
-
-    //   $routeProvider.
-  		// when('/index', {
-  	 //      templateUrl: 'dashboard/index.html'
-  		// }).
-    //   when('/home', {
-    //     templateUrl: 'dashboard/home.html'
-    //   }).
-  		// when('/login', {
-  		//   controller: 'LoginController',
-    //        templateUrl: 'login/login.view.html',
-    //        controllerAs: 'vm'
-  		// }).
-  		// when('/register', {
-  		//   controller: 'RegisterController',
-    //        templateUrl: 'login/register.view.html',
-    //        controllerAs: 'vm'
-  		// }).
-    //       otherwise({redirectTo: '/index'});
     
     }
   ]);

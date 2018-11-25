@@ -10,7 +10,6 @@ public class Activity implements Serializable{
 
 	@Getter@Setter
 	private Long aid;
-
 	@Getter@Setter
 	private Long acid;
 	@Getter@Setter

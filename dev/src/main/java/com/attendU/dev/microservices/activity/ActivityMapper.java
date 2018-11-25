@@ -7,13 +7,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.attendU.dev.microservices.bean.Activity;
-import com.attendU.dev.microservices.bean.Room;
-import com.attendU.dev.microservices.bean.TokenBean;
-import com.attendU.dev.microservices.bean.User;
 
 @Mapper
 public interface ActivityMapper {
-
+	
     public Integer createActivity(Activity activity);
 	
 	public Void removeActivity(Long aid);
