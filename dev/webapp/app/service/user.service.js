@@ -5,14 +5,13 @@
         .module('attendU')
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http', '$timeout', '$q'];
-    function UserService($http, $timeout, $q) {
-		var backend = "localhost";
-		var userPort = "8004";
+    UserService.$inject = ['$http', '$timeout', '$q', 'StateService'];
+    function UserService($http, $timeout, $q, StateService) {
+		var backend = StateService.server.backend;
+		var userPort = StateService.server.userPort;
 		
         var service = {};
 
-        service.GetAll = GetAll;
         service.GetById = GetById;
         service.GetByUsername = GetByUsername;
         service.Update = Update;
@@ -21,6 +20,7 @@
 		service.Registration = Registration;
         service.Login = Login;
         service.ValidLogin = ValidLogin;
+        service.GetUserByUid = GetUserByUid;
 		
         return service;
 
@@ -41,8 +41,9 @@
             return $http.get('http://'+backend+':'+userPort+'/user/username/' + username).then(handleReponse);
         }
 		
-        function GetAll() {
-            return $http.get('/api/users').then(handleReponse);
+        function GetUserByUid(uid) {
+            var param = StateService.PackRequest(uid);
+            return $http.get('http://'+backend+':'+userPort+'/user/id/' + uid, {params: param}).then(handleReponse);
         }
 
         function GetById(id) {

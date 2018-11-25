@@ -1,5 +1,7 @@
 package com.attendU.dev.microservices.user;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,10 +40,24 @@ public class UserServiceController {
 	}
 
 	@RequestMapping(value = "/user/id/{id}", method = RequestMethod.GET)
-	public ResponseEntity<User> getUser(@PathVariable String id) {
-		User user = userMapper.getUserbyId(Long.parseLong(id));
-		if (user == null)
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+	public ResponseEntity<User> getUser(@PathVariable String id, @RequestParam Map<String, String> param) {
+		User user = null;
+		try{
+			user = userMapper.getUserbyId(Long.parseLong(id));
+			if(auth.validToken(Long.parseLong(id), param.get("token")) == null) {
+				user = new User();
+				user.setUid((long) -1);
+				return new ResponseEntity<User>(user, HttpStatus.OK);
+			}
+			if(user == null)
+				throw new Exception();
+		}catch (Exception e) {
+			user = new User();
+			user.setUid((long) -1);
+		}
+
+		user.setPassword(null);
+		user.setUsername(null);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
