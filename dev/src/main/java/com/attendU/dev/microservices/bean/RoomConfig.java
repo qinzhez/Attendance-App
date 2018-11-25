@@ -6,9 +6,14 @@ import lombok.Setter;
 public class RoomConfig{
 	@Getter@Setter
 	private Long id;
-	
-	@Getter
-	private Long sid; // scenario id
 	@Getter@Setter
-	private Boolean anonymous;
+	private Integer participationNum;
+	@Getter@Setter
+	private Long Rcid;
+	
+	
+	//@Getter
+	//private Long sid; // scenario id
+	//@Getter@Setter
+	//private Boolean anonymous;
 }

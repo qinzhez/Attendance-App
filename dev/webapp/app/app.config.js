@@ -38,13 +38,15 @@ angular.
       }).
       state('home.createRoom',{
         url: '/home/createRoom',
-        templateUrl: 'login/register.view.html'
+        controller: 'CreateroomController',
+        controllerAs: 'wrx',
+        templateUrl: 'room/createroom.view.html'
       }).
       state('home.configRoom',{
     	controller: 'configRoomController',  
     	controllerAs: 'vm',  
-        url: '/home/configRoom',
-        templateUrl: 'dashboard/configRoom.view.html'
+        url: '/configRoom',
+        templateUrl: 'room/configRoom.view.html'
       }).
       state('home.activity',{
         url: '/home/activity',
@@ -57,27 +59,10 @@ angular.
       state('home.configActivity',{
         url: '/home/configActivity',
         templateUrl: 'login/register.view.html'
+      }).
+      state('home.withRID', {
+        url: '/home/room/withId/:rid'
       })
-
-
-    //   $routeProvider.
-  		// when('/index', {
-  	 //      templateUrl: 'dashboard/index.html'
-  		// }).
-    //   when('/home', {
-    //     templateUrl: 'dashboard/home.html'
-    //   }).
-  		// when('/login', {
-  		//   controller: 'LoginController',
-    //        templateUrl: 'login/login.view.html',
-    //        controllerAs: 'vm'
-  		// }).
-  		// when('/register', {
-  		//   controller: 'RegisterController',
-    //        templateUrl: 'login/register.view.html',
-    //        controllerAs: 'vm'
-  		// }).
-    //       otherwise({redirectTo: '/index'});
     
     }
   ]);

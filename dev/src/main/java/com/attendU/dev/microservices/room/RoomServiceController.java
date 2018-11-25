@@ -71,6 +71,8 @@ public class RoomServiceController {
 		}
 		else
 			check = false;
+		
+		//update into db
 		if (check) {
 			try {
 				int ret = roomMapper.createRoom(room);
@@ -96,11 +98,11 @@ public class RoomServiceController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(value = "/updateRoom", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateRoom(long rid, String name, long rcid, int participationNum) {
-		Room room = roomMapper.getRoomById(rid);
-		if (room != null) {
-			roomMapper.updateRoom(rid, name, rcid, participationNum);	
+	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)
+	public ResponseEntity<Object> updateRoom(@RequestBody Room room) {
+		Room room_get = roomMapper.getRoomById(room.getRid());
+		if (room_get != null) {
+			roomMapper.updateRoom(room);	
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
