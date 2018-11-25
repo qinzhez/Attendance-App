@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
 @RequestMapping("/room")
+@CrossOrigin(origins = "*")
 public class RoomServiceController {
 
 	static private Logger log = Logger.getLogger(RoomServiceController.class.getName());
@@ -66,7 +68,7 @@ public class RoomServiceController {
 		// sanity check
 		boolean check = true;
 		if (room != null) {	
-			if (room.getName() == null || room.getParticipationNum() <= 0 || room.getRcid()  == null)
+			if (room.getName() == null || room.getParticipationNum() <= 0)
 				check = false;
 		}
 		else
