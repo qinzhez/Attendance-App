@@ -41,8 +41,10 @@ angular.
         templateUrl: 'login/register.view.html'
       }).
       state('home.configRoom',{
+    	controller: 'configRoomController',  
+    	controllerAs: 'vm',  
         url: '/home/configRoom',
-        templateUrl: 'login/register.view.html'
+        templateUrl: 'dashboard/configRoom.view.html'
       }).
       state('home.activity',{
         url: '/home/activity',

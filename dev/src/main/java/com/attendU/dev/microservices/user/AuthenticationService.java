@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.microservices.bean.TokenBean;
 import com.attendU.dev.microservices.bean.User;
+import com.attendU.dev.microservices.room.RoomMapper;
 
 /**
  * A non-reachable service for internal usage
@@ -18,6 +20,7 @@ import com.attendU.dev.microservices.bean.User;
  */
 public class AuthenticationService {
 	private UserMapper userMapper;
+	private RoomMapper roomMapper;
 	private SqlSession sqlSession;
 	private static String SECRET = "";
 
@@ -44,7 +47,7 @@ public class AuthenticationService {
 		return token;
 
 	}
-
+	
 	/**
 	 * Get token from db by using username and password
 	 *
