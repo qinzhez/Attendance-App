@@ -47,8 +47,10 @@ angular.
         templateUrl: 'login/register.view.html'
       }).
       state('home.activity',{
-        url: '/home/activity',
-        templateUrl: 'login/login.view.html'
+        url: '/activity',
+        controller: 'ActivityController',
+        controllerAs: 'vm',
+        templateUrl: 'activity/activity.view.html'
       }).
       state('home.createActivity',{
         url: '/home/createActivity',
