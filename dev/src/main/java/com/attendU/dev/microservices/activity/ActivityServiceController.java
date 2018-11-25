@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
-import com.attendU.dev.microservices.bean.Room;
-import com.attendU.dev.microservices.bean.User;
-import com.attendU.dev.microservices.user.UserServiceController;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController

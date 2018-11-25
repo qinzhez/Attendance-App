@@ -32,14 +32,17 @@ angular.
         controllerAs: 'vm',
         templateUrl: 'dashboard/home.html'
       }).
-      state('home.room',{
+       state('home.room',{
+        controller: 'RoomController',
+        controllerAs: 'vm',
         url: '/home/room',
-        templateUrl: 'login/register.view.html'
+        templateUrl: 'dashboard/roomList.view.html'
       }).
       state('home.createRoom',{
         url: '/home/createRoom',
         templateUrl: 'login/register.view.html'
       }).
+
       state('home.configRoom',{
         url: '/home/configRoom',
         templateUrl: 'login/register.view.html'

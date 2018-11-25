@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Room;
-import com.attendU.dev.microservices.bean.User;
-import com.attendU.dev.microservices.user.UserServiceController;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -56,7 +53,7 @@ public class RoomServiceController {
 	}
 
 	
-	@RequestMapping(value = "/findRoomByAdmin/{adminId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getRoomByAdmin/{adminId}", method = RequestMethod.GET)
 	public List<Map<String, Object>> getRoomByAdmin(long adminId) {
 		return roomMapper.getRoomByAdmin(adminId);
 	}
