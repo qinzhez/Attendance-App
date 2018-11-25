@@ -38,7 +38,9 @@ angular.
       }).
       state('home.createRoom',{
         url: '/home/createRoom',
-        templateUrl: 'login/register.view.html'
+        controller: 'CreateroomController',
+        controllerAs: 'wrx',
+        templateUrl: 'room/createroom.view.html'
       }).
       state('home.configRoom',{
         url: '/home/configRoom',
