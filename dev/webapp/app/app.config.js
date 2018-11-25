@@ -57,6 +57,9 @@ angular.
       state('home.configActivity',{
         url: '/home/configActivity',
         templateUrl: 'login/register.view.html'
+      }).
+      state('home.withRID', {
+        url: '/home/room/withId/:rid'
       })
     
     }
