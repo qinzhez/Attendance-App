@@ -5,25 +5,27 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['$window', 'AuthenticationService', 'FlashService', '$q', 'UserService', 'StateService'];
-    function ActivityController($window, AuthenticationService, FlashService, $q, UserService, StateService) {
-        var vm = this;
-        
-        //if(StateService.room.SelectedRoom == null)
-        //    $window.history.back();
+    ActivityController.$inject = ['$window', '$q', 'ActivityService', 'StateService'];
+    function ActivityController($window, $q, ActivityService, StateService) {
+    	
+        //create activity
+    	var wrx=this;
+        wrx.activity={};
+        wrx.register = register;
+        wrx.dataLoading=false;
 
-        vm.room = StateService.room.SelectedRoom; //TODO: temp name
-
-
-
-
-
-        
-
-        vm.test =1;
-            
-        
-
+        function register() {
+            wrx.dataLoading = true;
+			
+            ActivityService.Registration(wrx.activity)
+                .then(function (response) {
+                    if (response.status == 200 && response.data == true) {
+                        $location.path('home/room');
+                    } else {
+                        wrx.dataLoading = false;
+                    }
+                });
+        }
     }
 
 })();
