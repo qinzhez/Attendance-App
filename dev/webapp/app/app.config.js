@@ -33,52 +33,34 @@ angular.
         templateUrl: 'dashboard/home.html'
       }).
        state('home.room',{
-        controller: 'RoomController',
+        controller: 'RoomListController',
         controllerAs: 'vm',
-        url: '/home/room',
-        templateUrl: 'dashboard/roomList.view.html'
+        url: '/room',
+        templateUrl: 'room/roomList.view.html'
       }).
       state('home.createRoom',{
-        url: '/home/createRoom',
-        templateUrl: 'login/register.view.html'
+        url: '/createRoom',
+        controller: 'CreateroomController',
+        controllerAs: 'wrx',
+        templateUrl: 'room/createroom.view.html'
       }).
 
       state('home.configRoom',{
-        url: '/home/configRoom',
+        url: '/configRoom',
         templateUrl: 'login/register.view.html'
       }).
       state('home.activity',{
-        url: '/home/activity',
+        url: '/activity',
         templateUrl: 'login/login.view.html'
       }).
       state('home.createActivity',{
-        url: '/home/createActivity',
+        url: '/createActivity',
         templateUrl: 'login/register.view.html'
       }).
       state('home.configActivity',{
-        url: '/home/configActivity',
+        url: '/configActivity',
         templateUrl: 'login/register.view.html'
       })
-
-
-    //   $routeProvider.
-  		// when('/index', {
-  	 //      templateUrl: 'dashboard/index.html'
-  		// }).
-    //   when('/home', {
-    //     templateUrl: 'dashboard/home.html'
-    //   }).
-  		// when('/login', {
-  		//   controller: 'LoginController',
-    //        templateUrl: 'login/login.view.html',
-    //        controllerAs: 'vm'
-  		// }).
-  		// when('/register', {
-  		//   controller: 'RegisterController',
-    //        templateUrl: 'login/register.view.html',
-    //        controllerAs: 'vm'
-  		// }).
-    //       otherwise({redirectTo: '/index'});
     
     }
   ]);

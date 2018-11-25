@@ -15,7 +15,6 @@
   <select id="getActivityByConfigId" resultType="map">
      	select * from activities where acid = #{acid}
   </select>
-  
 
   <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
 		insert into activities (Name, Date, acid)

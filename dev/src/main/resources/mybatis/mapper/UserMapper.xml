@@ -11,7 +11,7 @@
 		values (#{FirstName}, #{MiddleName}, #{LastName}, #{EmailAddress}, #{Username}, #{Password}, #{CellPhone})
 	</insert>
 
-	<select id="getUsers" resultType="map">
+ 	<select id="getUsers" resultType="map">
 		select * from users
 	</select>
 
