@@ -74,11 +74,9 @@ public class UserServiceController {
 				sqlSession.commit();
 			} catch (Exception e) {
 				sqlSession.rollback();
-				check=false;
 				log.error(e);
 			}
 		}
-
 		if (check)
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);

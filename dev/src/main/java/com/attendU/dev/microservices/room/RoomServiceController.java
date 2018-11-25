@@ -71,6 +71,8 @@ public class RoomServiceController {
 		}
 		else
 			check = false;
+		
+		//update into db
 		if (check) {
 			try {
 				int ret = roomMapper.createRoom(room);
