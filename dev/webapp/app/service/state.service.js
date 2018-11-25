@@ -17,7 +17,7 @@
                 info:"test info"
             };
 
-        service.server = {backend:"localhost", userPort:"8004",roomPort:"8002"};
+        service.server = {backend:"localhost", userPort:"8004",roomPort:"8002",activityPort:"8003"};
 
         service.PackRequest = PackRequest;
 

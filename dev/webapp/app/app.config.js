@@ -55,8 +55,10 @@ angular.
         templateUrl: 'activity/activity.view.html'
       }).
       state('home.createActivity',{
-        url: '/home/createActivity',
-        templateUrl: 'login/register.view.html'
+        url: '/activity/createActivity',
+        controller: 'ActivityController',
+        controllerAs: 'wrx',
+        templateUrl: 'activity/createactivity.view.html'
       }).
       state('home.configActivity',{
         url: '/home/configActivity',

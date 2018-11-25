@@ -1,6 +1,7 @@
 package com.attendU.dev.microservices.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,5 @@ public class Activity implements Serializable{
 	@Getter@Setter
 	private String name;
 	@Getter@Setter
-	private String date;
+	private Date date;
 }

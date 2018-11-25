@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
 @RequestMapping("/activity")
+@CrossOrigin(origins = "*")
 public class ActivityServiceController {
 
 	static private Logger log = Logger.getLogger(ActivityServiceController.class.getName());
@@ -63,7 +65,7 @@ public class ActivityServiceController {
 		// sanity check
 				boolean check = true;
 				if (reg != null) {	
-					if (reg.getName() == null || reg.getDate() == null || reg.getAcid() == null)
+					if (reg.getName() == null || reg.getDate() == null)
 						check = false;
 				}
 				else

@@ -1,4 +1,26 @@
-﻿<div class="col-md-6 col-md-offset-3">
+﻿    <div class="navbar-wrapper">
+        <div class="navbar navbar-inverse">
+          <div class="navbar-inner">
+            <a class="brand" href="/#/index">AttendU</a>
+              <ul class="nav">
+                <li class="active"><a href="/#/index">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+              </ul>
+              <form class="navbar-form pull-left">
+                <input type="text" class="span2">
+                <button type="submit" class="btn">Search rooms</button>
+              </form>
+
+              <p class = "navbar-text pull-right" style = "font-size:15px;><font color = "#FFFFFF">
+                <a href="/#/login" style = "color:#FFFFFF">Log in or Sign up</a></font></p>
+
+          </div><!-- /.navbar-inner -->
+        </div><!-- /.navbar -->
+    </div><!-- /.navbar-wrapper -->
+
+
+<div class="col-md-6 col-md-offset-3">
     <h2>Register</h2>
     <form name="form" ng-submit="vm.register()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
