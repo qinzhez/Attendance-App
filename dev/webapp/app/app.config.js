@@ -32,16 +32,19 @@ angular.
         controllerAs: 'vm',
         templateUrl: 'dashboard/home.html'
       }).
-      state('home.room',{
-        url: '/home/room',
-        templateUrl: 'login/register.view.html'
+       state('home.room',{
+        controller: 'RoomListController',
+        controllerAs: 'vm',
+        url: '/room',
+        templateUrl: 'room/roomList.view.html'
       }).
       state('home.createRoom',{
-        url: '/home/createRoom',
+        url: '/createRoom',
         controller: 'CreateroomController',
         controllerAs: 'wrx',
         templateUrl: 'room/createroom.view.html'
       }).
+
       state('home.configRoom',{
     	controller: 'configRoomController',  
     	controllerAs: 'vm',  
@@ -61,7 +64,7 @@ angular.
         templateUrl: 'activity/createactivity.view.html'
       }).
       state('home.configActivity',{
-        url: '/home/configActivity',
+        url: '/configActivity',
         templateUrl: 'login/register.view.html'
       }).
       state('home.withRID', {

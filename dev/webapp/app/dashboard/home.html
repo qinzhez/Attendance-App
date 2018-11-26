@@ -17,14 +17,13 @@
           <button type="submit" class="btn">Search rooms</button>
         </form>
 
-              <p class = "navbar-text pull-right" style = "font-size:15px;><font color = "#FFFFFF">
+              <p class = "navbar-text pull-right" style = "font-size:15px" font color = "#FFFFFF">
                 <a ng-click="vm.Logout()" ng-href="/#/home" style = "color:#FFFFFF">{{vm.showName||"Log in or Sign up"}}</a>
               </font></p>
 
           </div><!-- /.navbar-inner -->
         </div><!-- /.navbar -->
     </div>
-    </div><!-- /.navbar-wrapper -->
 
 <!-- NAVBAR ===================================================================== -->
 <div class = "container" style = "background-color:#000000; height:800px;>
@@ -37,7 +36,7 @@
   				<div ui-view></div>
 			</ul>
 		</div>
-		
+	</div>	
 		<!-- picture 1s -->
 	
 <!-- SIDEBAR ===================================================================== -->
@@ -55,10 +54,14 @@
   			<br/>
   			<li><font size = "3px;"><a ui-sref="home.createRoom"  style = "color:#85929E"><b>Create room</b></a></font></li>
   			<br/>
+  			<li><font size = "3px;"><a ui-sref="home.configRoom"  style = "color:#85929E"><b>Room setting</b></a></font></li>  			
+				<br/>
+  			<li><font size = "3px;"><a ui-sref="home.room"  style = "color:#85929E"><b>Room List</b></a></font></li>
+				<br/>
+				<li><font size = "3px;"><a ui-sref="home.deleteRoom"  style = "color:#85929E"><b>Delete room</b></a></font></li>
   			<li><font size = "3px;"><a ui-sref="home.createActivity"  style = "color:#85929E"><b>Create activity</b></a></font></li>
   			<br/>
-  			<li><font size = "3px;"><a ui-sref="home.configRoom"  style = "color:#85929E"><b>Room setting</b></a></font></li>
-  			<br/>
+  			
 		</ul>
 	</div>
 	
@@ -66,5 +69,3 @@
 <!-- Dash picture ================================================================= -->
 
 
-
-</div>

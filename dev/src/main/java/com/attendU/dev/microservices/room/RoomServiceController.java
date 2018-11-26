@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Room;
-import com.attendU.dev.microservices.bean.User;
-import com.attendU.dev.microservices.user.UserServiceController;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -50,21 +48,21 @@ public class RoomServiceController {
 	}
 	
 	@RequestMapping(value = "/roomName/{name}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getRoomByName(@PathVariable String name) {
+	public ResponseEntity<Boolean> getRoomByName(@PathVariable String name) {
 		Room room = roomMapper.getRoombyName(name);
 		if (room == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
 	
-	@RequestMapping(value = "/findRoomByAdmin/{adminId}", method = RequestMethod.GET)
-	public List<Map<String, Object>> getRoomByAdmin(long adminId) {
+	@RequestMapping(value = "/getRoomByAdmin/{adminId}", method = RequestMethod.GET)
+	public @ResponseBody List<Map<String, Room>> getRoomByAdmin(@PathVariable long adminId) {
 		return roomMapper.getRoomByAdmin(adminId);
 	}
 	
 	@RequestMapping(value = "/createRoom", method = RequestMethod.POST)
-	public ResponseEntity<Object> createRoom(@RequestBody Room room) {
+	public ResponseEntity<Boolean> createRoom(@RequestBody Room room) {
 		// sanity check
 		boolean check = true;
 		if (room != null) {	
@@ -86,28 +84,28 @@ public class RoomServiceController {
 			}
 		}
 		if (check) 
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/removeRoom", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> removeRoom(long rid) {
+	public ResponseEntity<Boolean> removeRoom(long rid) {
 		Room room = roomMapper.getRoomById(rid);
 		if (room != null) {
 			roomMapper.removeRoom(rid);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 	}
 	
 	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)
-	public ResponseEntity<Object> updateRoom(@RequestBody Room room) {
+	public ResponseEntity<Room> updateRoom(@RequestBody Room room) {
 		Room room_get = roomMapper.getRoomById(room.getRid());
 		if (room_get != null) {
 			roomMapper.updateRoom(room);	
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Room>(room, HttpStatus.OK);
+	}
+		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 
 }
