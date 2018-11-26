@@ -8,10 +8,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +22,7 @@ import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
 @RequestMapping("/room")
+@CrossOrigin(origins = "*")
 public class RoomServiceController {
 
 	static private Logger log = Logger.getLogger(RoomServiceController.class.getName());
@@ -54,7 +57,7 @@ public class RoomServiceController {
 
 	
 	@RequestMapping(value = "/getRoomByAdmin/{adminId}", method = RequestMethod.GET)
-	public List<Map<String, Object>> getRoomByAdmin(long adminId) {
+	public @ResponseBody List<Map<String, Room>> getRoomByAdmin(@PathVariable long adminId) {
 		return roomMapper.getRoomByAdmin(adminId);
 	}
 	
@@ -63,7 +66,7 @@ public class RoomServiceController {
 		// sanity check
 		boolean check = true;
 		if (room != null) {	
-			if (room.getName() == null || room.getParticipationNum() <= 0 || room.getRcid()  == null)
+			if (room.getName() == null || room.getParticipationNum() <= 0)
 				check = false;
 		}
 		else
@@ -95,7 +98,7 @@ public class RoomServiceController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(value = "/updateRoom", method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)
 	public ResponseEntity<Room> updateRoom(long rid, String name, long rcid, int participationNum) {
 		Room room = roomMapper.getRoomById(rid);
 		if (room != null) {

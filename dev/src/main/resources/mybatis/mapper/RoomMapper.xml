@@ -13,7 +13,8 @@
 		select * from rooms where name = #{name}
 	</select>
      <select id="getRoomByAdmin" resultType="map">
-     	select * from rooms where adminId = #{adminId}
+     	select a.rid, a.Name, a.participationNum from rooms a inner join admin b 
+     	on a.rid = b.rid where uid = #{adminId}
      </select>
      
      <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room">  

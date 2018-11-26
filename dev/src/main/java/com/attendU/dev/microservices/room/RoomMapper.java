@@ -20,7 +20,7 @@ public interface RoomMapper {
 	
 	public Room getRoombyName(String name);
 
-	public List<Map<String, Object>> getRoomByAdmin(Long adminId);
+	public List<Map<String, Room>> getRoomByAdmin(Long adminId);
 	
 }
 

@@ -19,7 +19,7 @@
   				<button type="submit" class="btn">Search rooms</button>
 			  </form>
 
-              <p class = "navbar-text pull-right" style = "font-size:15px;><font color = "#FFFFFF">
+              <p class = "navbar-text pull-right" style = "font-size:15px" font color = "#FFFFFF">
                 <a ng-click="vm.Logout()" ng-href="/#/home" style = "color:#FFFFFF">{{vm.showName||"Log in or Sign up"}}</a>
             	</font></p>
 
@@ -50,13 +50,12 @@
   			<br/>
   			<li><font size = "3px;"><a ui-sref="#"  style = "color:#85929E"><b>Search room</b></a></font></li>
   			<br/>
-  			<li><font size = "3px;"><a href="#/home/createRoom"  style = "color:#85929E"><b>Create room</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="home.createRoom"  style = "color:#85929E"><b>Create room</b></a></font></li>
   			<br/>
-  			<li><font size = "3px;"><a ui-sref="home.configRoom"  style = "color:#85929E"><b>Room setting</b></a></font></li>
-  			<br/>
-				<li><font size = "3px;"><a ui-sref="home.createRoom"  style = "color:#85929E"><b>Delete room</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="home.configRoom"  style = "color:#85929E"><b>Room setting</b></a></font></li>  			
 				<br/>
   			<li><font size = "3px;"><a ui-sref="home.room"  style = "color:#85929E"><b>Room List</b></a></font></li>
+  			<li><font size = "3px;"><a ui-sref="home.deleteRoom"  style = "color:#85929E"><b>Delete room</b></a></font></li>
 		</ul>
 	</div>
 	
