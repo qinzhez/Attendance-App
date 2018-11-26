@@ -17,10 +17,10 @@
         function register() {
             wrx.dataLoading = true;
 			
-            ActivityService.Registration(wrx.activity)
+            ActivityService.CreateActivity(wrx.activity)
                 .then(function (response) {
                     if (response.status == 200 && response.data == true) {
-                        $location.path('home/room');
+                        $location.path('home/createActivity');
                     } else {
                         wrx.dataLoading = false;
                     }
