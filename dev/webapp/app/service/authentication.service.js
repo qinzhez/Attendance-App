@@ -86,7 +86,7 @@
             //$http.defaults.headers.common.Authorization = 'Basic';
             StateService.user.CurrentUid = null;
             StateService.user.CurrentToken = null;
-                    
+            
         }
     }
 

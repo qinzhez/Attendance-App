@@ -12,7 +12,14 @@
         vm.roomOwned = false;
         vm.rooms = {};
         vm.getRoomsOwned = getRoomsOwned;
+        vm.roomChosen = roomChosen;
         vm.getRoomsParticipant = getRoomsParticipant;
+
+        function roomChosen(rid){
+            alert("hello world");
+            StateService.room.selectedRid = rid;
+        }
+
         function getRoomsParticipant(){
 
         }
