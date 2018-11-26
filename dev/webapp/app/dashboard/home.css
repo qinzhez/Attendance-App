@@ -63,8 +63,8 @@
 		height:100%;
  	  }
  	  .sidebar{
- 	  	position:relative;
- 	  	top:-40px;
+ 	  	position:absolute;
+ 	  	top:0px;
  	  	width:200px;
  	  }
  	  .nv1{

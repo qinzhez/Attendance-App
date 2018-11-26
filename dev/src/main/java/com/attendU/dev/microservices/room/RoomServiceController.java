@@ -99,12 +99,12 @@ public class RoomServiceController {
 	}
 	
 	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)
-	public ResponseEntity<Room> updateRoom(long rid, String name, long rcid, int participationNum) {
-		Room room = roomMapper.getRoomById(rid);
-		if (room != null) {
-			roomMapper.updateRoom(rid, name, rcid, participationNum);	
+	public ResponseEntity<Room> updateRoom(@RequestBody Room room) {
+		Room room_get = roomMapper.getRoomById(room.getRid());
+		if (room_get != null) {
+			roomMapper.updateRoom(room);	
 			return new ResponseEntity<Room>(room, HttpStatus.OK);
-		}
+	}
 		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 

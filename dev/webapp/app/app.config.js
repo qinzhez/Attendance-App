@@ -46,16 +46,22 @@ angular.
       }).
 
       state('home.configRoom',{
+    	controller: 'configRoomController',  
+    	controllerAs: 'vm',  
         url: '/configRoom',
-        templateUrl: 'login/register.view.html'
+        templateUrl: 'room/configRoom.view.html'
       }).
       state('home.activity',{
         url: '/activity',
-        templateUrl: 'login/login.view.html'
+        controller: 'ActivityController',
+        controllerAs: 'vm',
+        templateUrl: 'activity/activity.view.html'
       }).
       state('home.createActivity',{
-        url: '/createActivity',
-        templateUrl: 'login/register.view.html'
+        url: '/activity/createActivity',
+        controller: 'ActivityController',
+        controllerAs: 'wrx',
+        templateUrl: 'activity/createactivity.view.html'
       }).
       state('home.configActivity',{
         url: '/configActivity',

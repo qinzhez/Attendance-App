@@ -13,9 +13,9 @@ public interface RoomMapper {
 	public Integer createRoom(Room room);
 	
 	public Integer removeRoom(Long rid);
-	
-	public Integer updateRoom(Long rid, String name, Long rcid, Integer participationNum);
 
+	public Void updateRoom(Room room);
+	
 	public Room getRoomById(Long rid);
 	
 	public Room getRoombyName(String name);

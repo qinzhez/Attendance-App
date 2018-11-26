@@ -1,21 +1,21 @@
 <div class="col-md-6 col-md-offset-3">
     <h2>Room List</h2>
-    <form name="form" ng-submit="vm.getRoomsOwned()" role="form">
+    
     	 <div class="btn-group">
-                        <button type="button" class="btn btn-primary">Rooms</button>
-                        <button type="button" class="btn btn-primary">Samsung</button>
-                        <button type="button" class="btn btn-primary">Sony</button>
-         </div>
-         
-         
-            <button>Room Info</button>
-            <tbody>
-                <tr ng-repeat="room in vm.rooms">
-                  <td>{{vm.rooms.length}}</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-            </tbody>
-        
-    </form>
-    </div>
+            <form name="form" ng-submit="vm.getRoomsOwned()" role="form">
+            <button type="submit" class="btn btn-primary">Owned Rooms</button>
+            <button type="submit" class="btn btn-primary">Participant Rooms</button>
+        </div>
+        <table>
+            <tr ng-repeat="x in vm.rooms">
+                <td>{{x.rid}}</td>
+                <td><a herf="">{{x.Name}}</a></td>
+                <td>{{x.participationNum}}</td>
+           
+            </tr>
+        </table>
+         </form>
+
+   
+       
+</div>
