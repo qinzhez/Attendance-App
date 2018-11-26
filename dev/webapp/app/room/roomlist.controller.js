@@ -21,7 +21,7 @@
         }
 
         function getRoomsParticipant(){
-
+            
         }
         
         function getRoomsOwned(){
