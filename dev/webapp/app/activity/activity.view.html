@@ -3,7 +3,7 @@
     <div>
 
     <!-- show room info -->
-    <div>
+    <div class='container'>
         <div class='row'>
             <div class="col-xs-3">
                 <span>Room id: {{vm.room.rid}}</span>
@@ -13,10 +13,12 @@
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-2'>
+            <div class='col-xs-1'>
                 <span>Room Description:</span>
             </div>
-            <div class='col-xs-2'>
+        </div>
+        <div class = 'row'>
+            <div class='col-xs-1'>
                 <span>{{vm.room.description}}</span>
             </div>
         </div>
@@ -25,8 +27,6 @@
     <!-- buttons -->
     <div style = "height:70px; width: 100%">
         <i class="material-icons md-36">add</i>
-        <i class="material-icons md-36">edit</i>
-        <i class="material-icons md-36">delete</i>
     </div>
 
     <!-- show activity list -->
