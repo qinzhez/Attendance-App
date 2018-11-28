@@ -1,21 +1,27 @@
-<div class="col-md-6 col-md-offset-3">
-    <h2>Room List</h2>
-    
-    	 <div class="btn-group">
-            <form name="form" ng-submit="vm.getRoomsOwned()" role="form">
+<div class = "roomcontainer">
+    <h2 style = 'color:#FFFFFF;'>Room List</h2>
+    <div class = "roomtable">
+         <form name="form" ng-submit="vm.getRoomsOwned()" role="form">
             <button type="submit" class="btn btn-primary">Owned Rooms</button>
             <button type="button" class="btn btn-primary" ng-click="vm.roomChosen()">Participant Rooms</button>
-        </div>
-        <table>
-            <tr ng-repeat="x in vm.rooms">
-                <td>{{x.rid}}</td>
-                <td><a herf="" ng-click="vm.roomChosen(x.id)">{{x.Name}}</a></td>
-                <td>{{x.participationNum}}</td>
-                <td><i class="material-icons">check</i>
-                    <i class="material-icons">edit</i>
-                    <i class="material-icons">delete</i></td>
-            </tr>
-        </table>
+        	<table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
+        		<tr>
+        			<td>Room Id</td>
+        			<td>Room name</td>
+        			<td>Number of participates</td>
+        			<td>Operation</td> 
+        		</tr>
+            	<tr ng-repeat="x in vm.rooms">
+                	<td width=250px>{{x.rid}}</td>
+                	<td width=250px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.Name}}</a></td>
+                	<td width=250px;">{{x.participationNum}}</td>
+                	<td width=250px>
+                		<i class="material-icons"><a href = "">check</a></i>
+                    	<i class="material-icons"><a href = "">edit</a></i>
+                    	<i class="material-icons"><a href = "">delete</a></i>
+                    </td>
+            	</tr>
+        	</table>
          </form>
-        </form>
+	</div>
 </div>
