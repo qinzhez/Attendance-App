@@ -8,10 +8,11 @@
     HomeController.$inject = ['$location', 'AuthenticationService', 'FlashService', '$q', 'UserService', 'StateService'];
     function HomeController($location, AuthenticationService, FlashService, $q, UserService, StateService) {
         var vm = this;
+        vm.userLoaded = false;
         vm.showName = null;
 
 
-        (function initController() {
+        vm.onloadFun = (function initController() {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
@@ -26,14 +27,19 @@
                         function(reponse){
                             if(reponse.status == 200 && reponse.data.uid>0)
                                 StateService.user.CurrentUser = reponse.data;
+                                vm.userLoaded = true;
                                 vm.showName = StateService.user.CurrentUser.firstName;
 
                                 vm.showName = "Logout";
+
+                                if(StateService.room.initdef != null ||
+                                    StateService.room.initdef != undefined)
+                                    StateService.room.initdef.resolve();
                         });
                 }
             });
            
-        })();
+        });
 
         vm.test =1;
             

@@ -30,10 +30,12 @@
 
 
 <!-- part 1-Home ===================================================================== -->	
-	<div class = "part1">
+	<div class = "part1" data-ng-init="vm.onloadFun()">
 		<div class = "nv1">
 			<ul class="breadcrumb" style = "background-color:#17202A;">
+          <span ng-show="vm.userLoaded">
   				<div ui-view></div>
+          </span>
 			</ul>
 		</div>
 	</div>	

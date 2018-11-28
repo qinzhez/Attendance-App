@@ -14,7 +14,7 @@
 
         service.Registration = Registration;
         service.getRoomByAdmin = getRoomByAdmin;
-
+        service.getRoomByUid = getRoomByUid;
         service.UpdateRoomInfo = UpdateRoomInfo;		
 		
         return service;
@@ -25,6 +25,10 @@
             });		
 		}
 		
+        function getRoomByUid(id){
+            return $http.get('http://'+backend+':'+roomPort+'/room/getRooms/'+id).then(handleReponse);
+        }
+
     	function getRoomByAdmin(id){
     		return $http.get('http://'+backend+':'+roomPort+'/room/getRoomByAdmin/'+id).then(handleReponse);
         }

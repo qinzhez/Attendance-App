@@ -1,5 +1,5 @@
 <div class="col-md-6 col-md-offset-3">
-    <h2>Activities for {{vm.roomName}}</h2>
+    <h2>Activities for {{vm.room.name}}</h2>
     <div>
 
     <!-- show room info -->
@@ -27,28 +27,37 @@
     <hr/>
 
     <!-- buttons -->
-    <div class="wrapper" style = "height:70px; width: 100%">
+    <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
         <a style="font-size: 20px;"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
     </div>
 
     <!-- show activity list -->
-    <div>
-    <form name="form" ng-submit="vm.login()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" ng-model="vm.username" required />
-            <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-        </div>
-        <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Login</button>
-            <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            <a href="/#/register" class="btn btn-link">Register</a>
-        </div>
-    </form>
+    <div class = "activitytable">
+        <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
+            <tr>
+                <td>Activity ID</td>
+                <td>Activity name</td>
+                <td>Number of participates</td>
+                <td>Subscribe</td>
+                <td>Check in</td>
+                <td>Absent</td>
+            </tr>
+            <tr ng-repeat="x in vm.room">
+                <td width=50px>{{x.aid}}</td>
+                <td width=250px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
+                <td width=100px>{{x.participationNum}}</td>
+                <td width=50px>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_on</a></i>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_off</a></i>
+                </td>
+                <td width=50px>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">check_box</a></i>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
+                </td>
+                <td width=50px>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
