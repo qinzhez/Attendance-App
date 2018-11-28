@@ -18,7 +18,12 @@
 		select * from rooms where name = #{name}
 	</select>
 
-     <select id="getRoomByAdmin" resultType="map">
+	<select id="getRoomByUid" resultType="com.attendU.dev.microservices.bean.Room">
+     	select a.rid, a.Name, a.participationNum from rooms a inner join participation_room b
+     	on a.rid = b.rid where uid = #{uid}
+     </select>
+
+     <select id="getRoomByAdmin" resultType="com.attendU.dev.microservices.bean.Room">
      	select a.rid, a.Name, a.participationNum from rooms a inner join admin b
      	on a.rid = b.rid where uid = #{adminId}
      </select>
@@ -38,8 +43,13 @@
         where rid = #{rid}
     </update>
 
-    <insert id="updateParticipation" parameterType = "int">
+    <insert id="updateParticipation">
     	insert into participation_room (uid, rid)
+    	values (#{uid}, #{rid})
+    </insert>
+
+    <insert id="updateAdmin">
+    	insert into admin (uid, rid)
     	values (#{uid}, #{rid})
     </insert>
 

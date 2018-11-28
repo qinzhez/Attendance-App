@@ -21,11 +21,15 @@ public interface RoomMapper {
 
 	public Room getRoombyName(String name);
 
-	public List<Map<String, Room>> getRoomByAdmin(Long adminId);
+	public List<Room> getRoomByUid(Long uid);
+
+	public List<Room> getRoomByAdmin(Long adminId);
 
 	public Integer getCreatedRID();
 
 	public Integer updateParticipation(@Param("uid") Long uid, @Param("rid") Long rid);
+
+	public Integer updateAdmin(@Param("uid") Long uid, @Param("rid") Long rid);
 
 }
 

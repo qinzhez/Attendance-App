@@ -39,7 +39,7 @@ angular.
         templateUrl: 'room/roomList.view.html'
       }).
       state('home.createRoom',{
-        url: '/createRoom',
+        url: '/room/createRoom',
         controller: 'RoomListController',
         controllerAs: 'vm',
         templateUrl: 'room/createroom.view.html'

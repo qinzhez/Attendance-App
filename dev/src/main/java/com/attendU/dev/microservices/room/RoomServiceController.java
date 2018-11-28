@@ -27,7 +27,6 @@ public class RoomServiceController {
 
 	static private Logger log = Logger.getLogger(RoomServiceController.class.getName());
 
-
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -47,6 +46,13 @@ public class RoomServiceController {
 		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getRooms/{uid}", method = RequestMethod.GET)
+	public ResponseEntity<List<Room>> getRooms(@PathVariable Long uid) {
+		List<Room> rooms = roomMapper.getRoomByUid(uid);
+
+		return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/roomName/{name}", method = RequestMethod.GET)
 	public ResponseEntity<Boolean> getRoomByName(@PathVariable String name) {
 		Room room = roomMapper.getRoombyName(name);
@@ -55,30 +61,29 @@ public class RoomServiceController {
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
-
 	@RequestMapping(value = "/getRoomByAdmin/{adminId}", method = RequestMethod.GET)
-	public @ResponseBody List<Map<String, Room>> getRoomByAdmin(@PathVariable long adminId) {
+	public @ResponseBody List<Room> getRoomByAdmin(@PathVariable long adminId) {
 		return roomMapper.getRoomByAdmin(adminId);
 	}
 
 	@RequestMapping(value = "/createRoom/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> createRoom(@PathVariable long id, @RequestBody Room room) {
+	public ResponseEntity<Boolean> createRoom(@PathVariable Long id, @RequestBody Room room) {
 		// sanity check
 		boolean check = true;
-		if (room != null) {
+		if (room != null && id != null && id > 0) {
 			if (room.getName() == null || room.getParticipationNum() <= 0)
 				check = false;
-		}
-		else
+		} else
 			check = false;
 
-		//update into db
+		// update into db
 		if (check) {
 			try {
 				check = false;
 				int ret = roomMapper.createRoom(room);
 				room.setRid(roomMapper.getCreatedRID().longValue());
 				roomMapper.updateParticipation(id, room.getRid());
+				roomMapper.updateAdmin(id, room.getRid());
 				sqlSession.commit();
 				check = (ret == 1) ? true : false;
 			} catch (Exception e) {
@@ -108,7 +113,7 @@ public class RoomServiceController {
 		if (room_get != null) {
 			roomMapper.updateRoom(room);
 			return new ResponseEntity<Room>(room, HttpStatus.OK);
-	}
+		}
 		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 
