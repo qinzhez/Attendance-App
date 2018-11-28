@@ -6,30 +6,41 @@
 
 <mapper namespace="com.attendU.dev.microservices.room.RoomMapper">
 
+	 <select id="getCreatedRID" resultType="int">
+    	select LAST_INSERT_ID()
+     </select>
+
      <select id="getRoomById" resultType="com.attendU.dev.microservices.bean.Room">
     	select * from Rooms where rid = #{rid}
      </select>
+
      <select id="getRoombyName" resultType="com.attendU.dev.microservices.bean.Room">
 		select * from rooms where name = #{name}
 	</select>
+
      <select id="getRoomByAdmin" resultType="map">
-     	select a.rid, a.Name, a.participationNum from rooms a inner join admin b 
+     	select a.rid, a.Name, a.participationNum from rooms a inner join admin b
      	on a.rid = b.rid where uid = #{adminId}
      </select>
-     
-     <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room">  
-        insert into rooms (name, participationNum, rcid) 
-        values (#{name},#{participationNum},#{rcid})  
-     </insert>  
-     
-     <delete id="removeRoom">  
-        delete from rooms where rid = #{rid}  
-     </delete> 
 
-	 <update id="updateRoom" >  
-        update rooms set 
-        name = #{name}, participationNum = #{participationNum}, description = #{description}  
-        where rid = #{rid}  
-    </update>  
+     <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room">
+        insert into rooms (name, participationNum, rcid)
+        values (#{name},#{participationNum},#{rcid})
+     </insert>
+
+     <delete id="removeRoom">
+        delete from rooms where rid = #{rid}
+     </delete>
+
+	 <update id="updateRoom" >
+        update rooms set
+        name = #{name}, participationNum = #{participationNum}, description = #{description}
+        where rid = #{rid}
+    </update>
+
+    <insert id="updateParticipation" parameterType = "int">
+    	insert into participation_room (uid, rid)
+    	values (#{uid}, #{rid})
+    </insert>
 
 </mapper>

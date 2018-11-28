@@ -40,8 +40,8 @@ angular.
       }).
       state('home.createRoom',{
         url: '/createRoom',
-        controller: 'CreateroomController',
-        controllerAs: 'wrx',
+        controller: 'RoomListController',
+        controllerAs: 'vm',
         templateUrl: 'room/createroom.view.html'
       }).
 

@@ -34,7 +34,10 @@
 
         function ValidLogin(uid, token) {
             var info = {uid:uid, token:token};
-            return $http.post('http://'+backend+':'+userPort+'/user/validToken', info).then(handleReponse);
+            return $http.post('http://'+backend+':'+userPort+'/user/validToken', info).then(handleReponse, function(){
+                var res = {data:false, status: 200};
+                return res;
+            });
         }
 
         function GetByUsername(username) {

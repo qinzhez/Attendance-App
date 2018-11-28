@@ -19,8 +19,10 @@
 		
         return service;
 
-		function Registration(info) {
-			return $http.post('http://'+backend+':'+roomPort+'/room/createRoom', info).then(handleReponse);		
+		function Registration(info, uid) {
+			return $http.post('http://'+backend+':'+roomPort+'/room/createRoom/'+uid, info).then(handleReponse, function(){
+                return {status: 200, data:false};
+            });		
 		}
 		
     	function getRoomByAdmin(id){

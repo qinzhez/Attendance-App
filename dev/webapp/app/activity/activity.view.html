@@ -3,7 +3,7 @@
     <div>
 
     <!-- show room info -->
-    <div class='container'>
+    <div class='container-fluid'>
         <div class='row'>
             <div class="col-xs-3">
                 <span>Room id: {{vm.room.rid}}</span>
@@ -18,15 +18,17 @@
             </div>
         </div>
         <div class = 'row'>
-            <div class='col-xs-1'>
+            <div class='col-xs-1' style="height:70px">
                 <span>{{vm.room.description}}</span>
             </div>
         </div>
     </div>
 
+    <hr/>
+
     <!-- buttons -->
-    <div style = "height:70px; width: 100%">
-        <i class="material-icons md-36">add</i>
+    <div class="wrapper" style = "height:70px; width: 100%">
+        <a style="font-size: 20px;"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
     </div>
 
     <!-- show activity list -->

@@ -6,16 +6,19 @@
             <button type="submit" class="btn btn-primary">Owned Rooms</button>
             <button type="button" class="btn btn-primary" ng-click="vm.roomChosen()">Participant Rooms</button>
         </div>
-        <table>
-            <tr ng-repeat="x in vm.rooms">
-                <td>{{x.rid}}</td>
-                <td><a herf="" ng-click="vm.roomChosen(x.id)">{{x.Name}}</a></td>
-                <td>{{x.participationNum}}</td>
-                <td><i class="material-icons">check</i>
-                    <i class="material-icons">edit</i>
-                    <i class="material-icons">delete</i></td>
-            </tr>
-        </table>
+        <span ng-show="vm.roomOwned">
+            <p>Owned</p>
+            <table>
+                <tr ng-repeat="x in vm.rooms">
+                    <td>{{x.rid}}</td>
+                    <td><a herf="" ng-click="vm.roomChosen(x.id)">{{x.Name}}</a></td>
+                    <td>{{x.participationNum}}</td>
+                    <td><i class="material-icons">check</i>
+                        <i class="material-icons">edit</i>
+                        <i class="material-icons">delete</i></td>
+                </tr>
+            </table>
+        </span>
          </form>
         </form>
 
