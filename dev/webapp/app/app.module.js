@@ -4,5 +4,7 @@
 angular.module('attendU', [
   'ngAnimate',
   'ngCookies',
-  'ui.router'
+  'ui.router',
+  'ngFlash',
+  'ngAnimate'
 ]);

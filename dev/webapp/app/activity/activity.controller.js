@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['$location','$window', '$q', 'ActivityService', 'StateService'];
-    function ActivityController($location, $window, $q, ActivityService, StateService) {
+    ActivityController.$inject = ['Flash', '$location','$window', '$q', 'ActivityService', 'StateService'];
+    function ActivityController(Flash, $location, $window, $q, ActivityService, StateService) {
     	
         //create activity
     	var vm=this;

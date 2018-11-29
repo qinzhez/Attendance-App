@@ -1,7 +1,7 @@
 ﻿<div class = "container" style = "background-color:#FFFFFF; height:800px;; width:100%;">
 
 <div class = "navbar">    
-	<div class="navbar-wrapper">
+    <div class="navbar-wrapper">
         <div class="navbar navbar-inverse">
           <div class="navbar-inner">
             <a class="brand" href="/#/index">AttendU</a>
@@ -28,6 +28,7 @@
 	<div style = "margin-top:50px;">
     	<h1>User Login</h1>
     </div>
+    <flash-message></flash-message>
     <form name="form" ng-submit="vm.login()" role="form" style = "margin-top:50px;">
         <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
             <label for="username"><h4>Username</h4></label>
@@ -53,3 +54,9 @@
 </div>
 
 </div>﻿
+
+<!--
+<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+
+https://sachinchoolur.github.io/angular-flash/
+-->

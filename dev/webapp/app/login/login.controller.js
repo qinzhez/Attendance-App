@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService', 'StateService','$q'];
-    function LoginController($location, AuthenticationService, FlashService, StateService,$q) {
+    LoginController.$inject = ['$location', 'AuthenticationService', 'Flash', 'StateService','$q'];
+    function LoginController($location, AuthenticationService, Flash, StateService,$q) {
         var vm = this;
 
         vm.login = login;
@@ -30,7 +30,7 @@
                     AuthenticationService.SetCredentials(response.data['uid'], response.data['token']);
                     $location.path('/');
                 } else {
-                    FlashService.Error("Login failed");
+                    Flash.create('danger', "Login failed",10000,{},false);
                     vm.dataLoading = false;
                 }
             });

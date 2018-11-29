@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
@@ -97,14 +99,31 @@ public class RoomServiceController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/removeRoom", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/removeRoom", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> removeRoom(long rid) {
 		Room room = roomMapper.getRoomById(rid);
 		if (room != null) {
 			roomMapper.removeRoom(rid);
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/quitRoom", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> quitRoom(@RequestBody Participation pt) {
+		int deleted = 0;
+		if(pt.getUid() != null && pt.getRid() != null && pt.getUid()>0 && pt.getRid()>0) {
+			try {
+				deleted = roomMapper.quitRoom(pt.getUid(), pt.getRid());
+				sqlSession.commit();
+			} catch (Exception e) {
+				sqlSession.rollback();
+				log.error(e);
+			}
+		}
+		if(deleted > 0)
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)

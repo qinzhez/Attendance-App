@@ -1,22 +1,49 @@
- <div class="roomconfig" style = "width:1000px; margin-top:-800px;">
+ <div class="roomconfig" style = "width:100%" data-ng-init="vm.showConfig()">
     <h2>Room Setting</h2>
-    <form name="form" ng-submit="vm.update()" role="form">
+    <form name="form" ng-submit="vm.congfigRoom()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <label for="roomname">Room name</label>
-            <input type="text" name="roomName" id="roomname" class="form-control" ng-model="vm.roomname" required />
+            <label for="roomname" style="cursor: default;">Room name</label>
+            <input type="text" name="roomname" id="roomname" class="form-control" ng-model="vm.editRoom.name" required />
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <label for="roomname">Participation Number</label>
-            <input type="text" name="participationnum" id="participationnum" class="form-control" ng-model="participationnum" required />
+            <label for="participationnum" style="cursor: default;">Participation Number</label>
+            <input type="text" name="participationnum" id="participationnum" class="form-control" ng-model="vm.editRoom.participationNum" required />
         </div>
         <div class = "testarea">
-        	<label for="roomDescription">Room Description</label>
-			<textarea rows="10" name = "vm.roomdescription" id = "vm.roomdescription" style = "width:700px" ng-model="vm.roomdescription"></textarea>
+        	<label for="roomDescription" style="cursor: default;">Room Description</label>
+			<textarea rows="10" name = "roomDescription" id = "roomDescription" style = "width:700px" ng-model="vm.editRoom.description"></textarea>
 		</div>
 		<div>
 			<button type="submit" class="btn btn-primary">Complete</button>
+            <a ui-sref="home.room"><button class = "btn btn-primary">Cancel</button></a>
 		</div>
     </form>
+
+    <hr/>
+
+    <div class = "activitytable">
+        <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
+            <tr>
+                <td>Activity ID</td>
+                <td>Activity name</td>
+                <td>Number of participates</td>
+                <td>Publish</td>
+                <td>Delete</td>
+            </tr>
+            <tr ng-repeat="x in vm.room">
+                <td width=50px>{{x.aid}}</td>
+                <td width=250px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
+                <td width=100px>{{x.participationNum}}</td>
+                <td width=50px>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_on</a></i>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_off</a></i>
+                </td>
+                <td width=50px>
+                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">delete</a></i>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div> 
 
 

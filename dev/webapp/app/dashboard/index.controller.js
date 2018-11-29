@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('IndexController', IndexController);
 
-    IndexController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function IndexController($location, AuthenticationService, FlashService) {
+    IndexController.$inject = ['$location', 'AuthenticationService', 'Flash'];
+    function IndexController($location, AuthenticationService, Flash) {
         var vm = this;
 
         

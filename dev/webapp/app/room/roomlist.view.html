@@ -19,9 +19,9 @@
             	<td width=250px><a herf="" ng-click="vm.roomChosen(x)">{{x.name}}</a></td>
             	<td width=250px>{{x.participationNum}}</td>
             	<td width=250px>
-                	<i class="material-icons" ng-show="x.isAdmin"><a ng-click="">edit</a></i>
-                	<i class="material-icons" ng-show="x.isAdmin"><a ng-click="">delete</a></i>
-                    <i class="material-icons" ng-show="!x.isAdmin"><a ng-click="">delete</a></i>
+                	<i class="material-icons" ng-show="x.isAdmin" ng-click="vm.goConfig(x)" style="cursor: pointer;" title="edit">edit</i>
+                	<i class="material-icons" ng-show="x.isAdmin" ng-click="" style="cursor: pointer;" title="Remove Room">delete</i>
+                    <i class="material-icons" ng-show="!x.isAdmin" ng-click="vm.quitRoom(x)" style="cursor: pointer;" title="Quit Room">delete</i>
                 </td>
         	</tr>
     	</table>

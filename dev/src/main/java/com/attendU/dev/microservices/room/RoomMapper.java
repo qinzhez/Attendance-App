@@ -31,5 +31,7 @@ public interface RoomMapper {
 
 	public Integer updateAdmin(@Param("uid") Long uid, @Param("rid") Long rid);
 
+	public Integer quitRoom(@Param("uid") Long uid, @Param("rid") Long rid);
+
 }
 

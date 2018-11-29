@@ -15,7 +15,8 @@
         service.Registration = Registration;
         service.getRoomByAdmin = getRoomByAdmin;
         service.getRoomByUid = getRoomByUid;
-        service.UpdateRoomInfo = UpdateRoomInfo;		
+        service.UpdateRoomInfo = UpdateRoomInfo;
+        service.quitRoom = quitRoom;
 		
         return service;
 
@@ -38,6 +39,12 @@
 			return $http.post('http://'+backend+':'+roomPort+'/updateRoom', info).then(handleReponse);		
 		}
 		
+
+        function quitRoom(uid, rid) {
+            var info = { rid:rid, uid: uid};
+            return $http.post('http://'+backend+':'+roomPort+'/room/quitRoom', info).then(handleReponse);      
+        }
+
         // private functions
 
         function handleReponse(res) {

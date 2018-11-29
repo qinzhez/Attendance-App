@@ -46,9 +46,9 @@ angular.
       }).
 
       state('home.configRoom',{
-    	controller: 'configRoomController',  
-    	controllerAs: 'vm',  
-        url: '/configRoom',
+      	controller: 'RoomListController',  
+      	controllerAs: 'vm',  
+        url: '/room/configRoom',
         templateUrl: 'room/configRoom.view.html'
       }).
       state('home.activity',{

@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$location', 'AuthenticationService', 'FlashService', '$q', 'UserService', 'StateService'];
-    function HomeController($location, AuthenticationService, FlashService, $q, UserService, StateService) {
+    HomeController.$inject = ['$location', 'AuthenticationService', 'Flash', '$q', 'UserService', 'StateService'];
+    function HomeController($location, AuthenticationService, Flash, $q, UserService, StateService) {
         var vm = this;
         vm.userLoaded = false;
         vm.showName = null;

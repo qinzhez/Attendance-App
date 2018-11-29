@@ -13,6 +13,7 @@
         vm.rooms = {};
         vm.admittedRooms = {};
         vm.newRoom = {};
+        vm.editRoom = {};
         vm.createLoading=false;
 
         // functions
@@ -22,14 +23,22 @@
         vm.register = register;
         vm.goCreate = goCreate;
         vm.getAdminList = getAdminList;
+        vm.congfigRoom = congfigRoom;
+        vm.goConfig = goConfig;
+        vm.showConfig = showConfig;
+        vm.quitRoom = quitRoom;
 
         (function init(){
+            vm.newRoom = null;
+            vm.editRoom = null;
+            vm.createLoading = false;
             var initdef = $q.defer();
             var initpromise = initdef.promise;
-            if(StateService.user.CurrentUid == null||StateService.user.CurrentUid == undefined)
+            if(StateService.user.CurrentUid == undefined||StateService.user.CurrentUid == null)
                 StateService.room.initdef = initdef;
-            else
-                getRooms();
+            else{
+                initdef.resolve();
+            }
 
             initpromise.then(function(){
                 vm.user = StateService.user;
@@ -49,6 +58,7 @@
                     } else {
                         vm.createLoading = false;
                     }
+                    vm.newRoom = null;
                 });
         }
 
@@ -92,20 +102,49 @@
                 });
         }
 
-        function attachAdmin(){
-            for(var i = 0; i<vm.admittedRooms.length;i++){
-                for(var j=0; j<vm.rooms.length;j++){
-                    if(vm.rooms[j].isAdmin)
-                        continue;
+        function congfigRoom() {
+            vm.dataLoading = true;
 
-                    if(vm.admittedRooms[i].rid == vm.rooms[j].rid){
-                        vm.rooms[j].isAdmin = true;
-                        break;
-                    }
-                    else if(vm.rooms[j].isAdmin == null || vm.rooms[j].isAdmin == undefined)
-                        vm.rooms[j].isAdmin = false;
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            var uid = StateService.user.CurrentUid;
+            
+            //CurrentRid is a temporary name
+            var rid = StateService.room.CurrentRid;
+            RoomService.UpdateRoomInfo(rid, vm.roomname, vm.roomdescription, vm.roomdescription, deferred);
+
+            promise.then(function (response) {
+                if (response.status == 200 && response.data['rid']>0) {
+                    $location.path('/home/room');
+                } else {
+                    vm.dataLoading = false;
                 }
-            }
+            });
+        };
+
+        function showConfig() {
+            if(StateService.room.selectedRoom == undefined || StateService.room.selectedRoom == null)
+                $location.path("/home/room");
+            if(!StateService.room.selectedRoom.hasOwnProperty("rid"))
+                $location.path("/home/room");
+            vm.editRoom = StateService.room.selectedRoom;
+            StateService.room.selectedRoom = null;
+            
+        }
+
+        function goConfig(selectedRoom){
+            StateService.room.selectedRoom = selectedRoom;
+            $location.path("/home/room/configRoom")
+        }
+
+        function quitRoom(selectedRoom){
+            RoomService.quitRoom(vm.user.CurrentUid, selectedRoom.rid)
+                .then(function(response){
+                    if(response.data == true && response.status == 200)
+                        refreshList();
+                    else
+                        FlashService.Error("Quit "+selectedRoom.name+" failed");
+                })
         }
 
         promise.then(function(response){
@@ -120,5 +159,29 @@
                 FlashService.Error("Cannot find any room");
             }
         });
+
+
+        //------------------------ internal use --------------------
+
+        function attachAdmin(){
+            for(var i = 0; i<vm.admittedRooms.length;i++){
+                for(var j=0; j<vm.rooms.length;j++){
+                    if(vm.rooms[j].isAdmin)
+                        continue;
+
+                    if(vm.admittedRooms[i].rid == vm.rooms[j].rid){
+                        vm.rooms[j].isAdmin = true;
+                        break;
+                    }
+                    else if(vm.rooms[j].isAdmin == undefined || vm.rooms[j].isAdmin == null)
+                        vm.rooms[j].isAdmin = false;
+                }
+            }
+        }
+
+        function refreshList(){
+            vm.rooms.length = 0;
+            getAdminList();
+        }
     }
 })();

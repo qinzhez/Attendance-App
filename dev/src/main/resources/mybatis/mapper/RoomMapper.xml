@@ -53,4 +53,8 @@
     	values (#{uid}, #{rid})
     </insert>
 
+    <delete id="quitRoom">
+    	delete from participation_room where rid = #{rid} and uid = #{uid}
+    </delete>
+
 </mapper>
