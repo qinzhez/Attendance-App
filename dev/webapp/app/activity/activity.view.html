@@ -1,30 +1,10 @@
 <div class="col-md-6 col-md-offset-3">
-    <h2>Activities for {{vm.room.name}}</h2>
-    <div>
-
+    <h2 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h2>
     <!-- show room info -->
-    <div class='container-fluid'>
-        <div class='row'>
-            <div class="col-xs-3">
-                <span>Room id: {{vm.room.rid}}</span>
-            </div>
-            <div class="col-xs-3">
-                <span>Room Name: {{vm.room.name}}</span>
-            </div>
-        </div>
-        <div class='row'>
-            <div class='col-xs-1'>
-                <span>Room Description:</span>
-            </div>
-        </div>
-        <div class = 'row'>
-            <div class='col-xs-1' style="height:70px">
-                <span>{{vm.room.description}}</span>
-            </div>
-        </div>
+    <div class='room_information'>
+         <span><h5 style = "color:#FFFFFF;">Room Name: {{vm.room.name}}</h5></span>  
+         <span>{{vm.room.description}}</span>
     </div>
-
-    <hr/>
 
     <!-- buttons -->
     <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
