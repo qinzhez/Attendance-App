@@ -30,7 +30,7 @@
                     AuthenticationService.SetCredentials(response.data['uid'], response.data['token']);
                     $location.path('/');
                 } else {
-                    Flash.create('danger', "Login failed",10000,{},false);
+                    Flash.create('danger', "Wrong password",10000,{},false);
                     vm.dataLoading = false;
                 }
             });
