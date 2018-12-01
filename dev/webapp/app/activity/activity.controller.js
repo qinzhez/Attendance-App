@@ -12,6 +12,8 @@
         var promise = deffered.promise;
         //create activity
     	var vm = this;
+    	vm.user = {};
+    	vm.room = {};
         vm.activity = {};
         vm.room = StateService.room.selectedRoom;
         StateService.room.selectedRoom = null;
@@ -22,18 +24,12 @@
         vm.startActivity = startActivity;
         
         (function init(){ 
-            var initdef = $q.defer();
-            var initpromise = initdef.promise;
             if(vm.room == null || vm.room == undefined){
                 StateService.room.initdef = initdef;    
                 $location.path("/home/room");
-            }
-            else{
-                initdef.resolve();
-            }
-            initpromise.then(function(){
+            }else{
                 getActivityList();
-            });
+            }
 
         })();
 
@@ -41,7 +37,7 @@
         function register() {
             vm.dataLoading = true;
 			
-            ActivityService.CreateActivity(vm.activity)
+            ActivityService.CreateActivity(vm.user.CurrentUid, vm.room.CurrentRid, vm.activity)
                 .then(function (response) {
                     if (response.status == 200 && response.data == true) {
                         $location.path('home/createActivity');
@@ -50,6 +46,7 @@
                     }
                 });
         }
+
 
         function getActivityList() {
             ActivityService.getActivityByRoom(vm.room.rid)
@@ -77,7 +74,6 @@
         promise.then(function(response){
             if(response.status == 200 && response.data != null && response.data.length > 0) {
                 vm.activity = response.data;
-                if(vm.activity.length > 0)
                 StateService.activity.ActivityList = vm.activity;
             }
             else{

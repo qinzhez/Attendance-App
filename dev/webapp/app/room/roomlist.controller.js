@@ -28,7 +28,7 @@
         vm.showConfig = showConfig;
         vm.quitRoom = quitRoom;
 
-        (function init(){
+        (function init(){//asynchronous
             vm.newRoom = null;
             vm.editRoom = null;
             vm.createLoading = false;
@@ -58,7 +58,6 @@
                     } else {
                         vm.createLoading = false;
                     }
-                    vm.newRoom = null;
                 });
         }
 

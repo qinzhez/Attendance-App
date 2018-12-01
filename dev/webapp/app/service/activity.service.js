@@ -18,8 +18,10 @@
        	
         return service;
 
-		function CreateActivity(info) {
-			return $http.post('http://'+backend+':'+activityPort+'/activity/createActivity', info).then(handleReponse);		
+		function CreateActivity(uid, rid, info) {
+			return $http.post('http://'+backend+':'+activityPort+'/activity/createActivity' + uid + rid, info).then(handleReponse, function(){
+                return {status: 200, data:false};
+            });		
 		}
         
         function StartActivity(status, id){

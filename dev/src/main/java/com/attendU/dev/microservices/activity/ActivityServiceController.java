@@ -56,24 +56,24 @@ public class ActivityServiceController {
 		return activityMapper.getActivityByRoom(rid);
 	}
 
-	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)
+	@RequestMapping(value = "/createActivity/{uid}/{rid}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid, @PathVariable Long rid, @RequestBody Activity reg) {
-		// sanity check
 				boolean check = true;
 				if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {	
 					if (reg.getName() == null || reg.getDate() == null)
 						check = false;
-				}
-				else
+				} else
 					check = false;
+		
 				if (check) {
 					try {
 						check = false;
 						int ret = activityMapper.createActivity(uid, rid, reg);
 						reg.setAid(activityMapper.getCreatedAID().longValue());
-						activityMapper.updateParticipation(uid, rid, reg.getAid());
-						check = (ret == 1) ? true : false;
+						activityMapper.updateParticipation_activity(uid, rid, reg.getAid());
+						activityMapper.updateRALink(rid, reg.getAcid());
 						sqlSession.commit();
+						check = (ret == 1) ? true : false;
 					} catch (Exception e) {
 						sqlSession.rollback();
 						log.error(e);
