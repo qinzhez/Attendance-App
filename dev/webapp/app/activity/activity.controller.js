@@ -60,7 +60,7 @@
                     deffered.resolve(response);
                 }
                 else{
-                    FlashService.Error("Cannot find any activity for this room");
+                    //FlashService.Error("Cannot find any activity for this room");
                 }
             });
         }
@@ -82,24 +82,9 @@
                 StateService.activity.ActivityList = vm.activity;
             }
             else{
-                FlashService.Error("Cannot find any room");
+                //FlashService.Error("Cannot find any room");
             }
         });
         
-        function attachAdmin(){
-            for(var i = 0; i<vm.admittedActivity.length;i++){
-                for(var j=0; j<vm.activity.length;j++){
-                    if(vm.activity[j].isAdmin)
-                        continue;
-
-                    if(vm.admittedActivity[i].rid == vm.activity[j].rid){
-                        vm.activity[j].isAdmin = true;
-                        break;
-                    }
-                    else if(vm.activity[j].isAdmin == undefined || vm.activity[j].isAdmin == null)
-                        vm.activity[j].isAdmin = false;
-                }
-            }
-        }
     }
 })();
