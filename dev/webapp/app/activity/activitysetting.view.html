@@ -1,8 +1,8 @@
  <div class="roomconfig" style = "width:100%" data-ng-init="vm.showConfig()">
     <h3 style = "color:#FFFFFF;">Room/Activity Setting</h3>
     <ul class="nav nav-pills">
-  		<li><a ui-sref="home.configRoom"">Room Setting</a></li>
-  		<li class="active"><a ui-sref="home.activitysetting">Activity Setting</a></li>
+  		<li><a ui-sref="home.configRoom">Room Setting</a></li>
+  		<li class="active"><a ui-sref="home.activity">Activity Setting</a></li>
 	</ul>
     <form name="form" ng-submit="vm.congfigRoom()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
