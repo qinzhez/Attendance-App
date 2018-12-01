@@ -22,18 +22,12 @@
         vm.startActivity = startActivity;
         
         (function init(){ 
-            var initdef = $q.defer();
-            var initpromise = initdef.promise;
             if(vm.room == null || vm.room == undefined){
                 StateService.room.initdef = initdef;    
                 $location.path("/home/room");
-            }
-            else{
-                initdef.resolve();
-            }
-            initpromise.then(function(){
+            }else{
                 getActivityList();
-            });
+            }
 
         })();
 
@@ -77,7 +71,6 @@
         promise.then(function(response){
             if(response.status == 200 && response.data != null && response.data.length > 0) {
                 vm.activity = response.data;
-                if(vm.activity.length > 0)
                 StateService.activity.ActivityList = vm.activity;
             }
             else{
