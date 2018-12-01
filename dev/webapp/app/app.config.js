@@ -57,6 +57,12 @@ angular.
         controllerAs: 'vm',
         templateUrl: 'activity/activity.view.html'
       }).
+      state('home.activitysetting',{
+          url: '/activity',
+          controller: 'ActivityController',
+          controllerAs: 'vm',
+          templateUrl: 'activity/activitysetting.view.html'
+        }).
       state('home.createActivity',{
         url: '/activity/createActivity',
         controller: 'ActivityController',
