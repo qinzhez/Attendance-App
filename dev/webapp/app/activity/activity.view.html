@@ -1,16 +1,25 @@
 <div class="col-md-6 col-md-offset-3">
-    <h2 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h2>
+  	<ul class="nav nav-tabs">
+  		<li>
+    		<a href="#">Home</a>
+  		</li>
+  		<li><a href="#">Rooms</a></li>
+  		<li class="active"><a href="#">Activity</a></li>
+	</ul>
+    <h3 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h3>
+    <button type="button" class="btn btn-primary" ng-click="" ng-disable="vm.user==null">Add new activity</button>
     <!-- show room info -->
-    <div class='room_information'>
+    <!-- <div class='room_information'>
          <span><h5 style = "color:#FFFFFF;">Room Name: {{vm.room.name}}</h5></span>  
          <span>{{vm.room.description}}</span>
     </div>
+    -->
 
     <!-- buttons -->
-    <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
+    <!--  <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
         <a style="font-size: 20px;"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
     </div>
-
+    -->
     <!-- show activity list -->
     <div class = "activitytable">
         <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
@@ -24,8 +33,8 @@
             </tr>
             <tr ng-repeat="x in vm.room">
                 <td width=50px>{{x.aid}}</td>
-                <td width=250px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
-                <td width=100px>{{x.participationNum}}</td>
+                <td width=100px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
+                <td width=30px>{{x.participationNum}}</td>
                 <td width=50px>
                     <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_on</a></i>
                     <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_off</a></i>
