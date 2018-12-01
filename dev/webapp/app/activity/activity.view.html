@@ -7,11 +7,10 @@
   		<li class="active"><a href="#">Activity</a></li>
 	</ul>
     <h3 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h3>
-    <button type="button" class="btn btn-primary" ng-click="" ng-disable="vm.user==null"><a ui-sref="home.createRoom" style = "color:white;">Add new activity</a></button>
     <!-- show room info -->
     <div class='room_information'>
          <span><h5 style = "color:#FFFFFF;">Room Name: {{vm.room.name}}</h5></span>  
-         <span>{{vm.room.description}}</span>
+         <span><h5 style = "color:#FFFFFF;">Room Description: {{vm.room.description}}</h5></span>
     </div>
 
     <!-- buttons -->
