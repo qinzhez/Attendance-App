@@ -1,8 +1,8 @@
  <div class="roomconfig" style = "width:100%" data-ng-init="vm.showConfig()">
     <h3 style = "color:#FFFFFF;">Room/Activity Setting</h3>
     <ul class="nav nav-pills">
-  		<li><a ui-sref="home.configRoom"">Room Setting</a></li>
-  		<li class="active"><a ui-sref="home.activitysetting">Activity Setting</a></li>
+  		<li><a ui-sref="home.configRoom">Room Setting</a></li>
+  		<li class="active"><a ui-sref="home.activity">Activity Setting</a></li>
 	</ul>
     <form name="form" ng-submit="vm.congfigRoom()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
@@ -17,6 +17,12 @@
             <h4 style = "color:#FFFFFF;"><label for="participationnum" style="cursor: default;">Start date</label></h4>
             <input type="text" name="participationnum" id="participationnum" class="form-control" ng-model="vm.editRoom.participationNum" required />
         </div>
+        <div class = "textarea">
+        	<h4 style = "color:#FFFFFF;"><label for="roomDescription" style="cursor: default;">Activity description</label></h4>
+			<textarea rows="7" name = "activityDescription" id = "activityDescription" style = "width:700px" ng-model=""></textarea>
+		</div>
+		<div>
+        
         <br/>
 		<div>
 			<button type="submit" class="btn btn-primary">Complete</button>

@@ -10,7 +10,7 @@
     	select LAST_INSERT_ID()
   </select>
   
-  <select id="getActivitybyId" resultType="com.attendU.dev.microservices.bean.Activity">
+  <select id="getActivityById" resultType="com.attendU.dev.microservices.bean.Activity">
 		select * from activities where aid= #{aid}
   </select>
 

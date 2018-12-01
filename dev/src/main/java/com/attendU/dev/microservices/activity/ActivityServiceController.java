@@ -106,8 +106,8 @@ public class ActivityServiceController {
 	}
 
 	@RequestMapping(value = "/startActivity/{aid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> startActivity(@PathVariable Long aid){
-		List<Activity> activity = activityMapper.getActivityById(aid);
+	public ResponseEntity<Boolean> startActivity(@PathVariable String aid){
+		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));
 		if (activity != null){
 			activityMapper.startActivity(aid);
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
@@ -116,8 +116,8 @@ public class ActivityServiceController {
 	}
 	
 	@RequestMapping(value = "/endActivity/{aid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> endActivity(@PathVariable Long aid){
-		List<Activity> activity = activityMapper.getActivityById(aid);
+	public ResponseEntity<Boolean> endActivity(@PathVariable String aid){
+		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));
 		if (activity != null){
 			activityMapper.endActivity(aid);
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);

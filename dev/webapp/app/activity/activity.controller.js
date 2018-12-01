@@ -65,12 +65,7 @@
         }
 
         function startActivity(status, id) {
-        	if (status == true){
-        		 ActivityService.StartActivity(id);
-        	}
-        	else {
-        		ActivityService.EndActivity(id);
-        	}
+            ActivityService.StartActivity(status, id);
         };
 
         promise.then(function(response){
