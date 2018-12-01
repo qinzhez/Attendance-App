@@ -78,7 +78,6 @@
             if(response.status == 200 && response.data != null && response.data.length > 0) {
                 vm.activity = response.data;
                 if(vm.activity.length > 0)
-                    attachAdmin();
                 StateService.activity.ActivityList = vm.activity;
             }
             else{
