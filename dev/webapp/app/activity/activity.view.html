@@ -1,5 +1,5 @@
 <div class="col-md-6 col-md-offset-3">
-  	<ul class="nav nav-tabs">
+  	<ul class="nav nav-pills">
   		<li>
     		<a href="#">Home</a>
   		</li>
@@ -24,7 +24,7 @@
     <div class = "activitytable">
         <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
             <tr>
-                <td>Activity ID</td>
+                <td width = "50px">Activity ID</td>
                 <td>Activity name</td>
                 <!--  <td>Starting Time</td> -->
                 <td>Number of participates</td>
@@ -33,18 +33,18 @@
                 <td>Absent</td>
             </tr>
             <tr ng-repeat="x in vm.activity">
-                <td width=50px>{{x.aid}}</td>
-                <td width=100px>{{x.name}}</td>
-                <!--  <td width=100px>{{x.date}}</td> -->
-                <td width=50px>
+                <td width=160px>{{x.aid}}</td>
+                <td width=160px>{{x.name}}</td>
+                <td width=160px></td> <!-- originally its {{x.date}} -->
+                <td width=160px>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(false, x.aid)">toggle_off</a></i>
                 </td>
-                <td width=50px>
+                <td width=160px>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box</a></i>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
                 </td>
-                <td width=50px>
+                <td width=160px>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
                 </td>
             </tr>
