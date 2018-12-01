@@ -7,25 +7,27 @@
   		<li class="active"><a href="#">Activity</a></li>
 	</ul>
     <h3 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h3>
+     <!-- buttons -->
+    <div class="wrapper" style = "width: 100%" ng-show="vm.room.isAdmin">
+        <a style="font-size: 20px;" ng-click="vm.register()"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
+    </div>
     <!-- show room info -->
     <div class='room_information'>
-         <span><h5 style = "color:#FFFFFF;">Room Name: {{vm.room.name}}</h5></span>  
-         <span><h5 style = "color:#FFFFFF;">Room Description: {{vm.room.description}}</h5></span>
-    </div>
-
-    <!-- buttons -->
-    <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
-        <a style="font-size: 20px;" ng-click="vm.register()"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
+         <span><h5 style = "color:#FFFFFF;">Room name: </h5></span>  
+         <input class="form-control" id="disabledInput" type="text" placeholder={{vm.room.name}} disabled>
+         <span><h5 style = "color:#FFFFFF;">Room description: </h5></span>
+         <textarea rows="3" style = "width:700px; color:#000000;" placeholder={{vm.room.description}} disabled></textarea>
+         <span><h5 style = "color:#FFFFFF;">Activity list: </h5></span>
     </div>
     
     <!-- show activity list -->
-    <div class = "activitytable">
+    <div class = "activtable">
         <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
             <tr>
                 <td width = "50px">Activity ID</td>
                 <td>Activity name</td>
                 <!--  <td>Starting Time</td> -->
-                <td>Number of participates</td>
+                <td>Attendance</td>
                 <td>Subscribe</td>
                 <td>Check in</td>
                 <td>Absent</td>
