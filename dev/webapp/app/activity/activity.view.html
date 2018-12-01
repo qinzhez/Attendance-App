@@ -32,23 +32,25 @@
                 <td>Check in</td>
                 <td>Absent</td>
             </tr>
-            <tr ng-repeat="x in vm.room">
+            <tr ng-repeat="x in vm.activity">
                 <td width=50px>{{x.aid}}</td>
                 <td width=100px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
                 <!--  <td width=100px>{{x.date}}</td> -->
-                <td width=30px>{{x.participationNum}}</td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_on</a></i>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_off</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(false, x.aid)">toggle_off</a></i>
                 </td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">check_box</a></i>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
                 </td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
                 </td>
             </tr>
         </table>
     </div>
 </div>
+
+
+
