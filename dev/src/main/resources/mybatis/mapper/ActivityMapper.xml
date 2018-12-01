@@ -18,10 +18,6 @@
 		select * from activities where name like '%#{name}%'
   </select>
 
-  <select id="getCreatedAID" resultType="int">
-    select LAST_INSERT_ID()
-  </select>
-
   <select id="getActivityByRoom" resultType="com.attendU.dev.microservices.bean.Activity">
     select * from 
     ra_link inner join activities 
@@ -44,13 +40,6 @@
         name = #{activity_name}, date = #{date}, acid = #{acid}  
         where aid = #{aid}  
   </update> 
-  
-  <insert id="updateParticipation">
-    	insert into participation_activity (uid, aid)
-    	values (#{uid}, #{aid})
-  </insert>
-
-   
 
   <update id="startActivity">
         update activities set
