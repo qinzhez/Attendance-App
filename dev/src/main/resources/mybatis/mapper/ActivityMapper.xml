@@ -53,8 +53,13 @@
         where aid = #{aid} and started = 1
   </update>
 
-	<insert id="updateParticipation">
+	<insert id="updateParticipation_activity">
 		insert into participation_activity (uid, rid, aid)
 		values (#{uid}, #{rid}, #{aid})
+	</insert>
+	
+	<insert id="updateRALink">
+	   insert into ra_link (rid, aid)
+	   values(#{rid},#{aid})
 	</insert>
 </mapper>

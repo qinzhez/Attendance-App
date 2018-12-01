@@ -25,7 +25,7 @@ public interface ActivityMapper {
 
 	public List<Activity> getActivityByRoom(Long rid);
 	
-	public Integer updateParticipation(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
+	public Integer updateParticipation_activity(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
 	
 	public Integer updateRALink(Long rid, Long aid);
 	

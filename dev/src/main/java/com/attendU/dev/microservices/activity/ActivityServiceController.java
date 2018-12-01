@@ -70,8 +70,8 @@ public class ActivityServiceController {
 						check = false;
 						int ret = activityMapper.createActivity(uid, rid, reg);
 						reg.setAid(activityMapper.getCreatedAID().longValue());
-						activityMapper.updateParticipation(uid, rid, reg.getAid());
-						check = (ret == 1) ? true : false;
+						activityMapper.updateParticipation_activity(uid, rid, reg.getAid());
+						activityMapper.updateRALink(rid, reg.getAcid());
 						sqlSession.commit();
 						check = (ret == 1) ? true : false;
 					} catch (Exception e) {
