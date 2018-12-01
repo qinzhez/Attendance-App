@@ -17,4 +17,8 @@ public class Activity implements Serializable{
 	private String name;
 	@Getter@Setter
 	private Date date;
+	@Getter@Setter
+	private Integer participationNum;
+	@Getter@Setter
+	private Integer started;
 }

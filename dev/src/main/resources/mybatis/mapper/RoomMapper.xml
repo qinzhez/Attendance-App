@@ -19,11 +19,12 @@
 	</select>
 
 	<select id="getRoomByUid" resultType="com.attendU.dev.microservices.bean.Room">
-     	select * from rooms a left outer join participation_room b
-     	on a.rid = b.rid where uid = #{uid}
-        union
-      select * from rooms a right outer join participation_room b
-     	on a.rid = b.rid where uid = #{uid}
+      select * from rooms where rooms.rid in (
+         select a.rid from admin a left outer join participation_room b
+               on a.rid = b.rid where a.uid = #{uid}
+               union 
+         select b.rid from admin a right outer join participation_room b
+               on a.rid = b.rid where b.uid = #{uid})
      </select>
 
      <select id="getRoomByAdmin" resultType="com.attendU.dev.microservices.bean.Room">
