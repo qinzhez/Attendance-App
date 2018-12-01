@@ -43,20 +43,16 @@
         function register() {
             vm.dataLoading = true;
 			
-            ActivityService.CreateActivity(vm.user.CurrentUid，vm.room.CurrentRid, vm.activity)
+            ActivityService.CreateActivity(vm.user.CurrentUid, vm.room.CurrentRid, vm.activity)
                 .then(function (response) {
                     if (response.status == 200 && response.data == true) {
                         $location.path('home/createActivity');
                     } else {
                         vm.dataLoading = false;
                     }
-                    vm.activity = null;
                 });
         }
-        
-        function goCreate(){
-            $location.path("/home/activity/createActivity");
-        }
+
 
         function getActivityList() {
             ActivityService.getActivityByRoom(vm.room.rid)
@@ -84,8 +80,6 @@
         promise.then(function(response){
             if(response.status == 200 && response.data != null && response.data.length > 0) {
                 vm.activity = response.data;
-                if(vm.activity.length > 0)
-                    attachAdmin();
                 StateService.activity.ActivityList = vm.activity;
             }
             else{

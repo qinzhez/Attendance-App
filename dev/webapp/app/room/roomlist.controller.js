@@ -58,7 +58,6 @@
                     } else {
                         vm.createLoading = false;
                     }
-                    vm.newRoom = null;
                 });
         }
 
