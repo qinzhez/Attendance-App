@@ -6,6 +6,10 @@
 
 <mapper namespace="com.attendU.dev.microservices.activity.ActivityMapper">
   
+  <select id="getCreatedAID" resultType="int">
+    	select LAST_INSERT_ID()
+  </select>
+  
   <select id="getActivitybyId" resultType="com.attendU.dev.microservices.bean.Activity">
 		select * from activities where aid= #{aid}
   </select>
@@ -29,6 +33,13 @@
         update activities set 
         name = #{activity_name}, date = #{date}, acid = #{acid}  
         where aid = #{aid}  
-  </update>  
+  </update> 
+  
+  <insert id="updateParticipation">
+    	insert into participation_activity (uid, aid)
+    	values (#{uid}, #{aid})
+  </insert>
+
+   
 
 </mapper>

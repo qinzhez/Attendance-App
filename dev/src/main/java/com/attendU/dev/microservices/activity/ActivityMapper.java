@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.attendU.dev.microservices.bean.Activity;
 
@@ -20,8 +21,12 @@ public interface ActivityMapper {
 	public Activity getActivityById(Long aid);
 	
 	public Activity getActivitybyName(String name);
+	
+	public Integer getCreatedAID();
 
 	public List<Map<String, Object>> getActivityByConfigId(Long acid);
+	
+	public Integer updateParticipation(@Param("uid") Long uid, @Param("aid") Long aid);
 		
 }
 

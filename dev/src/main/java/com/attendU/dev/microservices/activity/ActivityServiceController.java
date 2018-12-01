@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
+import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -61,23 +62,27 @@ public class ActivityServiceController {
 	}
 	
 	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)
-	public ResponseEntity<Object> createActivity(@RequestBody Activity reg) {
-		// sanity check
+	public ResponseEntity<Object> createActivity(@PathVariable Long id, @RequestBody Activity activity) {
+		        // sanity check
 				boolean check = true;
-				if (reg != null) {	
-					if (reg.getName() == null || reg.getDate() == null)
+				if (activity != null && id != null && id > 0) {
+					if (activity.getName() == null || activity.getDate()==null)
 						check = false;
-				}
-				else
+				} else
 					check = false;
+		
 				if (check) {
 					try {
-						int ret = activityMapper.createActivity(reg);
-						check = (ret == 1) ? true : false;
+						check = false;
+						int ret = activityMapper.createActivity(activity);
+						activity.setAid(activityMapper.getCreatedAID().longValue());
+						activityMapper.updateParticipation(id, activity.getAid());
 						sqlSession.commit();
+						check = (ret == 1) ? true : false;
 					} catch (Exception e) {
 						sqlSession.rollback();
 						log.error(e);
+						check = false;
 					}
 				}
 				if (check) 
