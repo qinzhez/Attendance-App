@@ -24,8 +24,7 @@
         vm.startActivity = startActivity;
         
         (function init(){ 
-            if(vm.room == null || vm.room == undefined){
-                StateService.room.initdef = initdef;    
+            if(vm.room == null || vm.room == undefined){   
                 $location.path("/home/room");
             }else{
                 getActivityList();
