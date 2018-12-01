@@ -14,6 +14,7 @@
         vm.admittedRooms = {};
         vm.newRoom = {};
         vm.editRoom = {};
+        vm.showManageList = false;
         vm.createLoading=false;
 
         // functions
