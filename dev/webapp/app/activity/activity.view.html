@@ -34,7 +34,7 @@
             </tr>
             <tr ng-repeat="x in vm.activity">
                 <td width=50px>{{x.aid}}</td>
-                <td width=100px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
+                <td width=100px>{{x.name}}</td>
                 <!--  <td width=100px>{{x.date}}</td> -->
                 <td width=50px>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
