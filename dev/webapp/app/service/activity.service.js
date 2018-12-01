@@ -19,7 +19,7 @@
         return service;
 
 		function CreateActivity(uid, rid, info) {
-			return $http.post('http://'+backend+':'+activityPort+'/activity/createActivity' + uid + rid, info).then(handleReponse, function(){
+			return $http.post('http://'+backend+':'+activityPort+'/activity/createActivity/'+ uid +'/'+ rid, info).then(handleReponse, function(){
                 return {status: 200, data:false};
             });		
 		}
