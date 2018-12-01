@@ -56,8 +56,8 @@ public class ActivityServiceController {
 		return activityMapper.getActivityByRoom(rid);
 	}
 
-	@RequestMapping(value = "/createActivity/{uid}/{rid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid, @PathVariable Long rid, @RequestBody Activity reg) {
+	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)//delete @PathVariable Long uid, @PathVariable Long rid
+	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid,@PathVariable Long rid, @RequestBody Activity reg) {
 				boolean check = true;
 				if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {	
 					if (reg.getName() == null || reg.getDate() == null)
