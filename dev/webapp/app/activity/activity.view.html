@@ -1,10 +1,30 @@
 <div class="col-md-6 col-md-offset-3">
-    <h2 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h2>
+    <h2>Activities for {{vm.room.name}}</h2>
+    <div>
+
     <!-- show room info -->
-    <div class='room_information'>
-         <span><h5 style = "color:#FFFFFF;">Room Name: {{vm.room.name}}</h5></span>  
-         <span>{{vm.room.description}}</span>
+    <div class='container-fluid'>
+        <div class='row'>
+            <div class="col-xs-3">
+                <span>Room id: {{vm.room.rid}}</span>
+            </div>
+            <div class="col-xs-3">
+                <span>Room Name: {{vm.room.name}}</span>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-1'>
+                <span>Room Description:</span>
+            </div>
+        </div>
+        <div class = 'row'>
+            <div class='col-xs-1' style="height:70px">
+                <span>{{vm.room.description}}</span>
+            </div>
+        </div>
     </div>
+
+    <hr/>
 
     <!-- buttons -->
     <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
@@ -17,25 +37,25 @@
             <tr>
                 <td>Activity ID</td>
                 <td>Activity name</td>
-                <td>Number of participates</td>
+                <td>Starting Time</td>
                 <td>Subscribe</td>
                 <td>Check in</td>
                 <td>Absent</td>
             </tr>
-            <tr ng-repeat="x in vm.room">
+            <tr ng-repeat="x in vm.activity">
                 <td width=50px>{{x.aid}}</td>
-                <td width=250px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
-                <td width=100px>{{x.participationNum}}</td>
+                <td width=250px>{{x.name}}</td>
+                <td width=100px>{{x.date}}</td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_on</a></i>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_off</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(false, x.aid)">toggle_off</a></i>
                 </td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">check_box</a></i>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
                 </td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
                 </td>
             </tr>
         </table>

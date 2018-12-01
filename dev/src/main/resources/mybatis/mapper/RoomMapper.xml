@@ -15,16 +15,19 @@
      </select>
 
      <select id="getRoombyName" resultType="com.attendU.dev.microservices.bean.Room">
-		select * from rooms where name = #{name}
+		select * from rooms where name like '%#{name}%'
 	</select>
 
 	<select id="getRoomByUid" resultType="com.attendU.dev.microservices.bean.Room">
-     	select a.rid, a.Name, a.participationNum from rooms a inner join participation_room b
+     	select * from rooms a left outer join participation_room b
+     	on a.rid = b.rid where uid = #{uid}
+        union
+      select * from rooms a right outer join participation_room b
      	on a.rid = b.rid where uid = #{uid}
      </select>
 
      <select id="getRoomByAdmin" resultType="com.attendU.dev.microservices.bean.Room">
-     	select a.rid, a.Name, a.participationNum from rooms a inner join admin b
+     	select * from rooms a inner join admin b
      	on a.rid = b.rid where uid = #{adminId}
      </select>
 

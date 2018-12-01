@@ -13,17 +13,27 @@
   <select id="getActivitybyId" resultType="com.attendU.dev.microservices.bean.Activity">
 		select * from activities where aid= #{aid}
   </select>
+
   <select id="getActivitybyName" resultType="com.attendU.dev.microservices.bean.Activity">
-		select * from activities where name= #{name}
-  </select>
-  <select id="getActivityByConfigId" resultType="map">
-     	select * from activities where acid = #{acid}
+		select * from activities where name like '%#{name}%'
   </select>
 
+  <select id="getCreatedAID" resultType="int">
+    select LAST_INSERT_ID()
+  </select>
+
+  <select id="getActivityByRoom" resultType="com.attendU.dev.microservices.bean.Activity">
+    select * from 
+    ra_link inner join activities 
+    on ra_link.aid = activities.aid 
+    where rid = #{rid};
+  </select>
+     
   <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
 		insert into activities (Name, Date, acid)
 		values (#{Name}, #{Date}, #{acid})
   </insert>
+  
   
   <delete id="removeActivity">  
         delete from activities where aid = #{aid}  
@@ -42,4 +52,20 @@
 
    
 
+  <update id="startActivity">
+        update activities set
+        started = 1
+        where aid = #{aid} and started = 0
+  </update>
+
+  <update id="endActivity">
+        update activities set 
+        started = 0
+        where aid = #{aid} and started = 1
+  </update>
+
+	<insert id="updateParticipation">
+		insert into participation_activity (uid, rid, aid)
+		values (#{uid}, #{rid}, #{aid})
+	</insert>
 </mapper>
