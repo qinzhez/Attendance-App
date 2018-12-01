@@ -47,6 +47,9 @@
                 });
         }
 
+        function goCreate(){
+            $location.path("/home/activity/createActivity");
+        }
 
         function getActivityList() {
             ActivityService.getActivityByRoom(vm.room.rid)
