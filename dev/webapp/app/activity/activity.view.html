@@ -37,8 +37,8 @@
                 <td width=160px>{{x.name}}</td>
                 <td width=160px></td> <!-- originally its {{x.date}} -->
                 <td width=160px>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="vm.startActivity(false, x.aid)">toggle_off</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin && x.started==0"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin && x.started==1"><a ng-click="vm.startActivity(false, x.aid)">toggle_off</a></i>
                 </td>
                 <td width=160px>
                     <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box</a></i>
