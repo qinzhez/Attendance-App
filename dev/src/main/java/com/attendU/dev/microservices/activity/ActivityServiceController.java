@@ -1,8 +1,6 @@
 package com.attendU.dev.microservices.activity;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,8 +29,8 @@ public class ActivityServiceController {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private ActivityMapper activityMapper;
-	private SqlSession sqlSession;
+	private static ActivityMapper activityMapper;
+	private static SqlSession sqlSession;
 
 	public ActivityServiceController() {
 		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
@@ -39,32 +38,29 @@ public class ActivityServiceController {
 	}
 	
 	@RequestMapping(value = "/aid/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Activity> getUser(@PathVariable String id) {
-		Activity activity = activityMapper.getActivityById(Long.parseLong(id));
+	public ResponseEntity<List<Activity>> getActivityById(@PathVariable String id) {
+		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(id));
 		if (activity == null)
-			return new ResponseEntity<Activity>(activity, HttpStatus.NOT_FOUND);
-		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+			return new ResponseEntity<List<Activity>>(activity, HttpStatus.OK);
+		return new ResponseEntity<List<Activity>>(activity, HttpStatus.OK);
 
 	}
 	
 	@RequestMapping(value = "/activityname/{name}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getActivityByName(@PathVariable String name) {
-		Activity activity = activityMapper.getActivitybyName(name);
-		if (activity == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public @ResponseBody List<Activity> getActivityByName(@PathVariable String name) {
+		return activityMapper.getActivitybyName(name);
 	}
 	
-	@RequestMapping(value = "/findRoomByConfigId/{acid}", method = RequestMethod.GET)
-	public List<Map<String, Object>> getActivityByConfigId(long acid) {
-		return activityMapper.getActivityByConfigId(acid);
+	@RequestMapping(value = "/getActivityList/{rid}", method = RequestMethod.GET)
+	public @ResponseBody List<Activity> getActivityByRoom(@PathVariable long rid) {
+		return activityMapper.getActivityByRoom(rid);
 	}
-	
+
 	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)
-	public ResponseEntity<Object> createActivity(@RequestBody Activity reg) {
+	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid, @PathVariable Long rid, @RequestBody Activity reg) {
 		// sanity check
 				boolean check = true;
-				if (reg != null) {	
+				if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {	
 					if (reg.getName() == null || reg.getDate() == null)
 						check = false;
 				}
@@ -72,37 +68,60 @@ public class ActivityServiceController {
 					check = false;
 				if (check) {
 					try {
-						int ret = activityMapper.createActivity(reg);
+						check = false;
+						int ret = activityMapper.createActivity(uid, rid, reg);
+						reg.setAid(activityMapper.getCreatedAID().longValue());
+						activityMapper.updateParticipation(uid, rid, reg.getAid());
 						check = (ret == 1) ? true : false;
 						sqlSession.commit();
 					} catch (Exception e) {
 						sqlSession.rollback();
 						log.error(e);
+						check = false;
 					}
 				}
 				if (check) 
-					return new ResponseEntity<>(HttpStatus.OK);
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+					return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/removeActivity", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> removeActivity(long aid) {
-		Activity activity = activityMapper.getActivityById(aid);
+	@RequestMapping(value = "/removeActivity", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> removeActivity(long aid) {
+		List<Activity> activity = activityMapper.getActivityById(aid);
 		if (activity != null) {
 			activityMapper.removeActivity(aid);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/updateActivity", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateActivity(long aid, String name, Date date, Long acid) {
-		Activity activity = activityMapper.getActivityById(aid);
-		if (activity != null) {
-			activityMapper.updateActivity(aid, name, date, acid);	
-			return new ResponseEntity<>(HttpStatus.OK);
+	@RequestMapping(value = "/updateActivity", method = RequestMethod.POST)
+	public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
+		List<Activity> activity_get = activityMapper.getActivityById(activity.getAid());
+		if (activity_get != null) {
+			activityMapper.updateActivity(activity);	
+			return new ResponseEntity<Activity>(activity, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/startActivity/{aid}", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> startActivity(@PathVariable Long aid){
+		List<Activity> activity = activityMapper.getActivityById(aid);
+		if (activity != null){
+			activityMapper.startActivity(aid);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/endActivity/{aid}", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> endActivity(@PathVariable Long aid){
+		List<Activity> activity = activityMapper.getActivityById(aid);
+		if (activity != null){
+			activityMapper.endActivity(aid);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
 }

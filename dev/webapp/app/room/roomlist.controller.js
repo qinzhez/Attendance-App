@@ -14,12 +14,12 @@
         vm.admittedRooms = {};
         vm.newRoom = {};
         vm.editRoom = {};
+        vm.showManageList = false;
         vm.createLoading=false;
 
         // functions
         vm.getRooms = getRooms;
         vm.roomChosen = roomChosen;
-        vm.getRoomsParticipant = getRoomsParticipant;
         vm.register = register;
         vm.goCreate = goCreate;
         vm.getAdminList = getAdminList;
@@ -65,10 +65,6 @@
         function roomChosen(selectedRoom){
             StateService.room.selectedRoom = selectedRoom;
             $location.path("/home/activity");
-        }
-
-        function getRoomsParticipant(){
-            
         }
         
         function getRooms(){
