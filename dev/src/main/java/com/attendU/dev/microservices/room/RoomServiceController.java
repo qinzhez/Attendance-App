@@ -56,11 +56,11 @@ public class RoomServiceController {
 	}
 
 	@RequestMapping(value = "/roomName/{name}", method = RequestMethod.GET)
-	public ResponseEntity<Boolean> getRoomByName(@PathVariable String name) {
+	public ResponseEntity<Room> getRoomByName(@PathVariable String name) {
 		Room room = roomMapper.getRoombyName(name);
 		if (room == null)
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			return new ResponseEntity<Room>(room, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getRoomByAdmin/{adminId}", method = RequestMethod.GET)
