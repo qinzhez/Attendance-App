@@ -8,14 +8,14 @@
     ActivityService.$inject = ['$http', '$timeout', '$q','StateService'];
     function ActivityService($http, $timeout, $q, StateService) {
     	var backend = StateService.server.backend;
-		var activityPort = StateService.server.activityPort;
-		
+        var activityPort = StateService.server.activityPort;
+        
         var service = {};
 
         service.CreateActivity = CreateActivity;
         service.getActivityByRoom = getActivityByRoom;
         service.StartActivity = StartActivity;
-       	
+        
         return service;
 
 		function CreateActivity(uid, rid, info) {
@@ -34,6 +34,8 @@
         function getActivityByRoom(id){
             return $http.get('http://'+backend+':'+activityPort+'/activity/getActivityList/'+id).then(handleReponse);
         }
+
+        
 
         // private functions
 

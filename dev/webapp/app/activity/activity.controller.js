@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['Flash', '$location','$window', '$q', 'ActivityService', 'StateService'];
-    function ActivityController(Flash, $location, $window, $q, ActivityService, StateService) {
+    ActivityController.$inject = ['Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
+    function ActivityController(Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
         
         var deffered = $q.defer();
         var promise = deffered.promise;
@@ -22,6 +22,7 @@
         vm.dataLoading = false;
         vm.getActivityList = getActivityList;
         vm.startActivity = startActivity;
+        vm.checkin = checkin;
         
         (function init(){ 
             if(vm.room == null || vm.room == undefined){   
@@ -64,6 +65,11 @@
         function startActivity(status, id) {
             ActivityService.StartActivity(status, id);
         };
+
+        function checkin(id){
+            CheckinService.checkin(vm.room.rid, id,
+                               StateService.user.CurrentUid);
+        }
 
         promise.then(function(response){
             if(response.status == 200 && response.data != null && response.data.length > 0) {
