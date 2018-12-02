@@ -6,7 +6,10 @@
 
 <mapper namespace="com.attendU.dev.microservices.checkin.CheckinMapper">
 
-
-
+<update id="updateStatus" >
+        update participation_activity set
+        Attendance = #{Attendance}, absentReason = #{absentReason}
+        where uid = #{rid}, rid= #{rid}, aid =#{aid}
+    </update>
 
 </mapper>
