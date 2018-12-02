@@ -11,9 +11,5 @@
 		values (#{rid}, #{aid}, #{uid})
 	</insert>
 	
-	<select id="checkinInfo" resultType="com.attendU.dev.microservices.bean.Checkin">
-		select * from checkin 
-		where rid=#{rid} and aid=#{aid} and uid=#{uid}
-	
-	</select>
+
 </mapper>

@@ -31,9 +31,9 @@ public interface ActivityMapper {
 	
 	public Integer getCreatedAID();
 
-	public Integer startActivity(String aid);
+	public Integer startActivity(Long aid);
 	
-	public Integer endActivity(String aid);
+	public Integer endActivity(Long aid);
 
 }
 

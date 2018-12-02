@@ -109,7 +109,7 @@ public class ActivityServiceController {
 	public ResponseEntity<Boolean> startActivity(@PathVariable String aid){
 		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));
 		if (activity != null){
-			activityMapper.startActivity(aid);
+			activityMapper.startActivity(Long.parseLong(aid));
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
@@ -119,7 +119,7 @@ public class ActivityServiceController {
 	public ResponseEntity<Boolean> endActivity(@PathVariable String aid){
 		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));
 		if (activity != null){
-			activityMapper.endActivity(aid);
+			activityMapper.endActivity(Long.parseLong(aid));
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
