@@ -61,7 +61,7 @@
     	delete from participation_room where rid = #{rid} and uid = #{uid}
     </delete>
 
-    <select id="getActivityByRid">
+    <select id="getActivityByRid" resultType="long">
     	select aid from ra_link where rid=#{rid};
     </select>
 
@@ -73,10 +73,7 @@
     </delete>
 
     <delete id="removeRoomLinking">
-    	delete from admin where rid=#{rid};
-    	delete from participation_activity where rid=#{rid};
-    	delete from participation_room where rid=#{rid};
-    	delete from ra_link where rid=#{rid};
+    	delete from admin where rid=#{rid};delete from participation_activity where rid=#{rid};delete from participation_room where rid=#{rid};delete from ra_link where rid=#{rid};
     </delete>
 
 

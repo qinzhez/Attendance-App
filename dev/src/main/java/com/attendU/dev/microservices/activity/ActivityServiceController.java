@@ -40,7 +40,7 @@ public class ActivityServiceController {
 
 	@RequestMapping(value = "/isAdmin/{uid}/{rid}", method = RequestMethod.GET)
 	public ResponseEntity<Boolean> isAdmin(@PathVariable Long uid, @PathVariable Long rid) {
-		Boolean isAdmin = activityMapper.isAdmin(uid,rid);
+		Boolean isAdmin = activityMapper.isAdmin(uid, rid);
 		if (isAdmin == null || !isAdmin.booleanValue())
 			return new ResponseEntity<Boolean>(isAdmin, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<Boolean>(isAdmin, HttpStatus.OK);
@@ -84,40 +84,47 @@ public class ActivityServiceController {
 		return activityMapper.getActivityByRoom(rid);
 	}
 
-	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)//delete @PathVariable Long uid, @PathVariable Long rid
-	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid,@PathVariable Long rid, @RequestBody Activity reg) {
-				boolean check = true;
-				if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {
-					if (reg.getName() == null || reg.getDate() == null)
-						check = false;
-				} else
-					check = false;
+	@RequestMapping(value = "/createActivity/{uid}/{rid}", method = RequestMethod.POST) // delete @PathVariable Long
+																						// uid, @PathVariable Long rid
+	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid, @PathVariable Long rid,
+			@RequestBody Activity reg) {
+		boolean check = true;
+		if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {
+			if (reg.getName() == null || reg.getDate() == null)
+				check = false;
+		} else
+			check = false;
 
-				if (check) {
-					try {
-						check = false;
-						int ret = activityMapper.createActivity(uid, rid, reg);
-						reg.setAid(activityMapper.getCreatedAID().longValue());
-						activityMapper.updateParticipation_activity(uid, rid, reg.getAid());
-						activityMapper.updateRALink(rid, reg.getAcid());
-						sqlSession.commit();
-						check = (ret == 1) ? true : false;
-					} catch (Exception e) {
-						sqlSession.rollback();
-						log.error(e);
-						check = false;
-					}
-				}
-				if (check)
-					return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		if (check) {
+			try {
+				check = false;
+				int ret = activityMapper.createActivity(reg);
+				reg.setAid(activityMapper.getCreatedAID().longValue());
+				activityMapper.updateParticipation_activity(uid, rid, reg.getAid());
+				activityMapper.updateRALink(rid, reg.getAid());
+				sqlSession.commit();
+				check = (ret == 1) ? true : false;
+			} catch (Exception e) {
+				sqlSession.rollback();
+				log.error(e);
+				check = false;
+			}
+		}
+		if (check)
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/removeActivity", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> removeActivity(long aid) {
 		List<Activity> activity = activityMapper.getActivityById(aid);
 		if (activity != null) {
-			activityMapper.removeActivity(aid);
+			try {
+				activityMapper.removeActivity(aid);
+				sqlSession.commit();
+			} catch (Exception e) {
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			}
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
@@ -127,29 +134,37 @@ public class ActivityServiceController {
 	public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
 		List<Activity> activity_get = activityMapper.getActivityById(activity.getAid());
 		if (activity_get != null) {
-			activityMapper.updateActivity(activity);
-			return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+			try {
+				activityMapper.updateActivity(activity);
+				sqlSession.commit();
+				return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+			} catch (Exception e) {
+			}
+
 		}
 		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/startActivity/{aid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> startActivity(@PathVariable String aid){
-		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));
-		if (activity != null){
+	public ResponseEntity<Boolean> startActivity(@PathVariable String aid) {
+		try {
 			activityMapper.startActivity(aid);
+			sqlSession.commit();
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/endActivity/{aid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> endActivity(@PathVariable String aid){
-		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));
-		if (activity != null){
+	public ResponseEntity<Boolean> endActivity(@PathVariable String aid) {
+		try {
 			activityMapper.endActivity(aid);
+			sqlSession.commit();
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+
 	}
 }

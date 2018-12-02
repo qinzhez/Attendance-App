@@ -26,8 +26,8 @@
   </select>
 
   <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
-		insert into activities (Name, Date, acid)
-		values (#{Name}, #{Date}, #{acid})
+		insert into activities (Name, Date, acid,description)
+		values (#{Name}, #{Date}, #{acid}, #{description})
   </insert>
 
 

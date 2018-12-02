@@ -17,10 +17,8 @@
     	vm.user = {};
     	vm.room = {};
         vm.activity = {};
+        vm.newActivity = {};
         vm.room = StateService.room.selectedRoom;
-        StateService.room.selectedRoom = null;
-        if(vm.room != undefined && vm.room != null)
-            vm.activity = StateService.activity.selectedActivity;
         
         vm.register = register;
         vm.dataLoading = false;
@@ -82,18 +80,21 @@
         function register() {
             vm.dataLoading = true;
 			
-            ActivityService.CreateActivity(vm.user.CurrentUid, vm.room.CurrentRid, vm.activity)
+            ActivityService.CreateActivity(vm.user.CurrentUid, vm.room.rid, vm.newActivity)
                 .then(function (response) {
                     if (response.status == 200 && response.data == true) {
+                        StateService.room.selectedRoom = vm.room;
+                        $location.path("/home/activity");
                     } else {
-                        vm.dataLoading = false;
+                       
                     }
+                    vm.dataLoading = false
                 });
         }
 
         function goCreate(){
             StateService.room.selectedRoom = vm.room;
-            StateService.activity.selectedActivity = vm.activity;
+            vm.activity = {};
             $location.path("/home/activity/create");
         }
 
@@ -111,8 +112,13 @@
             });
         }
 
-        function startActivity(status, id) {
-            ActivityService.StartActivity(status, id);
+        function startActivity(status, row) {
+            ActivityService.StartActivity(status, row.aid)
+                .then(function(response){
+                    if(response.status == 200 && response.data == true){
+                        row.started = status;
+                    }
+                })
         };
 
         promise.then(function(response){

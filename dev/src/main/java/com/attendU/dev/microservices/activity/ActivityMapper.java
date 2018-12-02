@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.attendU.dev.microservices.bean.Activity;
 import com.attendU.dev.microservices.bean.Room;
@@ -12,7 +13,7 @@ import com.attendU.dev.microservices.bean.Room;
 @Mapper
 public interface ActivityMapper {
 
-    public Integer createActivity(Long uid, Long rid, Activity activity);
+    public Integer createActivity(Activity activity);
 
 	public Integer removeActivity(Long aid);
 
@@ -28,7 +29,7 @@ public interface ActivityMapper {
 
 	public Integer updateParticipation_activity(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
 
-	public Integer updateRALink(Long rid, Long aid);
+	public Integer updateRALink(@Param("rid") Long rid, @Param("aid") Long aid);
 
 	public Integer getCreatedAID();
 

@@ -64,7 +64,7 @@ angular.
           templateUrl: 'activity/activitysetting.view.html'
         }).
       state('home.createActivity',{
-        url: '/activity/create',
+        url: '/activity/create?enterRID&enterAID',
         controller: 'ActivityController',
         controllerAs: 'vm',
         templateUrl: 'activity/createactivity.view.html'

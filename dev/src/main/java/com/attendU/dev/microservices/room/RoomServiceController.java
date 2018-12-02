@@ -1,23 +1,22 @@
 package com.attendU.dev.microservices.room;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -25,8 +24,6 @@ import org.springframework.web.client.RestTemplate;
 import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.microservices.bean.TokenBean;
-import com.attendU.dev.microservices.bean.User;
-import com.attendU.dev.microservices.user.Token;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -131,12 +128,16 @@ public class RoomServiceController {
 		tmp.setUid(room.getAdminId());
 		tmp.setToken(room.getName());
 		try {
-			RequestEntity<TokenBean> requestEntity = new RequestEntity<TokenBean>(tmp, HttpMethod.POST, new URI("http://localhost:8004//user/validToken"));
-			ResponseEntity<Boolean> responseEntity = restTemplate
-					.exchange("http://localhost:8004//user/validToken", HttpMethod.POST, requestEntity,
-							new ParameterizedTypeReference<Boolean>() {});
-			pass = responseEntity.getBody();
+			RestTemplate rest = new RestTemplate();
+			List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+			MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+			MediaType[] array = {MediaType.APPLICATION_JSON};
+			converter.setSupportedMediaTypes(Arrays.asList(array));
+			messageConverters.add(converter);
+			rest.setMessageConverters(messageConverters);
+			pass = rest.postForObject("http://localhost:8004/user/validToken", tmp, Boolean.class);
 		}catch (Exception e) {
+			log.error(e);
 			pass = false;
 		}
 
@@ -155,7 +156,7 @@ public class RoomServiceController {
 				log.error(e);
 			}
 		}
-		if(deleted > 0 && !pass.booleanValue())
+		if(deleted > 0 && pass.booleanValue())
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
