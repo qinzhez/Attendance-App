@@ -21,4 +21,6 @@ public class Activity implements Serializable{
 	private Integer participationNum;
 	@Getter@Setter
 	private Integer started;
+	@Getter@Setter
+	private String description;
 }

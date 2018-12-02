@@ -6,7 +6,7 @@
 
 <mapper namespace="com.attendU.dev.microservices.room.RoomMapper">
 
-	 <select id="getCreatedRID" resultType="int">
+	 <select id="getCreatedRID" resultType="long">
     	select LAST_INSERT_ID()
      </select>
 
@@ -22,7 +22,7 @@
       select * from rooms where rooms.rid in (
          select a.rid from admin a left outer join participation_room b
                on a.rid = b.rid where a.uid = #{uid}
-               union 
+               union
          select b.rid from admin a right outer join participation_room b
                on a.rid = b.rid where b.uid = #{uid})
      </select>
@@ -60,5 +60,25 @@
     <delete id="quitRoom">
     	delete from participation_room where rid = #{rid} and uid = #{uid}
     </delete>
+
+    <select id="getActivityByRid">
+    	select aid from ra_link where rid=#{rid};
+    </select>
+
+    <delete id="removeActivities">
+    	delete from activities where aid in
+    	<foreach item="aid" index="index" collection="list" open="(" separator="," close=")">
+    	#{aid}
+    	</foreach>
+    </delete>
+
+    <delete id="removeRoomLinking">
+    	delete from admin where rid=#{rid};
+    	delete from participation_activity where rid=#{rid};
+    	delete from participation_room where rid=#{rid};
+    	delete from ra_link where rid=#{rid};
+    </delete>
+
+
 
 </mapper>

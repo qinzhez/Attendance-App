@@ -1,12 +1,16 @@
 package com.attendU.dev.microservices.room;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.microservices.bean.Room;
+import com.attendU.dev.microservices.bean.TokenBean;
+import com.attendU.dev.microservices.bean.User;
+import com.attendU.dev.microservices.user.Token;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -99,20 +106,10 @@ public class RoomServiceController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/removeRoom", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> removeRoom(long rid) {
-		Room room = roomMapper.getRoomById(rid);
-		if (room != null) {
-			roomMapper.removeRoom(rid);
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		}
-		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/quitRoom", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> quitRoom(@RequestBody Participation pt) {
 		int deleted = 0;
-		if(pt.getUid() != null && pt.getRid() != null && pt.getUid()>0 && pt.getRid()>0) {
+		if (pt.getUid() != null && pt.getRid() != null && pt.getUid() > 0 && pt.getRid() > 0) {
 			try {
 				deleted = roomMapper.quitRoom(pt.getUid(), pt.getRid());
 				sqlSession.commit();
@@ -121,7 +118,44 @@ public class RoomServiceController {
 				log.error(e);
 			}
 		}
-		if(deleted > 0)
+		if (deleted > 0)
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/removeRoom", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> removeRoom(@RequestBody Room room) {
+		int deleted = 0;
+		Boolean pass = false;
+		TokenBean tmp = new TokenBean();
+		tmp.setUid(room.getAdminId());
+		tmp.setToken(room.getName());
+		try {
+			RequestEntity<TokenBean> requestEntity = new RequestEntity<TokenBean>(tmp, HttpMethod.POST, new URI("http://localhost:8004//user/validToken"));
+			ResponseEntity<Boolean> responseEntity = restTemplate
+					.exchange("http://localhost:8004//user/validToken", HttpMethod.POST, requestEntity,
+							new ParameterizedTypeReference<Boolean>() {});
+			pass = responseEntity.getBody();
+		}catch (Exception e) {
+			pass = false;
+		}
+
+		if(room.getRid() != null && room.getRid()>0 && pass.booleanValue()) {
+			try {
+				// remove all activity
+				List<Long> activities = roomMapper.getActivityByRid(room.getRid());
+				roomMapper.removeActivities(activities);
+				// remove other tables with rid
+				roomMapper.removeRoomLinking(room.getRid());
+				// remove room
+				deleted = roomMapper.removeRoom(room.getRid());
+				sqlSession.commit();
+			} catch (Exception e) {
+				sqlSession.rollback();
+				log.error(e);
+			}
+		}
+		if(deleted > 0 && !pass.booleanValue())
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}

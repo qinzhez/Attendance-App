@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
+import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -25,7 +26,7 @@ import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 public class ActivityServiceController {
 
 	static private Logger log = Logger.getLogger(ActivityServiceController.class.getName());
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -36,21 +37,48 @@ public class ActivityServiceController {
 		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
 		activityMapper = sqlSession.getMapper(ActivityMapper.class);
 	}
-	
-	@RequestMapping(value = "/aid/{id}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/isAdmin/{uid}/{rid}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> isAdmin(@PathVariable Long uid, @PathVariable Long rid) {
+		Boolean isAdmin = activityMapper.isAdmin(uid,rid);
+		if (isAdmin == null || !isAdmin.booleanValue())
+			return new ResponseEntity<Boolean>(isAdmin, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Boolean>(isAdmin, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/getActivity/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<Activity>> getActivityById(@PathVariable String id) {
 		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(id));
 		if (activity == null)
-			return new ResponseEntity<List<Activity>>(activity, HttpStatus.OK);
+			return new ResponseEntity<List<Activity>>(activity, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<List<Activity>>(activity, HttpStatus.OK);
 
 	}
-	
+
+	@RequestMapping(value = "/getRoom/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Room> getRoomByAid(@PathVariable String id) {
+		Room room = activityMapper.getRoombyAid(Long.parseLong(id));
+		if (room == null)
+			return new ResponseEntity<Room>(room, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Room>(room, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/getRoom/rid/{rid}", method = RequestMethod.GET)
+	public ResponseEntity<Room> getRoomByRid(@PathVariable String rid) {
+		Room room = activityMapper.getRoombyRid(Long.parseLong(rid));
+		if (room == null)
+			return new ResponseEntity<Room>(room, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Room>(room, HttpStatus.OK);
+
+	}
+
 	@RequestMapping(value = "/activityname/{name}", method = RequestMethod.GET)
 	public @ResponseBody List<Activity> getActivityByName(@PathVariable String name) {
 		return activityMapper.getActivitybyName(name);
 	}
-	
+
 	@RequestMapping(value = "/getActivityList/{rid}", method = RequestMethod.GET)
 	public @ResponseBody List<Activity> getActivityByRoom(@PathVariable long rid) {
 		return activityMapper.getActivityByRoom(rid);
@@ -59,12 +87,12 @@ public class ActivityServiceController {
 	@RequestMapping(value = "/createActivity", method = RequestMethod.POST)//delete @PathVariable Long uid, @PathVariable Long rid
 	public ResponseEntity<Boolean> createActivity(@PathVariable Long uid,@PathVariable Long rid, @RequestBody Activity reg) {
 				boolean check = true;
-				if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {	
+				if (reg != null && uid != null && uid > 0 && rid != null && rid > 0) {
 					if (reg.getName() == null || reg.getDate() == null)
 						check = false;
 				} else
 					check = false;
-		
+
 				if (check) {
 					try {
 						check = false;
@@ -80,11 +108,11 @@ public class ActivityServiceController {
 						check = false;
 					}
 				}
-				if (check) 
+				if (check)
 					return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/removeActivity", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> removeActivity(long aid) {
 		List<Activity> activity = activityMapper.getActivityById(aid);
@@ -94,12 +122,12 @@ public class ActivityServiceController {
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/updateActivity", method = RequestMethod.POST)
 	public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
 		List<Activity> activity_get = activityMapper.getActivityById(activity.getAid());
 		if (activity_get != null) {
-			activityMapper.updateActivity(activity);	
+			activityMapper.updateActivity(activity);
 			return new ResponseEntity<Activity>(activity, HttpStatus.OK);
 		}
 		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
@@ -114,7 +142,7 @@ public class ActivityServiceController {
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/endActivity/{aid}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> endActivity(@PathVariable String aid){
 		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(aid));

@@ -33,5 +33,11 @@ public interface RoomMapper {
 
 	public Integer quitRoom(@Param("uid") Long uid, @Param("rid") Long rid);
 
+	public List<Long> getActivityByRid(Long rid);
+
+	public Integer removeActivities(List<Long> aids);
+
+	public Integer removeRoomLinking(Long rid);
+
 }
 

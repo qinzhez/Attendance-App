@@ -17,6 +17,7 @@
         service.getRoomByUid = getRoomByUid;
         service.UpdateRoomInfo = UpdateRoomInfo;
         service.quitRoom = quitRoom;
+        service.removeRoom = removeRoom;
 		
         return service;
 
@@ -43,6 +44,11 @@
         function quitRoom(uid, rid) {
             var info = { rid:rid, uid: uid};
             return $http.post('http://'+backend+':'+roomPort+'/room/quitRoom', info).then(handleReponse);      
+        }
+
+        function removeRoom(uid,rid,token){
+            var info = { rid:rid, adminId:uid, name:token};
+            return $http.post('http://'+backend+':'+roomPort+'/room/removeRoom', info).then(handleReponse);
         }
 
         // private functions

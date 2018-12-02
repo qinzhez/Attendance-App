@@ -18,6 +18,8 @@
         vm.createLoading=false;
 
         // functions
+        vm.goRooms = goRooms;
+        vm.goAdmittedRooms = goAdmittedRooms;
         vm.getRooms = getRooms;
         vm.roomChosen = roomChosen;
         vm.register = register;
@@ -27,6 +29,7 @@
         vm.goConfig = goConfig;
         vm.showConfig = showConfig;
         vm.quitRoom = quitRoom;
+        vm.removeRoom = removeRoom;
 
         (function init(){//asynchronous
             vm.newRoom = null;
@@ -66,6 +69,11 @@
             $location.path("/home/activity");
         }
         
+        function goRooms(){
+            vm.showManageList = false;
+            getRooms();
+        }
+
         function getRooms(){
             RoomService.getRoomByUid(StateService.user.CurrentUid)
             .then(function (response){
@@ -76,6 +84,11 @@
 
         function goCreate(){
             $location.path("/home/room/createRoom");
+        }
+
+        function goAdmittedRooms(){
+            vm.showManageList = true;
+            getAdminList();
         }
 
         function getAdminList(){
@@ -139,7 +152,17 @@
                         refreshList();
                     else
                         FlashService.Error("Quit "+selectedRoom.name+" failed");
-                })
+                });
+        }
+
+        function removeRoom(selectedRoom){
+            RoomService.removeRoom(vm.user.CurrentUid, selectedRoom.rid, vm.user.CurrentUser.token)
+                .then(function(response){
+                    if(response.data == true && response.status == 200)
+                        refreshList();
+                    else
+                        FlashService.Error("Remove"+selectedRoom.name+"failed");
+                });
         }
 
         promise.then(function(response){
