@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.junit.runners.Parameterized.Parameters;
 
 import com.attendU.dev.microservices.bean.Activity;
 import com.attendU.dev.microservices.bean.Room;
@@ -33,9 +32,9 @@ public interface ActivityMapper {
 
 	public Integer getCreatedAID();
 
-	public Integer startActivity(String aid);
-
-	public Integer endActivity(String aid);
+	public Integer startActivity(Long aid);
+	
+	public Integer endActivity(Long aid);
 
 	public Room	getRoombyAid(Long aid);
 

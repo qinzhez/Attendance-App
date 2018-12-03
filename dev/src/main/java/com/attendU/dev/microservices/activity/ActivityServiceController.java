@@ -173,7 +173,7 @@ public class ActivityServiceController {
 	}
 
 	@RequestMapping(value = "/startActivity/{aid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> startActivity(@PathVariable String aid) {
+	public ResponseEntity<Boolean> startActivity(@PathVariable Long aid) {
 		try {
 			activityMapper.startActivity(aid);
 			sqlSession.commit();
@@ -184,7 +184,7 @@ public class ActivityServiceController {
 	}
 
 	@RequestMapping(value = "/endActivity/{aid}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> endActivity(@PathVariable String aid) {
+	public ResponseEntity<Boolean> endActivity(@PathVariable Long aid) {
 		try {
 			activityMapper.endActivity(aid);
 			sqlSession.commit();

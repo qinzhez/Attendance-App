@@ -63,7 +63,7 @@ public class RoomServiceController {
 	public ResponseEntity<Room> getRoomByName(@PathVariable String name) {
 		Room room = roomMapper.getRoombyName(name);
 		if (room == null)
-			return new ResponseEntity<Room>(room, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Room>(room, HttpStatus.OK);
 		return new ResponseEntity<Room>(room, HttpStatus.OK);
 	}
 

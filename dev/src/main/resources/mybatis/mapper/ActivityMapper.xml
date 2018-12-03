@@ -19,10 +19,14 @@
   </select>
 
   <select id="getActivityByRoom" resultType="com.attendU.dev.microservices.bean.Activity">
-    select * from
-    ra_link inner join activities
-    on ra_link.aid = activities.aid
-    where rid = #{rid};
+      
+      select * from
+      ra_link a inner join activities b
+      on a.aid = b.aid 
+      left outer join participation_activity c 
+      on b.aid = c.aid
+      where a.rid = #{rid};
+
   </select>
 
   <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">

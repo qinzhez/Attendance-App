@@ -25,4 +25,8 @@ public class Activity implements Serializable{
 	private String description;
 	@Getter@Setter
 	private Date due;
+	@Getter@Setter
+	private Integer Attendance;
+	@Getter@Setter
+	private Date createTime;
 }

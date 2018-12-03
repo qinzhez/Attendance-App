@@ -5,9 +5,9 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['$rootScope','$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService'];
-    function ActivityController($rootScope, $stateParams, Flash, $location, $window, $q, ActivityService, StateService) {
-        
+    ActivityController.$inject = ['$rootScope','$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
+    function ActivityController($rootScope, $stateParams, Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
+
         var deffered = $q.defer();
         var promise = deffered.promise;
         //create activity
@@ -25,6 +25,8 @@
         vm.dataLoading = false;
         vm.getActivityList = getActivityList;
         vm.startActivity = startActivity;
+        vm.checkin = checkin;
+        vm.getCheckinInfo = getCheckinInfo;
         vm.goCreate = goCreate;
         vm.goConfig = goConfig;
         vm.updateActivity = updateActivity;
@@ -157,6 +159,26 @@
                         //FlashService.Error("Cannot find any room");
                     }
                 });
+        }
+
+        function checkin(row){
+            CheckinService.checkin(StateService.user.CurrentUid, vm.room.rid, row.aid)
+                .then(function(response){
+                    if(response.status == 200 && response.data == true){
+                        row.attendance = 1;
+                    }
+                    getActivityList();
+            });
+            
+        }
+
+        function getCheckinInfo(row){
+            CheckinService.getCheckinInfo(StateService.user.CurrentUid,
+                                            vm.room.rid, row.aid).then(function(response){
+                if(response.data != null && response.status == 200){
+                    
+                }
+        });
         }
 
         promise.then(function(response){

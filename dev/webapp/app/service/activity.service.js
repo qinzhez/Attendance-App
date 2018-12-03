@@ -8,8 +8,8 @@
     ActivityService.$inject = ['$http', '$timeout', '$q','StateService'];
     function ActivityService($http, $timeout, $q, StateService) {
     	var backend = StateService.server.backend;
-		var activityPort = StateService.server.activityPort;
-		
+        var activityPort = StateService.server.activityPort;
+        
         var service = {};
 
         service.getRoomByAid = getRoomByAid;
