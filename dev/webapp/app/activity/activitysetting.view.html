@@ -4,56 +4,39 @@
   		<li><a ui-sref="home.configRoom">Room Setting</a></li>
   		<li class="active"><a ui-sref="home.activity">Activity Setting</a></li>
 	</ul>
-    <form name="form" ng-submit="vm.congfigRoom()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <h4 style = "color:#FFFFFF;"><label for="roomname" style="cursor: default;">Activity name</label></h4>
-            <input type="text" name="roomname" id="roomname" class="form-control" ng-model="vm.editRoom.name" required />
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <h4 style = "color:#FFFFFF;"><label for="participationnum" style="cursor: default;">Participation number</label></h4>
-            <input type="text" name="participationnum" id="participationnum" class="form-control" ng-model="vm.editRoom.participationNum" required />
-        </div>
-       	<div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <h4 style = "color:#FFFFFF;"><label for="participationnum" style="cursor: default;">Start date</label></h4>
-            <input type="text" name="participationnum" id="participationnum" class="form-control" ng-model="vm.editRoom.participationNum" required />
-        </div>
-        <div class = "textarea">
-        	<h4 style = "color:#FFFFFF;"><label for="roomDescription" style="cursor: default;">Activity description</label></h4>
-			<textarea rows="7" name = "activityDescription" id = "activityDescription" style = "width:700px" ng-model=""></textarea>
-		</div>
-		<div>
-        
-        <br/>
-		<div>
-			<button type="submit" class="btn btn-primary">Complete</button>
-            <a ui-sref="home.room"><button class = "btn btn-primary">Cancel</button></a>
-		</div>
-    </form>
+    
+    <button type="button" class="btn btn-primary" ng-click="vm.goCreate()" ng-disable="vm.user==null"><a style = "color:white;">Add new activity</a></button>
 
-  <!--    <div class = "activitytable">
+    <div class = "activitytable">
         <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
             <tr>
                 <td>Activity ID</td>
                 <td>Activity name</td>
+                <!--  <td>Starting Time</td> -->
                 <td>Number of participates</td>
-                <td>Publish</td>
+                <td>Configure</td>
+                <td>Enable</td>
                 <td>Delete</td>
             </tr>
-            <tr ng-repeat="x in vm.room">
+            <tr ng-repeat="x in vm.activity">
                 <td width=50px>{{x.aid}}</td>
-                <td width=250px><a herf="" ng-click="vm.roomChosen(x.id)">{{x.name}}</a></td>
-                <td width=100px>{{x.participationNum}}</td>
+                <td width=100px>{{x.name}}</td>
+                <!--  <td width=100px>{{x.date}}</td> -->
+                <td width=50px>{{x.participationNum}}</td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_on</a></i>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">toggle_off</a></i>
+                    <i class="material-icons " ng-click="vm.goConfig()" style="cursor: pointer;">settings</i>
                 </td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="x.isAdmin"><a ng-click="">delete</a></i>
+                    <i class="material-icons md-48" ng-show="!x.started" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
+                    <i class="material-icons md-48" ng-show="x.started" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
+                </td>
+                <td width=50px>
+                    <i class="material-icons" style="cursor: pointer;" ng-click="vm.removeRoom(x)">delete</i>
                 </td>
             </tr>
         </table>
     </div>
 </div> 
 
--->
+
 

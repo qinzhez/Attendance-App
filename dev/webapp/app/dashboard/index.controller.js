@@ -15,7 +15,7 @@
             var hasCookies = AuthenticationService.HasCredentials();
 
             if(hasCookies){
-                $location.path('/home');
+                $location.path('/home/dashboard');
             }
         })();
 

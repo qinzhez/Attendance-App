@@ -17,7 +17,7 @@ public interface ActivityMapper {
 
 	public Integer removeActivity(Long aid);
 
-	public Void updateActivity(Activity activity);
+	public Integer updateActivity(Activity activity);
 
 	public List<Activity> getActivityById(Long aid);
 

@@ -16,7 +16,6 @@
         vm.editRoom = {};
         vm.showManageList = false;
         vm.createLoading=false;
-        StateService.room.selectedRoom = null;
 
         // functions
         vm.goRooms = goRooms;
@@ -130,15 +129,17 @@
                     vm.dataLoading = false;
                 }
             });
-        };
+        }
 
         function showConfig() {
             if(StateService.room.selectedRoom == undefined || StateService.room.selectedRoom == null)
                 $location.path("/home/room");
-            if(!StateService.room.selectedRoom.hasOwnProperty("rid"))
-                $location.path("/home/room");
-            vm.editRoom = StateService.room.selectedRoom;
-            StateService.room.selectedRoom = null;
+            else{
+                if(!StateService.room.selectedRoom.hasOwnProperty("rid"))
+                    $location.path("/home/room");
+                vm.editRoom = StateService.room.selectedRoom;
+                StateService.room.selectedRoom = null;
+            }
             
         }
 

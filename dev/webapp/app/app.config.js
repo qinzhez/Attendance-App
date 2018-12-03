@@ -32,7 +32,13 @@ angular.
         controllerAs: 'vm',
         templateUrl: 'dashboard/home.html'
       }).
-       state('home.room',{
+      state('home.dash',{
+        controller: 'DashboardController',
+        controllerAs: 'vm',
+        url: '/dashboard',
+        templateUrl: 'dashboard/dashboard.view.html'
+      }).
+      state('home.room',{
         controller: 'RoomListController',
         controllerAs: 'vm',
         url: '/room',
@@ -58,7 +64,7 @@ angular.
         templateUrl: 'activity/activity.view.html'
       }).
       state('home.activitysetting',{
-          url: '/activity/setting',
+          url: '/activity/setting?enterRID',
           controller: 'ActivityController',
           controllerAs: 'vm',
           templateUrl: 'activity/activitysetting.view.html'
@@ -70,8 +76,10 @@ angular.
         templateUrl: 'activity/createactivity.view.html'
       }).
       state('home.configActivity',{
-        url: '/configActivity',
-        templateUrl: 'login/register.view.html'
+        url: '/activity/config?enterRID&enterAID',
+        controller: 'ActivityController',
+        controllerAs: 'vm',
+        templateUrl: 'activity/configActivity.view.html'
       }).
       state('home.withRID', {
         url: '/home/room/withId/:rid'

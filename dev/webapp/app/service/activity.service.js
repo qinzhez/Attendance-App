@@ -19,6 +19,8 @@
         service.getActivityByRoom = getActivityByRoom;
         service.StartActivity = StartActivity;
         service.isAdmin = isAdmin;
+        service.updateActivity = updateActivity;
+        service.removeActivity = removeActivity;
        	
         return service;
 
@@ -65,6 +67,18 @@
 
         function getActivityByRoom(id){
             return $http.get('http://'+backend+':'+activityPort+'/activity/getActivityList/'+id).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function updateActivity(activity){
+            return $http.post('http://'+backend+':'+activityPort+'/activity/updateActivity', activity).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function removeActivity(activity){
+             return $http.post('http://'+backend+':'+activityPort+'/activity/removeActivity', activity).then(handleReponse , function(){
                 return {status: 200, data:null};
             });
         }

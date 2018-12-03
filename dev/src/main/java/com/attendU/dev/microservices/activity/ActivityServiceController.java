@@ -1,12 +1,17 @@
 package com.attendU.dev.microservices.activity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
 import com.attendU.dev.microservices.bean.Room;
+import com.attendU.dev.microservices.bean.TokenBean;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -49,10 +55,17 @@ public class ActivityServiceController {
 
 	@RequestMapping(value = "/getActivity/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<Activity>> getActivityById(@PathVariable String id) {
-		List<Activity> activity = activityMapper.getActivityById(Long.parseLong(id));
-		if (activity == null)
+		List<Activity> activity = null;
+		try {
+			activity = activityMapper.getActivityById(Long.parseLong(id));
+			if (activity == null)
+				return new ResponseEntity<List<Activity>>(activity, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<Activity>>(activity, HttpStatus.OK);
+		} catch (Exception e) {
+			sqlSession.close();
+			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
 			return new ResponseEntity<List<Activity>>(activity, HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<List<Activity>>(activity, HttpStatus.OK);
+		}
 
 	}
 
@@ -116,33 +129,47 @@ public class ActivityServiceController {
 	}
 
 	@RequestMapping(value = "/removeActivity", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> removeActivity(long aid) {
-		List<Activity> activity = activityMapper.getActivityById(aid);
-		if (activity != null) {
-			try {
-				activityMapper.removeActivity(aid);
-				sqlSession.commit();
-			} catch (Exception e) {
+	public ResponseEntity<Boolean> removeActivity(@RequestBody Activity activity) {
+		int deleted = 0;
+		Boolean pass = false;
+		TokenBean tmp = new TokenBean();
+		tmp.setUid(activity.getAcid());
+		tmp.setToken(activity.getName());
+		try {
+			RestTemplate rest = new RestTemplate();
+			List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+			MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+			MediaType[] array = {MediaType.APPLICATION_JSON};
+			converter.setSupportedMediaTypes(Arrays.asList(array));
+			messageConverters.add(converter);
+			rest.setMessageConverters(messageConverters);
+			pass = rest.postForObject("http://localhost:8004/user/validToken", tmp, Boolean.class);
+
+			if(activity.getAid() != null && activity.getAid()>0 && pass.booleanValue())
+				deleted = activityMapper.removeActivity(activity.getAid());
+			sqlSession.commit();
+			if (deleted == 1)
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			else
 				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-			}
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+
 	}
 
 	@RequestMapping(value = "/updateActivity", method = RequestMethod.POST)
-	public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
-		List<Activity> activity_get = activityMapper.getActivityById(activity.getAid());
-		if (activity_get != null) {
-			try {
-				activityMapper.updateActivity(activity);
-				sqlSession.commit();
-				return new ResponseEntity<Activity>(activity, HttpStatus.OK);
-			} catch (Exception e) {
-			}
-
+	public ResponseEntity<Boolean> updateActivity(@RequestBody Activity activity) {
+		try {
+			int updated = activityMapper.updateActivity(activity);
+			sqlSession.commit();
+			if (updated == 1)
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		return new ResponseEntity<Activity>(activity, HttpStatus.OK);
+
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/startActivity/{aid}", method = RequestMethod.POST)

@@ -25,7 +25,7 @@
                 else{
                     UserService.GetUserByUid(StateService.user.CurrentUid).then(
                         function(reponse){
-                            if(reponse.status == 200 && reponse.data.uid>0)
+                            if(reponse.status == 200 && reponse.data.uid>0){
                                 StateService.user.CurrentUser = reponse.data;
                                 vm.userLoaded = true;
                                 vm.showName = StateService.user.CurrentUser.firstName;
@@ -38,6 +38,8 @@
                                 if(StateService.activity.initdef != undefined ||
                                     StateService.activity.initdef != null)
                                     StateService.activity.initdef.resolve();
+                            }
+
                         });
                 }
             });
@@ -48,7 +50,7 @@
             
         vm.Logout = function(){
             AuthenticationService.ClearCredentials();
-             $location.path('/');
+            $location.path('/');
         };
 
     }

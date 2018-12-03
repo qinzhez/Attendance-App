@@ -10,8 +10,18 @@
 		
 		
 		<div class="form-group">
-            <label for="activityname" style = "color:#FFFFFF;">Due Date</label>
-            <input type="date" name="date" id="date" class="form-control" ng-model="vm.newActivity.date" />
+            <label for="activityname" style = "color:#FFFFFF;">Start time</label>
+            <input type="datetime-local" name="date" id="date" class="form-control" ng-model="vm.newActivity.date" />
+        </div>
+
+        <div class="form-group">
+            <label for="activityname" style = "color:#FFFFFF;">Due time</label>
+            <input type="datetime-local" name="date" id="date" class="form-control" ng-model="vm.newActivity.due" />
+        </div>
+
+        <div class="form-group">
+            <label for="activityname" style = "color:#FFFFFF;">Capacity</label>
+            <input type="number" name="name" id="name" class="form-control" ng-model="vm.newActivity.participationNum"/>
         </div>
         
         

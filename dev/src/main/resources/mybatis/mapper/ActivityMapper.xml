@@ -26,18 +26,20 @@
   </select>
 
   <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
-		insert into activities (Name, Date, acid,description)
-		values (#{Name}, #{Date}, #{acid}, #{description})
+		insert into activities (Name, Date, acid,description,participationNum,due)
+		values (#{Name}, #{Date}, #{acid}, #{description},#{participationNum},#{due})
   </insert>
 
 
   <delete id="removeActivity">
-        delete from activities where aid = #{aid}
+        delete from activities where aid = #{aid};
+        delete from ra_link where aid = #{aid};
+        delete from participation_activity where aid=#{aid};
   </delete>
 
-  <update id="updateActivity" >
+  <update id="updateActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
         update activities set
-        name = #{activity_name}, date = #{date}, acid = #{acid}
+        name = #{Name}, Date = #{date}, acid = #{acid}, description=#{description},due=#{due}
         where aid = #{aid}
   </update>
 

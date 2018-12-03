@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService'];
-    function ActivityController($stateParams, Flash, $location, $window, $q, ActivityService, StateService) {
+    ActivityController.$inject = ['$rootScope','$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService'];
+    function ActivityController($rootScope, $stateParams, Flash, $location, $window, $q, ActivityService, StateService) {
         
         var deffered = $q.defer();
         var promise = deffered.promise;
@@ -19,12 +19,16 @@
         vm.activity = {};
         vm.newActivity = {};
         vm.room = StateService.room.selectedRoom;
+        vm.editActivity = StateService.activity.selectedActivity;
         
         vm.register = register;
         vm.dataLoading = false;
         vm.getActivityList = getActivityList;
         vm.startActivity = startActivity;
         vm.goCreate = goCreate;
+        vm.goConfig = goConfig;
+        vm.updateActivity = updateActivity;
+        vm.removeActivity = removeActivity;
 
         (function init(){ 
             var initdeffered = $q.defer();
@@ -84,7 +88,8 @@
                 .then(function (response) {
                     if (response.status == 200 && response.data == true) {
                         StateService.room.selectedRoom = vm.room;
-                        $location.path("/home/activity");
+                    
+                    $location.path("/home/activity");
                     } else {
                        
                     }
@@ -120,6 +125,39 @@
                     }
                 })
         };
+        function goConfig(selectedActivity){
+            StateService.room.selectedRoom = vm.room;
+            selectedActivity.date = new Date(selectedActivity.date);
+            selectedActivity.due = new Date(selectedActivity.due);
+            StateService.activity.selectedActivity = selectedActivity;
+            $location.url("/home/activity/config?enterRID="+vm.room.rid+"&enterAID="+selectedActivity.aid);
+        }
+
+        function updateActivity(rid, activity){
+            ActivityService.updateActivity(activity)
+                .then(function(response){
+                    if(response.status==200 && response.data == true){
+                        $location.url("/home/activity?enterRID="+rid);
+                    }
+                    else{
+                        //FlashService.Error("Cannot find any room");
+                    }
+                });
+        }
+
+        function removeActivity(activity){
+            activity.acid = vm.user.CurrentUid;
+            activity.name = $rootScope.globals.currentUser.token;
+            ActivityService.removeActivity(activity)
+                .then(function(response){
+                    if(response.status==200 && response.data == true){
+                        getActivityList();
+                    }
+                    else{
+                        //FlashService.Error("Cannot find any room");
+                    }
+                });
+        }
 
         promise.then(function(response){
             if(response.status == 200 && response.data != null && response.data.length > 0) {

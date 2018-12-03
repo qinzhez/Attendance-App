@@ -54,7 +54,10 @@
                 return false;
             }
             else{
-                return true;
+                if($rootScope.globals.hasOwnProperty('currentUser'))
+                    return true;
+                else
+                    return false;
             }
         }
 
