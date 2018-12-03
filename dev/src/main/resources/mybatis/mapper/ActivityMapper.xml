@@ -20,11 +20,8 @@
 
   <select id="getActivityByRoom" resultType="com.attendU.dev.microservices.bean.Activity" flushCache="true">
 
-      select * from
-      (ra_link natural join activities)
-      natural join participation_activity
+      select * from ra_link natural join activities
       where rid = #{rid} and #{date}=#{date};
-
   </select>
 
   <insert id="createActivity" parameterType="com.attendU.dev.microservices.bean.Activity">
@@ -77,5 +74,9 @@
 
 	<select id="isAdmin" resultType="boolean">
 		SELECT EXISTS(select * from admin where rid=#{rid} and uid=#{uid})
+	</select>
+
+	<select id="getParticipationByRoom" resultType="com.attendU.dev.microservices.bean.Participation">
+		select * from participation_activity where rid=#{rid} and uid=#{uid}
 	</select>
 </mapper>

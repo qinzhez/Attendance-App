@@ -84,6 +84,10 @@ public class CheckinServiceController {
 		return checkinMapper.getCheckinInfo(uid, rid, aid);
 	}
 
+	@RequestMapping(value = "/getCheckinByRid/{rid}/{uid}", method = RequestMethod.GET)
+	public @ResponseBody List<Checkin> getCheckinByRoom(@PathVariable long uid, @PathVariable long rid) {
+		return checkinMapper.getCheckinByRoom(uid, rid);
+	}
 
 }
 

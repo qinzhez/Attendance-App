@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.attendU.dev.microservices.bean.Activity;
+import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.microservices.bean.Room;
 
 @Mapper
@@ -40,6 +41,8 @@ public interface ActivityMapper {
 	public Room	getRoombyAid(Long aid);
 
 	public Room	getRoombyRid(Long aid);
+
+	public List<Participation> getParticipationByRoom(@Param("uid") Long uid, @Param("rid") Long rid);
 
 	public Boolean isAdmin(@Param("uid") Long uid, @Param("rid") Long rid);
 

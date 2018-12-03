@@ -108,8 +108,15 @@
                 if (response.status == 200 && response.data != null && response.data.length > 0){
                     vm.activity = response.data;
                     StateService.activity.ActivityList = vm.activity;
-                    if(!vm.room.isAdmin)
-                        cutoffList();
+
+                    
+                    ActivityService.getParticipation(vm.user.CurrentUid, vm.room.rid)
+                        .then(function(response){
+                            if(response.status == 200 && response.data != null && response.data.length >= 0){
+                                    cutoffList(response.data);
+                            }
+                        });
+                    
                 }
                 else{
                     //FlashService.Error("Cannot find any activity for this room");
@@ -178,13 +185,24 @@
                 if(response.data != null && response.status == 200){
                     
                 }
-        });
+            });
         }
 
-        function cutoffList(){
-            for(var i=0; i<vm.activity.length; i++){
-                if(vm.activity[i].uid != vm.user.CurrentUid)
-                    vm.activity.splice(i,1);
+        function cutoffList(participation){
+            for(var i=0; i<vm.activity.length; i++){                
+                for(var j=0;j<participation.length; j++){
+                    if(participation[j].aid == vm.activity[i].aid)
+                        vm.activity[i].attendance = participation[j].attendance;
+                }
+            }
+
+            if(!vm.room.isAdmin){
+                for(var i=0;i<vm.activity.length;i++){
+                    if(vm.activity[i].attendance==undefined){
+                        vm.activity.splice(i,1);
+                        i=i-1;
+                    }
+                }
             }
         }
 
