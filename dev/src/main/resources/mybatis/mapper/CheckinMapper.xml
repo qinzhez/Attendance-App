@@ -6,10 +6,10 @@
 
 <mapper namespace="com.attendU.dev.microservices.checkin.CheckinMapper">
 
-  <insert id="checkin">
-      insert into participation_activity (uid, rid, aid, Attendance)
-		  values (#{uid}, #{rid}, #{aid}, 1)
-  </insert>
+  <update id="checkin" parameterType="com.attendU.dev.microservices.bean.Checkin">
+      update participation_activity set Attendance=#{Attendance},createTime=#{createTime}
+	  where rid=#{rid} and aid=#{aid} and uid=#{uid}
+  </update>
 
   <update id="updateStatus" >
       update participation_activity set

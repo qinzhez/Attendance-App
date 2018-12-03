@@ -17,13 +17,13 @@
         return service;
 
         function checkin(uid, rid, aid){
-            return $http.post('http://'+backend+':'+checkinPort+'/activity/'+aid+'/'+rid+'/checkin/'+uid).then(handleReponse, function(){
+            return $http.post('http://'+backend+':'+checkinPort+'/checkin/'+aid+'/'+rid+'/checkin/'+uid).then(handleReponse, function(){
                 return {status: 200, data:false};
             });
         }
         
         function getCheckinInfo(uid, rid, aid){
-            return $http.get('http://'+backend+':'+checkinPort+'/activity/getCheckinInfo/'+rid+'/'+aid+'/'+uid).then(function(response){
+            return $http.get('http://'+backend+':'+checkinPort+'/checkin/getCheckinInfo/'+rid+'/'+aid+'/'+uid).then(function(response){
                 if(response.data != null && response.status==200)
                     return true;
                 return false;

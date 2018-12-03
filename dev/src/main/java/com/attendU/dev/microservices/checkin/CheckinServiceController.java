@@ -1,5 +1,6 @@
 package com.attendU.dev.microservices.checkin;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,12 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.amazonaws.event.DeliveryMode.Check;
 import com.attendU.dev.microservices.bean.Checkin;
 import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
-@RequestMapping("/activity")
+@RequestMapping("/checkin")
 @CrossOrigin(origins = "*")
 public class CheckinServiceController {
 
@@ -38,7 +40,7 @@ public class CheckinServiceController {
 		checkinMapper = sqlSession.getMapper(CheckinMapper.class);
 	}
 
-	
+
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
 	public void updateStatus( @RequestBody Participation participation, @RequestBody String absentReason) {
 		if (participation != null) {
@@ -48,18 +50,24 @@ public class CheckinServiceController {
 	}
 
 
-	@RequestMapping(value = "/{aid}/{rid}/checkin/{uid}", method = RequestMethod.POST) 																				
+	@RequestMapping(value = "/{aid}/{rid}/checkin/{uid}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> checkin(@PathVariable long uid, @PathVariable long rid, @PathVariable long aid) {
 		boolean check = true;
-		if (uid <= 0 || aid <= 0 || rid <= 0) 
+		if (uid <= 0 || aid <= 0 || rid <= 0)
 			check = false;
 
 		if (check) {
 			try {
 				check = false;
-				int checkin = checkinMapper.checkin(uid, rid, aid);	
+				Checkin checkin = new Checkin();
+				checkin.setAid(aid);
+				checkin.setRid(rid);
+				checkin.setAttendance(1);
+				checkin.setUid(uid);
+				checkin.setCreateTime(new Date());
+				int checked = checkinMapper.checkin(checkin);
 				sqlSession.commit();
-				check = (checkin == 1) ? true : false;
+				check = (checked == 1) ? true : false;
 			} catch (Exception e) {
 				sqlSession.rollback();
 				log.error(e);
@@ -75,7 +83,7 @@ public class CheckinServiceController {
 	public @ResponseBody List<Checkin> getCheckinInfo(@PathVariable long uid, @PathVariable long rid, @PathVariable long aid) {
 		return checkinMapper.getCheckinInfo(uid, rid, aid);
 	}
-	
-	
+
+
 }
 

@@ -10,6 +10,10 @@ import lombok.Setter;
 public class Activity implements Serializable{
 
 	@Getter@Setter
+	private Long rid;
+	@Getter@Setter
+	private Long uid;
+	@Getter@Setter
 	private Long aid;
 	@Getter@Setter
 	private Long acid;

@@ -10,10 +10,10 @@ import com.attendU.dev.microservices.bean.Checkin;
 
 @Mapper
 public interface CheckinMapper {
-	
-	public Void updateStatus(Integer attendance, String absentReason);
 
-	public Integer checkin(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
+	public Integer updateStatus(Integer attendance, String absentReason);
+
+	public Integer checkin(Checkin checkin);
 
 	public List<Checkin> getCheckinInfo(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
 

@@ -2,6 +2,7 @@ package com.attendU.dev.microservices.activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -94,7 +96,16 @@ public class ActivityServiceController {
 
 	@RequestMapping(value = "/getActivityList/{rid}", method = RequestMethod.GET)
 	public @ResponseBody List<Activity> getActivityByRoom(@PathVariable long rid) {
-		return activityMapper.getActivityByRoom(rid);
+		try {
+			List<Activity> res = activityMapper.getActivityByRoom(rid, (new Date()));
+			sqlSession.close();
+			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
+			activityMapper = sqlSession.getMapper(ActivityMapper.class);
+			return res;
+		}catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	@RequestMapping(value = "/createActivity/{uid}/{rid}", method = RequestMethod.POST) // delete @PathVariable Long

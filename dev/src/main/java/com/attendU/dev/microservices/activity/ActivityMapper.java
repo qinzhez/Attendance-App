@@ -1,5 +1,6 @@
 package com.attendU.dev.microservices.activity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public interface ActivityMapper {
 
 	public List<Map<String, Object>> getActivityByConfigId(Long acid);
 
-	public List<Activity> getActivityByRoom(Long rid);
+	public List<Activity> getActivityByRoom(@Param("rid") Long rid, @Param("date") Date date);
 
 	public Integer updateParticipation_activity(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
 
@@ -33,7 +34,7 @@ public interface ActivityMapper {
 	public Integer getCreatedAID();
 
 	public Integer startActivity(Long aid);
-	
+
 	public Integer endActivity(Long aid);
 
 	public Room	getRoombyAid(Long aid);

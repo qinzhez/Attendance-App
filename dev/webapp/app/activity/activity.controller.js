@@ -8,9 +8,6 @@
     ActivityController.$inject = ['$rootScope','$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
     function ActivityController($rootScope, $stateParams, Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
 
-        var deffered = $q.defer();
-        var promise = deffered.promise;
-        //create activity
     	var vm = this;
         vm.enteredRID = $stateParams.enterRID;
         vm.currentUrl = $location.url();
@@ -111,7 +108,8 @@
                 if (response.status == 200 && response.data != null && response.data.length > 0){
                     vm.activity = response.data;
                     StateService.activity.ActivityList = vm.activity;
-                    deffered.resolve(response);
+                    if(!vm.room.isAdmin)
+                        cutoffList();
                 }
                 else{
                     //FlashService.Error("Cannot find any activity for this room");
@@ -166,6 +164,7 @@
                 .then(function(response){
                     if(response.status == 200 && response.data == true){
                         row.attendance = 1;
+                        var tmp = vm.activity;
                     }
                     getActivityList();
             });
@@ -174,22 +173,21 @@
 
         function getCheckinInfo(row){
             CheckinService.getCheckinInfo(StateService.user.CurrentUid,
-                                            vm.room.rid, row.aid).then(function(response){
+                                            vm.room.rid, row.aid)
+                .then(function(response){
                 if(response.data != null && response.status == 200){
                     
                 }
         });
         }
 
-        promise.then(function(response){
-            if(response.status == 200 && response.data != null && response.data.length > 0) {
-                vm.activity = response.data;
-                StateService.activity.ActivityList = vm.activity;
+        function cutoffList(){
+            for(var i=0; i<vm.activity.length; i++){
+                if(vm.activity[i].uid != vm.user.CurrentUid)
+                    vm.activity.splice(i,1);
             }
-            else{
-                //FlashService.Error("Cannot find any room");
-            }
-        });
+        }
+
         
     }
 })();

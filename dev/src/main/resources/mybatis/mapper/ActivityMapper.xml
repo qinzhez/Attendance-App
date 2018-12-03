@@ -18,14 +18,12 @@
 		select * from activities where name like '%#{name}%'
   </select>
 
-  <select id="getActivityByRoom" resultType="com.attendU.dev.microservices.bean.Activity">
-      
+  <select id="getActivityByRoom" resultType="com.attendU.dev.microservices.bean.Activity" flushCache="true">
+
       select * from
-      ra_link a inner join activities b
-      on a.aid = b.aid 
-      left outer join participation_activity c 
-      on b.aid = c.aid
-      where a.rid = #{rid};
+      (ra_link natural join activities)
+      natural join participation_activity
+      where rid = #{rid} and #{date}=#{date};
 
   </select>
 
