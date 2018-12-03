@@ -12,14 +12,46 @@
         
         var service = {};
 
+        service.getRoomByAid = getRoomByAid;
+        service.getRoomByRid = getRoomByRid;
+        service.getActivityByAid = getActivityByAid;
         service.CreateActivity = CreateActivity;
         service.getActivityByRoom = getActivityByRoom;
         service.StartActivity = StartActivity;
-        
+        service.isAdmin = isAdmin;
+       	
         return service;
 
+        function isAdmin(uid, rid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/isAdmin/'+ uid+'/'+rid).then(function(response){
+                if(response.data == true && response.status==200)
+                    return true;
+                return false;
+            }, function(){
+                return false;
+            });
+        }
+
+        function getRoomByRid(rid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/getRoom/rid/'+ rid).then(handleReponse, function(){
+                return {status: 200, data:null};
+            });     
+        }
+
+        function getRoomByAid(aid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/getRoom/'+ aid).then(handleReponse, function(){
+                return {status: 200, data:null};
+            });     
+        }
+
+        function getActivityByAid(aid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/getActivity/'+ aid).then(handleReponse, function(){
+                return {status: 200, data:null};
+            });     
+        }
+
 		function CreateActivity(uid, rid, info) {
-			return $http.post('http://'+backend+':'+activityPort+'/activity/createActivity' + uid + rid, info).then(handleReponse, function(){
+			return $http.post('http://'+backend+':'+activityPort+'/activity/createActivity/'+ uid +'/'+ rid, info).then(handleReponse, function(){
                 return {status: 200, data:false};
             });		
 		}
@@ -32,10 +64,10 @@
         }
 
         function getActivityByRoom(id){
-            return $http.get('http://'+backend+':'+activityPort+'/activity/getActivityList/'+id).then(handleReponse);
+            return $http.get('http://'+backend+':'+activityPort+'/activity/getActivityList/'+id).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
         }
-
-        
 
         // private functions
 

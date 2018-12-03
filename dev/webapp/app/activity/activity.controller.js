@@ -5,31 +5,76 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
-    function ActivityController(Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
+    ActivityController.$inject = ['$stateParams' ,'Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
+    function ActivityController($stateParams, Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
         
         var deffered = $q.defer();
         var promise = deffered.promise;
         //create activity
     	var vm = this;
+        vm.enteredRID = $stateParams.enterRID;
+        vm.currentUrl = $location.url();
     	vm.user = {};
     	vm.room = {};
         vm.activity = {};
+        vm.newActivity = {};
         vm.room = StateService.room.selectedRoom;
-        StateService.room.selectedRoom = null;
         
         vm.register = register;
         vm.dataLoading = false;
         vm.getActivityList = getActivityList;
         vm.startActivity = startActivity;
         vm.checkin = checkin;
-        
+        vm.getCheckinInfo = getCheckinInfo;
+        vm.goCreate = goCreate;
+
         (function init(){ 
-            if(vm.room == null || vm.room == undefined){   
-                $location.path("/home/room");
-            }else{
-                getActivityList();
+            var initdeffered = $q.defer();
+            var initpromise = initdeffered.promise;
+            var userdef = $q.defer();
+            var userpromise = userdef.promise;
+
+            if(StateService.user.CurrentUid == undefined||StateService.user.CurrentUid == null)
+                StateService.activity.initdef = userdef;
+            else{
+                userdef.resolve();
             }
+
+
+            if(vm.enteredRID != undefined && vm.enteredRID != null && vm.enteredRID>0){
+                ActivityService.getRoomByRid(vm.enteredRID)
+                    .then(function(response){
+                        
+                        if(response.status == 200 && response.data != null){
+                            vm.room = response.data;
+                            initdeffered.resolve();
+                        }
+
+                    });
+            }
+            else{
+                if(vm.room == null || vm.room == undefined){  
+                    $location.path("/home/room");
+                }else{
+                    getActivityList();
+                }
+            }
+            
+            userpromise.then(function(){
+                vm.user = StateService.user;
+                initpromise.then(function(){
+                    if(vm.room == null || vm.room == undefined){
+                        $location.url("/home/room");
+                        //$location.path("/home/room");
+                    }else{
+                        ActivityService.isAdmin(vm.user.CurrentUid, vm.room.rid)
+                            .then(function(response){
+                                vm.room.isAdmin = response;
+                                getActivityList();
+                            });
+                    }
+                });
+            });
 
         })();
 
@@ -37,16 +82,23 @@
         function register() {
             vm.dataLoading = true;
 			
-            ActivityService.CreateActivity(vm.user.CurrentUid, vm.room.CurrentRid, vm.activity)
+            ActivityService.CreateActivity(vm.user.CurrentUid, vm.room.rid, vm.newActivity)
                 .then(function (response) {
                     if (response.status == 200 && response.data == true) {
-                        $location.path('home/createActivity');
+                        StateService.room.selectedRoom = vm.room;
+                        $location.path("/home/activity");
                     } else {
-                        vm.dataLoading = false;
+                       
                     }
+                    vm.dataLoading = false
                 });
         }
 
+        function goCreate(){
+            StateService.room.selectedRoom = vm.room;
+            vm.activity = {};
+            $location.path("/home/activity/create");
+        }
 
         function getActivityList() {
             ActivityService.getActivityByRoom(vm.room.rid)
@@ -62,13 +114,33 @@
             });
         }
 
-        function startActivity(status, id) {
-            ActivityService.StartActivity(status, id);
+        function startActivity(status, row) {
+            ActivityService.StartActivity(status, row.aid)
+                .then(function(response){
+                    if(response.status == 200 && response.data == true){
+                        row.started = status;
+                    }
+                })
         };
 
-        function checkin(id){
-            CheckinService.checkin(vm.room.rid, id,
-                               StateService.user.CurrentUid);
+        function checkin(row){
+            CheckinService.checkin(StateService.user.CurrentUid, vm.room.rid, row.aid)
+                .then(function(response){
+                    if(response.status == 200 && response.data == true){
+                        row.attendance = 1;
+                    }
+                    getActivityList();
+            });
+            
+        }
+
+        function getCheckinInfo(row){
+            CheckinService.getCheckinInfo(StateService.user.CurrentUid,
+                                            vm.room.rid, row.aid).then(function(response){
+                if(response.data != null && response.status == 200){
+                    
+                }
+        });
         }
 
         promise.then(function(response){

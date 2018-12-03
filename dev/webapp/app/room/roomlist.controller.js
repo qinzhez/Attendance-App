@@ -4,8 +4,8 @@
     angular
         .module('attendU')
         .controller('RoomListController', RoomListController);
-    RoomListController.$inject = ['$location','$q','RoomService', 'AuthenticationService', 'FlashService', '$scope', 'StateService'];
-    function RoomListController($location, $q, RoomService, AuthenticationService, FlashService, $scope, StateService) {
+    RoomListController.$inject = ['$rootScope', '$location','$q','RoomService', 'AuthenticationService', 'FlashService', '$scope', 'StateService'];
+    function RoomListController($rootScope, $location, $q, RoomService, AuthenticationService, FlashService, $scope, StateService) {
         var deffered = $q.defer();
         var promise = deffered.promise;
         var vm = this;
@@ -16,8 +16,11 @@
         vm.editRoom = {};
         vm.showManageList = false;
         vm.createLoading=false;
+        StateService.room.selectedRoom = null;
 
         // functions
+        vm.goRooms = goRooms;
+        vm.goAdmittedRooms = goAdmittedRooms;
         vm.getRooms = getRooms;
         vm.roomChosen = roomChosen;
         vm.register = register;
@@ -27,6 +30,7 @@
         vm.goConfig = goConfig;
         vm.showConfig = showConfig;
         vm.quitRoom = quitRoom;
+        vm.removeRoom = removeRoom;
 
         (function init(){//asynchronous
             vm.newRoom = null;
@@ -63,9 +67,14 @@
 
         function roomChosen(selectedRoom){
             StateService.room.selectedRoom = selectedRoom;
-            $location.path("/home/activity");
+            $location.url("/home/activity?enterRID="+selectedRoom.rid);
         }
         
+        function goRooms(){
+            vm.showManageList = false;
+            getRooms();
+        }
+
         function getRooms(){
             RoomService.getRoomByUid(StateService.user.CurrentUid)
             .then(function (response){
@@ -75,7 +84,13 @@
         }
 
         function goCreate(){
+            vm.newRoom = {};
             $location.path("/home/room/createRoom");
+        }
+
+        function goAdmittedRooms(){
+            vm.showManageList = true;
+            getAdminList();
         }
 
         function getAdminList(){
@@ -128,6 +143,7 @@
         }
 
         function goConfig(selectedRoom){
+            vm.editRoom = {};
             StateService.room.selectedRoom = selectedRoom;
             $location.path("/home/room/configRoom")
         }
@@ -139,7 +155,17 @@
                         refreshList();
                     else
                         FlashService.Error("Quit "+selectedRoom.name+" failed");
-                })
+                });
+        }
+
+        function removeRoom(selectedRoom){
+            RoomService.removeRoom(vm.user.CurrentUid, selectedRoom.rid, $rootScope.globals.currentUser.token)
+                .then(function(response){
+                    if(response.data == true && response.status == 200)
+                        refreshList();
+                    else
+                        FlashService.Error("Remove"+selectedRoom.name+"failed");
+                });
         }
 
         promise.then(function(response){

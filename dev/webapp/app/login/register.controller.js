@@ -11,6 +11,7 @@
         vm.availableUsername = false;
         vm.checkNewUsername = checkNewUsername;
         vm.register = register;
+        vm.user = {};
 
         function register() {
             vm.dataLoading = true;
@@ -20,6 +21,7 @@
                     if (response.status == 200 && response.data == true) {
                         FlashService.Success('Registration successful', true);
                         $location.path('/login');
+                        vm.user = {};
                     } else {
                         FlashService.Error(response.message);
                         vm.dataLoading = false;

@@ -7,7 +7,7 @@ public class Room{
 
 	@Getter@Setter
 	private Long rid;
-	
+
 	@Getter@Setter
 	private String name;
 	@Getter@Setter
@@ -15,7 +15,7 @@ public class Room{
 	@Getter@Setter
 	private Integer participationNum;
 	@Getter@Setter
-	private User adminId;
+	private Long adminId;
 	@Getter@Setter
 	String description;
 }

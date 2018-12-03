@@ -18,5 +18,8 @@ public class Checkin implements Serializable{
 	private Long uid;
 	
 	@Getter@Setter
-	private Date checkinTime;
+	private Integer Attendance;
+	
+	@Getter@Setter
+	private Date createTime;
 }

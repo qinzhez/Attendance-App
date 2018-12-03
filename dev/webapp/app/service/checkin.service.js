@@ -12,11 +12,24 @@
         var service = {}
 
         service.checkin = checkin;
+        service.getCheckinInfo = getCheckinInfo;
 
         return service;
 
-        function checkin(rid, aid, uid){
-            return $http.post('http://'+backend+':'+checkinPort+'/checkin/'+rid+'/'+aid+'/'+uid).then(handleReponse);
+        function checkin(uid, rid, aid){
+            return $http.post('http://'+backend+':'+checkinPort+'/activity/'+aid+'/'+rid+'/checkin/'+uid).then(handleReponse, function(){
+                return {status: 200, data:false};
+            });
+        }
+        
+        function getCheckinInfo(uid, rid, aid){
+            return $http.get('http://'+backend+':'+checkinPort+'/activity/getCheckinInfo/'+rid+'/'+aid+'/'+uid).then(function(response){
+                if(response.data != null && response.status==200)
+                    return true;
+                return false;
+            }, function(){
+                return false;
+            });
         }
 
         // private functions

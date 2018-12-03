@@ -29,6 +29,8 @@
                 if (response.status == 200 && response.data['uid']>0) {
                     AuthenticationService.SetCredentials(response.data['uid'], response.data['token']);
                     $location.path('/');
+                    vm.username = {};
+                    vm.password = {};
                 } else {
                     Flash.create('danger', "Wrong password",10000,{},false);
                     vm.dataLoading = false;

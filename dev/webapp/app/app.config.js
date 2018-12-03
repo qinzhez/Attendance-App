@@ -52,21 +52,21 @@ angular.
         templateUrl: 'room/configRoom.view.html'
       }).
       state('home.activity',{
-        url: '/activity',
+        url: '/activity?enterRID&enterAID',
         controller: 'ActivityController',
         controllerAs: 'vm',
         templateUrl: 'activity/activity.view.html'
       }).
       state('home.activitysetting',{
-          url: '/activity',
+          url: '/activity/setting',
           controller: 'ActivityController',
           controllerAs: 'vm',
           templateUrl: 'activity/activitysetting.view.html'
         }).
       state('home.createActivity',{
-        url: '/activity/createActivity',
+        url: '/activity/create?enterRID&enterAID',
         controller: 'ActivityController',
-        controllerAs: 'wrx',
+        controllerAs: 'vm',
         templateUrl: 'activity/createactivity.view.html'
       }).
       state('home.configActivity',{

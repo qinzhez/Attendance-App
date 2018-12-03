@@ -6,10 +6,20 @@
 
 <mapper namespace="com.attendU.dev.microservices.checkin.CheckinMapper">
 
-	<insert id="checkin" parameterType="com.attendU.dev.microservices.bean.Checkin">
-		insert into checkin (rid, aid, uid)
-		values (#{rid}, #{aid}, #{uid})
-	</insert>
-	
+  <insert id="checkin">
+      insert into participation_activity (uid, rid, aid, Attendance)
+		  values (#{uid}, #{rid}, #{aid}, 1)
+  </insert>
+
+  <update id="updateStatus" >
+      update participation_activity set
+      Attendance = #{Attendance}, absentReason = #{absentReason}
+      where uid = #{uid}, rid= #{rid}, aid =#{aid}
+  </update>
+
+  <select id="getCheckinInfo" resultType="com.attendU.dev.microservices.bean.Checkin">
+      select * from participation_activity
+      where uid=#{uid} and rid=#{rid} and aid=#{aid}
+  </select>
 
 </mapper>

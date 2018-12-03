@@ -1,33 +1,32 @@
 <div class="col-md-6 col-md-offset-3">
-  	<ul class="nav nav-pills">
+  	<ul class="nav nav-tabs">
   		<li>
-    		<a href="#">Home</a>
+    		<a href="#!/home">Home</a>
   		</li>
-  		<li><a href="#">Rooms</a></li>
-  		<li class="active"><a href="#">Activity</a></li>
+  		<li><a href="#!/home/room">Room</a></li>
+  		<li class="active"><a href="#!/home/activity">Activity</a></li>
 	</ul>
     <h3 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h3>
-     <!-- buttons -->
-    <div class="wrapper" style = "width: 100%" ng-show="vm.room.isAdmin">
-        <a style="font-size: 20px;" ng-click="vm.register()"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
-    </div>
+    <button type="button" class="btn btn-primary" ng-click="" ng-disable="vm.user==null"><a ng-click="vm.goCreate()" style = "color:white;">Add new activity</a></button>
     <!-- show room info -->
     <div class='room_information'>
-         <span><h5 style = "color:#FFFFFF;">Room name: </h5></span>  
-         <textarea rows = "1"  disabled>{{vm.room.name}}</textarea>
-         <span><h5 style = "color:#FFFFFF;">Room description: </h5></span>
-         <textarea rows="3" style = "width:700px; background-color:”#E6E6E6“ color:#000000;" disabled> {{vm.room.description}} </textarea>
-   
+         <span><h5 style = "color:#FFFFFF;">Room Name: {{vm.room.name}}</h5></span>  
+         <span>{{vm.room.description}}</span>
+    </div>
+
+    <!-- buttons -->
+    <div class="wrapper" style = "height:70px; width: 100%" ng-show="vm.room.isAdmin">
+        <a style="font-size: 20px;" ng-click="vm.goCreate()"><p style="vertical-align: middle"><i class="material-icons md-36" style="vertical-align: middle">add</i>Add Activity</p></a>
     </div>
     
     <!-- show activity list -->
-    <div class = "activtable">
+    <div class = "activitytable">
         <table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
             <tr>
-                <td width = "160px">Activity ID</td>
+                <td>Activity ID</td>
                 <td>Activity name</td>
                 <!--  <td>Starting Time</td> -->
-                <td>Attendance</td>
+                <td>Number of participates</td>
                 <td>Subscribe</td>
                 <td>Check in</td>
                 <td>Absent</td>
@@ -37,12 +36,12 @@
                 <td width=160px>{{x.name}}</td>
                 <td width=160px>{{x.participationNum}}</td> 
                 <td width=160px>
-                    <i class="material-icons" ng-show="vm.room.isAdmin && x.started==0"><a ng-click="vm.startActivity(true, x.aid)">toggle_on</a></i>
-                    <i class="material-icons" ng-show="vm.room.isAdmin && x.started==1"><a ng-click="vm.startActivity(false, x.aid)">toggle_off</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin && x.started==0"><a ng-click="vm.startActivity(true, x)">toggle_on</a></i>
+                    <i class="material-icons" ng-show="vm.room.isAdmin && x.started==1"><a ng-click="vm.startActivity(false, x)">toggle_off</a></i>
                 </td>
                 <td width=160px>
-                    <i class="material-icons" ng-show="1"><a ng-click="">check_box</a></i>
-                    <i class="material-icons" ng-show="1"><a ng-click="vm.checkin(x.aid)">check_box_outline_blank</a></i>
+                    <i class="material-icons" ng-show="x.attendance == 1"><a ng-click="">check_box</a></i>
+                    <i class="material-icons" ng-show="x.attendance != 1"><a ng-click="vm.checkin(x)">check_box_outline_blank</a></i>
                 </td>
                 <td width=160px>
                     <i class="material-icons" ng-show="1"><a ng-click="">indeterminate_check_box</a></i>
