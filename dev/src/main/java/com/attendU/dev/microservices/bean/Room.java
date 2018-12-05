@@ -18,4 +18,5 @@ public class Room{
 	private Long adminId;
 	@Getter@Setter
 	String description;
+	
 }
