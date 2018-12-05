@@ -59,8 +59,19 @@
 
 	<insert id="updateParticipation_activity">
 		insert into participation_activity (uid, rid, aid)
-		values (#{uid}, #{rid}, #{aid})
+		values (#{uid}, #{rid}, #{aid});
+      
+            insert into participation_room (uid, rid)
+    	      values (#{uid}, #{rid});
 	</insert>
+
+  <delete id="removeParticipation_activity">
+		delete from participation_activity where
+		uid=#{uid} and rid=#{rid} and aid=#{aid});
+      
+            delete from participation_room where
+    	      uid=#{uid} and #{rid});
+  </delete>
 
 	<insert id="updateRALink">
 	   insert into ra_link (rid, aid)

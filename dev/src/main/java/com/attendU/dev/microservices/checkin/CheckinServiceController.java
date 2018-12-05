@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.amazonaws.event.DeliveryMode.Check;
 import com.attendU.dev.microservices.bean.Checkin;
 import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
@@ -48,7 +47,6 @@ public class CheckinServiceController {
 		}
 		return;
 	}
-
 
 	@RequestMapping(value = "/{aid}/{rid}/checkin/{uid}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> checkin(@PathVariable long uid, @PathVariable long rid, @PathVariable long aid) {
@@ -83,7 +81,4 @@ public class CheckinServiceController {
 	public @ResponseBody List<Checkin> getCheckinInfo(@PathVariable long uid, @PathVariable long rid, @PathVariable long aid) {
 		return checkinMapper.getCheckinInfo(uid, rid, aid);
 	}
-
-
 }
-

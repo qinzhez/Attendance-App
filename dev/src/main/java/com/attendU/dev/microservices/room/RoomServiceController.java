@@ -72,6 +72,21 @@ public class RoomServiceController {
 		return roomMapper.getRoomByAdmin(adminId);
 	}
 
+	@RequestMapping(value = "/searchRoom/{rid}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> searchRoom(@PathVariable Long rid) {
+		boolean check = true;
+		if (rid == null || rid <= 0)
+			check = false;
+		
+		if(check){
+			Room room = roomMapper.getRoomById(rid);
+			if (room != null)
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
+	
+
 	@RequestMapping(value = "/createRoom/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> createRoom(@PathVariable Long id, @RequestBody Room room) {
 		// sanity check
