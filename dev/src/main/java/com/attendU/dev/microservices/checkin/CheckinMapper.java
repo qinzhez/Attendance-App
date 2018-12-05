@@ -17,4 +17,6 @@ public interface CheckinMapper {
 
 	public List<Checkin> getCheckinInfo(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
 
+	public List<Checkin> getCheckinByRoom(@Param("uid") Long uid, @Param("rid") Long rid);
+
 }

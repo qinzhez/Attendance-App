@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Activity;
+import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.microservices.bean.Room;
 import com.attendU.dev.microservices.bean.TokenBean;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
@@ -98,6 +99,17 @@ public class ActivityServiceController {
 	public @ResponseBody List<Activity> getActivityByRoom(@PathVariable long rid) {
 		try {
 			List<Activity> res = activityMapper.getActivityByRoom(rid, (new Date()));
+			return res;
+		}catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/getParticipation/{rid}/{uid}", method = RequestMethod.GET)
+	public @ResponseBody List<Participation> getParticipationByRoom(@PathVariable long rid, @PathVariable long uid) {
+		try {
+			List<Participation> res = activityMapper.getParticipationByRoom(uid, rid);
 			sqlSession.close();
 			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
 			activityMapper = sqlSession.getMapper(ActivityMapper.class);
@@ -107,6 +119,7 @@ public class ActivityServiceController {
 			return null;
 		}
 	}
+
 
 	@RequestMapping(value = "/createActivity/{uid}/{rid}", method = RequestMethod.POST) // delete @PathVariable Long
 																						// uid, @PathVariable Long rid

@@ -21,6 +21,7 @@
         service.isAdmin = isAdmin;
         service.updateActivity = updateActivity;
         service.removeActivity = removeActivity;
+        service.getParticipation = getParticipation;
        	
         return service;
 
@@ -79,6 +80,12 @@
 
         function removeActivity(activity){
              return $http.post('http://'+backend+':'+activityPort+'/activity/removeActivity', activity).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function getParticipation(uid, rid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity//getParticipation/'+rid+'/'+uid).then(handleReponse , function(){
                 return {status: 200, data:null};
             });
         }

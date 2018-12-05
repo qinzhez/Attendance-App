@@ -22,4 +22,9 @@
       where uid=#{uid} and rid=#{rid} and aid=#{aid}
   </select>
 
+  <select id="getCheckinByRoom" resultType="com.attendU.dev.microservices.bean.Checkin">
+      select * from participation_activity
+      where uid=#{uid} and rid=#{rid}
+  </select>
+
 </mapper>
