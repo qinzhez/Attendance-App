@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.attendU.dev.microservices.bean.Checkin;
-import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
 
 @RestController
@@ -39,13 +37,28 @@ public class CheckinServiceController {
 		checkinMapper = sqlSession.getMapper(CheckinMapper.class);
 	}
 
+	@RequestMapping(value = "/{aid}/{rid}/absent/{uid}", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> absent(@PathVariable long uid, @PathVariable long rid, 
+											@PathVariable long aid, @PathVariable String absentReason) {
+		boolean check = true;
+		if (uid <= 0 || aid <= 0 || rid <= 0)
+			check = false;
 
-	@RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
-	public void updateStatus( @RequestBody Participation participation, @RequestBody String absentReason) {
-		if (participation != null) {
-			checkinMapper.updateStatus(1,absentReason);
+		if (check) {
+			try {
+				check = false;
+				int absent = checkinMapper.absent(uid, rid, aid, absentReason);
+				sqlSession.commit();
+				check = (absent == 1) ? true : false;
+			} catch (Exception e) {
+				sqlSession.rollback();
+				log.error(e);
+				check = false;
+			}
 		}
-		return;
+		if (check)
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{aid}/{rid}/checkin/{uid}", method = RequestMethod.POST)
