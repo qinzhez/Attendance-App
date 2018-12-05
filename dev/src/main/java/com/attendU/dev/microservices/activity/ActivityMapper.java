@@ -46,5 +46,11 @@ public interface ActivityMapper {
 
 	public Boolean isAdmin(@Param("uid") Long uid, @Param("rid") Long rid);
 
+	public List<Activity> getRecent(Long uid);
+
+	public List<Activity> getAdminRecent(Long uid);
+
+	public List<Participation> getActivityParticipation(Long aid);
+
 }
 

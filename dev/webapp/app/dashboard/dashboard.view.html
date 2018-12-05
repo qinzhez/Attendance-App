@@ -1,5 +1,5 @@
 <div class="container-fluid">
-<div class="row" style="height: 100%">
+<div class="row" style="height: 100%" data-ng-init="vm.get()">
 	<h2>Recent Activities</h2>
 	<div class="column" style="width: 50%">
 		<h4>Activities</h4>
@@ -9,46 +9,21 @@
             <tr ng-show="vm.dashboardActivity.length > 0" ng-repeat="x in vm.dashboardActivity">
                 <td width=50px>{{x.aid}}</td>
                 <td width=100px>{{x.name}}</td>
-                <!--  <td width=100px>{{x.date}}</td> -->
-                <td width=50px>{{x.participationNum}}</td>
-                <td width=50px ng-show="vm.room.isAdmin">
-                    <i class="material-icons md-36" ng-show="!x.started" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
-                    <i class="material-icons md-36" ng-show="x.started" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
-                </td>
-                <td width=50px>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box</a></i>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
-                </td>
-                <td width=50px>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
-                </td>
+                <td width=50px>{{x.due}}</td>
             </tr>
         </table>
 	</div>
-
+	<!--
 	<div class="column" style="width: 50%">
 		<h4>Rooms</h4>
 
 		<table class = "table" style = "color:#FFFFFF;margin-top:10px; font-size:15px;">
-			<tr ng-show="vm.dashboardActivity.length==undefined||vm.dashboardActivity.length<1"><td>No Recent Activity</td></tr>
-            <tr ng-show="vm.dashboardActivity.length > 0" ng-repeat="x in vm.dashboardActivity">
-                <td width=50px>{{x.aid}}</td>
+			<tr ng-show="vm.dashboardRoom.length==undefined||vm.dashboardRoom.length<1"><td>No Recent Room</td></tr>
+            <tr ng-show="vm.dashboardRoom.length > 0" ng-repeat="x in vm.dashboardRoom">
+                <td width=50px>{{x.rid}}</td>
                 <td width=100px>{{x.name}}</td>
-                <!--  <td width=100px>{{x.date}}</td> -->
-                <td width=50px>{{x.participationNum}}</td>
-                <td width=50px ng-show="vm.room.isAdmin">
-                    <i class="material-icons md-36" ng-show="!x.started" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
-                    <i class="material-icons md-36" ng-show="x.started" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
-                </td>
-                <td width=50px>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box</a></i>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">check_box_outline_blank</a></i>
-                </td>
-                <td width=50px>
-                    <i class="material-icons" ng-show="vm.room.isAdmin"><a ng-click="">indeterminate_check_box</a></i>
-                </td>
             </tr>
         </table>
-	</div>
+	</div> -->
 </div>
 </div>

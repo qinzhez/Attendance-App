@@ -6,5 +6,6 @@ angular.module('attendU', [
   'ngCookies',
   'ui.router',
   'ngFlash',
-  'ngAnimate'
+  'ngAnimate',
+  'chart.js'
 ]);

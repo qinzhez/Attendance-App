@@ -22,6 +22,8 @@
         service.updateActivity = updateActivity;
         service.removeActivity = removeActivity;
         service.getParticipation = getParticipation;
+        service.getRecentActivity = getRecentActivity;
+        service.getActivityParticipation = getActivityParticipation;
        	
         return service;
 
@@ -85,7 +87,19 @@
         }
 
         function getParticipation(uid, rid){
-            return $http.get('http://'+backend+':'+activityPort+'/activity//getParticipation/'+rid+'/'+uid).then(handleReponse , function(){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/getParticipation/'+rid+'/'+uid).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function getRecentActivity(uid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/getRecent/'+uid).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function getActivityParticipation(aid){
+            return $http.get('http://'+backend+':'+activityPort+'/activity/participation/'+aid).then(handleReponse , function(){
                 return {status: 200, data:null};
             });
         }

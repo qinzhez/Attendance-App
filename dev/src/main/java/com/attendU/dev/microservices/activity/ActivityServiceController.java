@@ -67,6 +67,7 @@ public class ActivityServiceController {
 		} catch (Exception e) {
 			sqlSession.close();
 			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
+			activityMapper = sqlSession.getMapper(ActivityMapper.class);
 			return new ResponseEntity<List<Activity>>(activity, HttpStatus.BAD_REQUEST);
 		}
 
@@ -74,11 +75,18 @@ public class ActivityServiceController {
 
 	@RequestMapping(value = "/getRoom/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Room> getRoomByAid(@PathVariable String id) {
-		Room room = activityMapper.getRoombyAid(Long.parseLong(id));
-		if (room == null)
+		Room room = null;
+		try {
+			room = activityMapper.getRoombyAid(Long.parseLong(id));
+			if (room == null)
+				return new ResponseEntity<Room>(room, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Room>(room, HttpStatus.OK);
+		} catch (Exception e) {
+			sqlSession.close();
+			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
+			activityMapper = sqlSession.getMapper(ActivityMapper.class);
 			return new ResponseEntity<Room>(room, HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<Room>(room, HttpStatus.OK);
-
+		}
 	}
 
 	@RequestMapping(value = "/getRoom/rid/{rid}", method = RequestMethod.GET)
@@ -100,7 +108,7 @@ public class ActivityServiceController {
 		try {
 			List<Activity> res = activityMapper.getActivityByRoom(rid, (new Date()));
 			return res;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e);
 			return null;
 		}
@@ -114,12 +122,11 @@ public class ActivityServiceController {
 			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
 			activityMapper = sqlSession.getMapper(ActivityMapper.class);
 			return res;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error(e);
 			return null;
 		}
 	}
-
 
 	@RequestMapping(value = "/createActivity/{uid}/{rid}", method = RequestMethod.POST) // delete @PathVariable Long
 																						// uid, @PathVariable Long rid
@@ -163,13 +170,13 @@ public class ActivityServiceController {
 			RestTemplate rest = new RestTemplate();
 			List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
 			MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-			MediaType[] array = {MediaType.APPLICATION_JSON};
+			MediaType[] array = { MediaType.APPLICATION_JSON };
 			converter.setSupportedMediaTypes(Arrays.asList(array));
 			messageConverters.add(converter);
 			rest.setMessageConverters(messageConverters);
 			pass = rest.postForObject("http://localhost:8004/user/validToken", tmp, Boolean.class);
 
-			if(activity.getAid() != null && activity.getAid()>0 && pass.booleanValue())
+			if (activity.getAid() != null && activity.getAid() > 0 && pass.booleanValue())
 				deleted = activityMapper.removeActivity(activity.getAid());
 			sqlSession.commit();
 			if (deleted == 1)
@@ -217,5 +224,31 @@ public class ActivityServiceController {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 
+	}
+
+	@RequestMapping(value = "/getRecent/{uid}", method = RequestMethod.GET)
+	public @ResponseBody List<Activity> getRecent(@PathVariable long uid) {
+		try {
+			List<Activity> res = activityMapper.getAdminRecent(uid);
+
+			sqlSession.close();
+			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
+			activityMapper = sqlSession.getMapper(ActivityMapper.class);
+			return res;
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/participation/{aid}", method = RequestMethod.GET)
+	public @ResponseBody List<Participation> getActivityParticipation(@PathVariable long aid) {
+		try {
+			List<Participation> res = activityMapper.getActivityParticipation(aid);
+			return res;
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 }

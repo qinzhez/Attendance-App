@@ -12,7 +12,7 @@
 		
         var service = {};
 
-        service.GetById = GetById;
+        service.GetName = GetName;
         service.GetByUsername = GetByUsername;
         service.Update = Update;
         service.Delete = Delete;
@@ -49,8 +49,8 @@
             return $http.get('http://'+backend+':'+userPort+'/user/id/' + uid, {params: param}).then(handleReponse);
         }
 
-        function GetById(id) {
-            return $http.get('/api/users/' + id).then(handleReponse);
+        function GetName(list) {
+            return $http.get('http://'+backend+':'+userPort+'/user/getName/' + list).then(handleReponse);
         }
 
         

@@ -27,4 +27,8 @@
       where uid=#{uid} and rid=#{rid}
   </select>
 
+  <select id="getDue" resultType="Date">
+      select due from activities
+      where aid=#{aid}
+  </select>
 </mapper>

@@ -23,9 +23,10 @@
                 <td>Activity ID</td>
                 <td>Activity name</td>
                 <!--  <td>Starting Time</td> -->
-                <td>Number of participates</td>
+                <td>Capacity</td>
                 <td ng-show="vm.room.isAdmin">Configure</td>
                 <td ng-show="vm.room.isAdmin">Enable</td>
+                <td ng-show="!vm.room.isAdmin">Subscribe</td>
                 <td>Check in</td>
                 <td>Absent</td>
                 <td ng-show="vm.room.isAdmin">Delete</td>
@@ -39,6 +40,10 @@
                     <i class="material-icons " ng-click="vm.goConfig(x)" style="cursor: pointer;">settings</i>
                 </td>
                 <td width=50px ng-show="vm.room.isAdmin">
+                    <i class="material-icons md-48" ng-show="x.started==0" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
+                    <i class="material-icons md-48" ng-show="x.started==1" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
+                </td>
+                <td width=50px ng-show="!vm.room.isAdmin">
                     <i class="material-icons md-48" ng-show="x.started==0" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
                     <i class="material-icons md-48" ng-show="x.started==1" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
                 </td>

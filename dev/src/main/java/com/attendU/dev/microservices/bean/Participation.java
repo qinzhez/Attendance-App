@@ -16,8 +16,8 @@ public class Participation implements Serializable{
 	private Long uid;
 
 	@Getter@Setter
-	private Boolean Attendance;
-	
+	private Integer Attendance;
+
 	@Getter@Setter
 	private String absentReason;
 }

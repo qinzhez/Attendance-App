@@ -83,6 +83,24 @@ angular.
       }).
       state('home.withRID', {
         url: '/home/room/withId/:rid'
+      }).
+      state('home.dataActivity',{
+        url: '/data/activity?enterRID',
+        controller: 'DataController',
+        controllerAs: 'vm',
+        templateUrl: 'data/activity.view.html'
+      }).
+      state('home.dataActivitySelect',{
+        url: '/data/selectActivity?enterAID',
+        controller: 'DataController',
+        controllerAs: 'vm',
+        templateUrl: 'data/selectActivity.view.html'
+      }).
+      state('home.dataRoom', {
+        url: '/home/data',
+        controller: 'DataController',
+        controllerAs: 'vm',
+         templateUrl: 'data/room.view.html'
       })
     
     }

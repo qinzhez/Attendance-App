@@ -21,6 +21,7 @@ import com.amazonaws.event.DeliveryMode.Check;
 import com.attendU.dev.microservices.bean.Checkin;
 import com.attendU.dev.microservices.bean.Participation;
 import com.attendU.dev.mybatis.MyBatisConnectionFactory;
+import com.mysql.fabric.xmlrpc.base.Data;
 
 @RestController
 @RequestMapping("/checkin")
@@ -40,15 +41,13 @@ public class CheckinServiceController {
 		checkinMapper = sqlSession.getMapper(CheckinMapper.class);
 	}
 
-
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
-	public void updateStatus( @RequestBody Participation participation, @RequestBody String absentReason) {
+	public void updateStatus(@RequestBody Participation participation, @RequestBody String absentReason) {
 		if (participation != null) {
-			checkinMapper.updateStatus(1,absentReason);
+			checkinMapper.updateStatus(1, absentReason);
 		}
 		return;
 	}
-
 
 	@RequestMapping(value = "/{aid}/{rid}/checkin/{uid}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> checkin(@PathVariable long uid, @PathVariable long rid, @PathVariable long aid) {
@@ -65,9 +64,14 @@ public class CheckinServiceController {
 				checkin.setAttendance(1);
 				checkin.setUid(uid);
 				checkin.setCreateTime(new Date());
-				int checked = checkinMapper.checkin(checkin);
-				sqlSession.commit();
-				check = (checked == 1) ? true : false;
+				Date due = checkinMapper.getDue(aid);
+				if (!due.after(new Date()))
+					check = false;
+				else {
+					int checked = checkinMapper.checkin(checkin);
+					sqlSession.commit();
+					check = (checked == 1) ? true : false;
+				}
 			} catch (Exception e) {
 				sqlSession.rollback();
 				log.error(e);
@@ -80,7 +84,8 @@ public class CheckinServiceController {
 	}
 
 	@RequestMapping(value = "/getCheckinInfo/{rid}/{aid}/{uid}", method = RequestMethod.GET)
-	public @ResponseBody List<Checkin> getCheckinInfo(@PathVariable long uid, @PathVariable long rid, @PathVariable long aid) {
+	public @ResponseBody List<Checkin> getCheckinInfo(@PathVariable long uid, @PathVariable long rid,
+			@PathVariable long aid) {
 		return checkinMapper.getCheckinInfo(uid, rid, aid);
 	}
 
@@ -90,4 +95,3 @@ public class CheckinServiceController {
 	}
 
 }
-

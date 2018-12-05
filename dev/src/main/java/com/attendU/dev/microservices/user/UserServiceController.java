@@ -1,5 +1,6 @@
 package com.attendU.dev.microservices.user;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -127,5 +128,13 @@ public class UserServiceController {
 			return false;
 
 		return true;
+	}
+
+	@RequestMapping(value = "/user/getName/{users}", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> getUserByName(@PathVariable List<Long> users) {
+		List<User> user = userMapper.getName(users);
+		if (user == null)
+			return new ResponseEntity<List<User>>(user, HttpStatus.OK);
+		return new ResponseEntity<List<User>>(user, HttpStatus.OK);
 	}
 }

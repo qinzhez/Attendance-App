@@ -32,12 +32,18 @@
 
                                 vm.showName = "Logout";
 
+                                if(StateService.dashboard.initdef != undefined ||
+                                    StateService.dashboard.initdef != null)
+                                    StateService.dashboard.initdef.resolve();
                                 if(StateService.room.initdef != undefined ||
                                     StateService.room.initdef != null)
                                     StateService.room.initdef.resolve();
                                 if(StateService.activity.initdef != undefined ||
                                     StateService.activity.initdef != null)
                                     StateService.activity.initdef.resolve();
+                                if(StateService.data.initdef != undefined ||
+                                    StateService.data.initdef != null)
+                                    StateService.data.initdef.resolve();
                             }
 
                         });

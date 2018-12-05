@@ -76,7 +76,24 @@
 		SELECT EXISTS(select * from admin where rid=#{rid} and uid=#{uid})
 	</select>
 
-	<select id="getParticipationByRoom" resultType="com.attendU.dev.microservices.bean.Participation">
+	<select id="getParticipationByRoom" resultType="com.attendU.dev.microservices.bean.Participation" flushCache="true">
 		select * from participation_activity where rid=#{rid} and uid=#{uid}
+	</select>
+
+	<select id="getRecent" resultType="com.attendU.dev.microservices.bean.Activity" flushCache="true">
+		select * from participation_activity natural join activities where participation_activity.uid=#{uid} order by due ASC
+	</select>
+
+	<select id="getAdminRecent" resultType="com.attendU.dev.microservices.bean.Activity" flushCache="true">
+		select * from (select * from
+		(select * from (select rid from admin natural join ra_link where admin.uid=#{uid}) as INSIDE
+		natural join participation_activity natural join activities where participation_activity.uid=#{uid}) as A
+		union
+		(select * from participation_activity natural join activities where participation_activity.uid=#{uid}) as B
+		order by due ASC);
+	</select>
+
+	<select id="getActivityParticipation" resultType="com.attendU.dev.microservices.bean.Participation" flushCache="true">
+		select * from participation_activity where aid=#{aid}
 	</select>
 </mapper>

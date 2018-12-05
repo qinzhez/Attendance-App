@@ -36,4 +36,11 @@
 		delete from token where uid=#{uid}
 	</delete>
 
+	<select id="getName" resultType="com.attendU.dev.microservices.bean.User">
+		select uid, FirstName, LastName from users
+		where uid in
+		<foreach item="user" index="index" collection="list" open="(" separator="," close=")">
+    		#{user}
+    	</foreach>
+    </select>
 </mapper>

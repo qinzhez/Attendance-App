@@ -23,4 +23,6 @@ public interface UserMapper {
 	public int insertToken(TokenBean token);
 
 	public int removeToken(long uid);
+
+	public List<User> getName(List<Long> users);
 }

@@ -27,7 +27,7 @@
                on a.rid = b.rid where b.uid = #{uid})
      </select>
 
-     <select id="getRoomByAdmin" resultType="com.attendU.dev.microservices.bean.Room">
+     <select id="getRoomByAdmin" resultType="com.attendU.dev.microservices.bean.Room" flushCache="true">
      	select * from rooms a inner join admin b
      	on a.rid = b.rid where uid = #{adminId}
      </select>

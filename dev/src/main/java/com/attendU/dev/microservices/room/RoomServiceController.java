@@ -54,9 +54,16 @@ public class RoomServiceController {
 
 	@RequestMapping(value = "/getRooms/{uid}", method = RequestMethod.GET)
 	public ResponseEntity<List<Room>> getRooms(@PathVariable Long uid) {
-		List<Room> rooms = roomMapper.getRoomByUid(uid);
-
-		return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
+		List<Room> rooms = null;
+		try{
+			rooms = roomMapper.getRoomByUid(uid);
+			return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
+		}catch (Exception e) {
+			sqlSession.close();
+			sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession();
+			roomMapper = sqlSession.getMapper(RoomMapper.class);
+			return new ResponseEntity<List<Room>>(rooms, HttpStatus.OK);
+		}
 	}
 
 	@RequestMapping(value = "/roomName/{name}", method = RequestMethod.GET)
