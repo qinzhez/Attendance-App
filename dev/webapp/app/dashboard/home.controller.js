@@ -5,11 +5,36 @@
         .module('attendU')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$location', 'AuthenticationService', 'Flash', '$q', 'UserService', 'StateService'];
-    function HomeController($location, AuthenticationService, Flash, $q, UserService, StateService) {
+    HomeController.$inject = ['$scope','RoomService','$location', 'AuthenticationService', 'Flash', '$q', 'UserService', 'StateService'];
+    function HomeController($scope, RoomService,$location, AuthenticationService, Flash, $q, UserService, StateService) {
         var vm = this;
         vm.userLoaded = false;
         vm.showName = null;
+        vm.searchID = null;
+
+        vm.search = function(){
+            if(vm.searchID != null && vm.searchID>0){
+                RoomService.searchRoom(vm.searchID)
+                    .then(function(reponse){
+                        if(reponse.status == 200 && reponse.data == true){
+                            $location.url("/home/activity?enterRID="+vm.searchID);
+                        }
+                        else{
+                            $mdDialog.show(
+                              $mdDialog.alert()
+                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                .clickOutsideToClose(true)
+                                .title('Room ID Not Found')
+                                .textContent('The room id you tried to reach is not correct')
+                                .ariaLabel('Search room failed')
+                                .ok('Dismiss')
+                                .targetEvent($scope.ev)
+                            );
+                        }
+                    });
+                
+            }
+        };
 
 
         vm.onloadFun = (function initController() {

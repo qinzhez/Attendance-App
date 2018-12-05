@@ -5,8 +5,8 @@
         .module('attendU')
         .controller('ActivityController', ActivityController);
 
-    ActivityController.$inject = ['$rootScope','$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
-    function ActivityController($rootScope, $stateParams, Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
+    ActivityController.$inject = ['$scope','$mdDialog','$rootScope','$stateParams', 'Flash', '$location','$window', '$q', 'ActivityService', 'StateService','CheckinService'];
+    function ActivityController($scope,$mdDialog, $rootScope, $stateParams, Flash, $location, $window, $q, ActivityService, StateService, CheckinService) {
 
     	var vm = this;
         vm.enteredRID = $stateParams.enterRID;
@@ -28,6 +28,11 @@
         vm.goConfig = goConfig;
         vm.updateActivity = updateActivity;
         vm.removeActivity = removeActivity;
+        vm.subscribe = subscribe;
+        vm.unsubscribe = unsubscribe;
+        vm.test =test;
+
+        vm.istest = false;
 
         (function init(){ 
             var initdeffered = $q.defer();
@@ -196,16 +201,68 @@
                 }
             }
 
-            if(!vm.room.isAdmin){
-                for(var i=0;i<vm.activity.length;i++){
-                    if(vm.activity[i].attendance==undefined){
-                        vm.activity.splice(i,1);
-                        i=i-1;
-                    }
-                }
-            }
+            // if(!vm.room.isAdmin){
+            //     for(var i=0;i<vm.activity.length;i++){
+            //         if(vm.activity[i].attendance==undefined){
+            //             vm.activity.splice(i,1);
+            //             i=i-1;
+            //         }
+            //     }
+            // }
         }
 
-        
+        vm.showAdvanced = function(x) {
+            var edit = $mdDialog.prompt()
+              .title('Absence Reason')
+              .targetEvent($scope.ev)
+              .required(true)
+              .ok('Submit')
+              .cancel('Cancel')
+              .openFrom({
+                  top: -50,
+                  width: 30,
+                  height: 80
+                })
+                .closeTo({
+                  left: 1500
+                });
+
+            $mdDialog.show(edit).then(function(result) {
+              x.absentReason = result;
+              CheckinService.absent(vm.user.CurrentUid,vm.room.rid,x.aid, x.absentReason)
+                .then(function(){
+                    getActivityList();
+                });
+
+            }, function() {
+ 
+            });
+
+        };
+
+
+        function subscribe(x){
+            var info = {uid:vm.user.CurrentUid, rid:vm.room.rid, aid:x.aid};
+            ActivityService.subscribe(info)
+                .then(function(response){
+                    getActivityList();
+                });
+        }
+
+        function unsubscribe(x){
+            var info = {uid:vm.user.CurrentUid, rid:vm.room.rid, aid:x.aid};
+            ActivityService.unsubscribe(info)
+                .then(function(response){
+                    getActivityList();
+                });
+        }
+
+
+
+
+        function test(){
+            vm.activity;
+        }
+       
     }
 })();

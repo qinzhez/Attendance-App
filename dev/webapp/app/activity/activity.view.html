@@ -4,7 +4,7 @@
     		<a href="#!/home">Home</a>
   		</li>
   		<li><a href="#!/home/room">Room</a></li>
-  		<li class="active"><a href="#!/home/activity">Activity</a></li>
+  		<li class="active"><a>Activity</a></li>
 	</ul>
     <h3 style = "color:#FFFFFF;">Activities for {{vm.room.name}}</h3>
     
@@ -15,6 +15,8 @@
 
 
     <button type="button" class="btn btn-primary" ng-click="vm.goCreate()" ng-disable="vm.user==null"><a style = "color:white;">Add new activity</a></button>
+
+    <button type="button" class="btn btn-primary" ng-show="vm.istest" ng-click="vm.test()" ><a style = "color:white;">test</a></button>
     
     <!-- show activity list -->
     <div class = "activitytable">
@@ -40,19 +42,20 @@
                     <i class="material-icons " ng-click="vm.goConfig(x)" style="cursor: pointer;">settings</i>
                 </td>
                 <td width=50px ng-show="vm.room.isAdmin">
-                    <i class="material-icons md-48" ng-show="x.started==0" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
-                    <i class="material-icons md-48" ng-show="x.started==1" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
+                    <i class="material-icons md-48" ng-show="x.started==0" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc" title="Disable">toggle_on</i>
+                    <i class="material-icons md-48" ng-show="x.started==1" ng-click="vm.startActivity(false, x)" style="cursor: pointer;" title="Enable">toggle_off</i>
                 </td>
                 <td width=50px ng-show="!vm.room.isAdmin">
-                    <i class="material-icons md-48" ng-show="x.started==0" ng-click="vm.startActivity(true, x)" style="cursor: pointer;color: #0088cc">toggle_on</i>
-                    <i class="material-icons md-48" ng-show="x.started==1" ng-click="vm.startActivity(false, x)" style="cursor: pointer;">toggle_off</i>
+                    <i class="material-icons md-48" ng-show="x.attendance>=0" ng-click="vm.unsubscribe(x)" style="cursor: pointer;color: #0088cc" title="Unsubscribe">toggle_on</i>
+                    <i class="material-icons md-48" ng-show="x.attendance == undefined" ng-click="vm.subscribe(x)" style="cursor: pointer;" title="Subscribe">toggle_off</i>
                 </td>
                 <td width=50px>
                     <i class="material-icons"  ng-show="x.attendance == 1" style="cursor: default">check_box</i>
-                    <i class="material-icons"  ng-show="x.attendance != 1" style="cursor: pointer;" ng-click="vm.checkin(x)">check_box_outline_blank</i>
+                    <i class="material-icons"  ng-show="x.attendance == 0" style="cursor: pointer;" ng-click="vm.checkin(x)">check_box_outline_blank</i>
                 </td>
                 <td width=50px>
-                    <i class="material-icons" ng-show="1" style="cursor: pointer;">indeterminate_check_box</i>
+                    <i class="material-icons" ng-click="" style="cursor: default;" ng-show="x.attendance == 2">indeterminate_check_box</i>
+                    <i class="material-icons" ng-click="vm.showAdvanced(x)" style="cursor: pointer;" ng-show="x.attendance == 0">check_box_outline_blank</i>
                 </td>
                 <td width=50px ng-show="vm.room.isAdmin">
                     <i class="material-icons" style="cursor: pointer;" ng-click="vm.removeActivity(x)">delete</i>

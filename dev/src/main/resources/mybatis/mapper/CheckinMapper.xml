@@ -13,7 +13,7 @@
 
   <update id="absent" parameterType="com.attendU.dev.microservices.bean.Checkin">
       update participation_activity set
-      Attendance = 2, absentReason = #{absentReason}, createTime=#{createTime}
+      Attendance = 2, absentReason = #{reason}, createTime=#{createTime}
       where uid = #{uid} and rid = #{rid} and aid = #{aid}
   </update>
 

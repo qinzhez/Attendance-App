@@ -190,37 +190,35 @@ public class ActivityServiceController {
 	}
 
 	@RequestMapping(value = "/updateParticipation", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> updateParticipation_activity(@PathVariable Long uid, 
-										@PathVariable Long rid, @PathVariable Long aid) {
-		
+	public ResponseEntity<Boolean> updateParticipation_activity(@RequestBody Participation part) {
+
 		try{
-			int updated = activityMapper.updateParticipation_activity(uid, rid, aid);
+			int updated = activityMapper.updateParticipation_activity(part.getUid(),part.getRid(),part.getAid());
 			sqlSession.commit();
 			if (updated == 1)
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-		}	
-								
+		}
+
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/removeParticipation", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> removeParticipation_activity(@PathVariable Long uid, 
-										@PathVariable Long rid, @PathVariable Long aid) {
-		
+	public ResponseEntity<Boolean> removeParticipation_activity(@RequestBody Participation part) {
+
 		try{
-			int deleted = activityMapper.removeParticipation_activity(uid, rid, aid);
+			int deleted = activityMapper.removeParticipation_activity(part.getUid(),part.getRid(),part.getAid());
 			sqlSession.commit();
 			if (deleted == 1)
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		} catch (Exception e){
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-		}	
+		}
 
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
-	
+
 
 
 	@RequestMapping(value = "/updateActivity", method = RequestMethod.POST)

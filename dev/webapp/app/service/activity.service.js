@@ -24,6 +24,8 @@
         service.getParticipation = getParticipation;
         service.getRecentActivity = getRecentActivity;
         service.getActivityParticipation = getActivityParticipation;
+        service.subscribe = subscribe;
+        service.unsubscribe = unsubscribe;
        	
         return service;
 
@@ -100,6 +102,18 @@
 
         function getActivityParticipation(aid){
             return $http.get('http://'+backend+':'+activityPort+'/activity/participation/'+aid).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function subscribe(info){
+            return $http.post('http://'+backend+':'+activityPort+'/activity/updateParticipation', info).then(handleReponse , function(){
+                return {status: 200, data:null};
+            });
+        }
+
+        function unsubscribe(info){
+            return $http.post('http://'+backend+':'+activityPort+'/activity/removeParticipation', info).then(handleReponse , function(){
                 return {status: 200, data:null};
             });
         }

@@ -7,5 +7,6 @@ angular.module('attendU', [
   'ui.router',
   'ngFlash',
   'ngAnimate',
-  'chart.js'
+  'chart.js',
+  'ngMaterial'
 ]);

@@ -13,8 +13,8 @@
                 <li><a href="#contact">Contact</a></li>
               </ul>
               <form class="navbar-form pull-left">
-          <input type="text" class="span2">
-          <button type="submit" class="btn">Search rooms</button>
+          <input type="text" class="span2" ng-model="vm.searchID">
+          <button type="submit" class="btn" ng-click="vm.search()">Search rooms</button>
         </form>
 
               <p class = "navbar-text pull-right" style = "font-size:15px" font color = "#FFFFFF">

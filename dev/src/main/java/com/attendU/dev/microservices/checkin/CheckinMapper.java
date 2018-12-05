@@ -13,7 +13,7 @@ import com.attendU.dev.microservices.bean.Checkin;
 public interface CheckinMapper {
 
 	public Integer absent(@Param("uid") Long uid, @Param("rid") Long rid,
-							@Param("aid") Long aid, @Param("reason") String absentReason);
+							@Param("aid") Long aid, @Param("reason") String absentReason, @Param("createTime") Date date);
 
 
 	public Integer checkin(Checkin checkin);

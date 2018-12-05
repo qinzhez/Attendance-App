@@ -39,9 +39,9 @@ public class CheckinServiceController {
 		checkinMapper = sqlSession.getMapper(CheckinMapper.class);
 	}
 
-	@RequestMapping(value = "/{aid}/{rid}/absent/{uid}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{rid}/{aid}/absent/{uid}", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> absent(@PathVariable long uid, @PathVariable long rid,
-											@PathVariable long aid, @PathVariable String absentReason) {
+											@PathVariable long aid, @RequestBody String absentReason) {
 		boolean check = true;
 		if (uid <= 0 || aid <= 0 || rid <= 0)
 			check = false;
@@ -49,7 +49,7 @@ public class CheckinServiceController {
 		if (check) {
 			try {
 				check = false;
-				int absent = checkinMapper.absent(uid, rid, aid, absentReason);
+				int absent = checkinMapper.absent(uid, rid, aid, absentReason, new Date());
 				sqlSession.commit();
 				check = (absent == 1) ? true : false;
 			} catch (Exception e) {
