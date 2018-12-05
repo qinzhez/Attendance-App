@@ -30,6 +30,8 @@ public interface ActivityMapper {
 
 	public Integer updateParticipation_activity(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
 
+	public Integer removeParticipation_activity(@Param("uid") Long uid, @Param("rid") Long rid, @Param("aid") Long aid);
+
 	public Integer updateRALink(@Param("rid") Long rid, @Param("aid") Long aid);
 
 	public Integer getCreatedAID();

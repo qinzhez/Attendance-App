@@ -25,6 +25,8 @@ public interface RoomMapper {
 
 	public List<Room> getRoomByAdmin(Long adminId);
 
+	public List<Room> searchRoom(Long rid);
+
 	public Long getCreatedRID();
 
 	public Integer updateParticipation(@Param("uid") Long uid, @Param("rid") Long rid);

@@ -32,6 +32,10 @@
      	on a.rid = b.rid where uid = #{adminId}
      </select>
 
+     <select id="searchRoom" resultType="com.attendU.dev.microservices.bean.Room">
+      select * from rooms where rid = #{rid}
+     </select>
+
      <insert id="createRoom" parameterType="com.attendU.dev.microservices.bean.Room">
         insert into rooms (name, participationNum, rcid)
         values (#{name},#{participationNum},#{rcid})

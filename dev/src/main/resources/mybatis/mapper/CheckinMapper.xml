@@ -7,14 +7,14 @@
 <mapper namespace="com.attendU.dev.microservices.checkin.CheckinMapper">
 
   <update id="checkin" parameterType="com.attendU.dev.microservices.bean.Checkin">
-      update participation_activity set Attendance=#{Attendance},createTime=#{createTime}
-	  where rid=#{rid} and aid=#{aid} and uid=#{uid}
+      update participation_activity set Attendance = 1, createTime=#{createTime}
+	    where rid=#{rid} and aid=#{aid} and uid=#{uid}
   </update>
 
-  <update id="updateStatus" >
+  <update id="absent" parameterType="com.attendU.dev.microservices.bean.Checkin">
       update participation_activity set
-      Attendance = #{Attendance}, absentReason = #{absentReason}
-      where uid = #{uid}, rid= #{rid}, aid =#{aid}
+      Attendance = 2, absentReason = #{absentReason}, createTime=#{createTime}
+      where uid = #{uid} and rid = #{rid} and aid = #{aid}
   </update>
 
   <select id="getCheckinInfo" resultType="com.attendU.dev.microservices.bean.Checkin">
