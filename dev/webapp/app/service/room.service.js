@@ -38,7 +38,7 @@
         
 		function UpdateRoomInfo(rid, roomname, participationnum,roomdescription) {
 			var info = { rid:rid, name:roomname, participationNum:participationnum, description:roomdescription};
-			return $http.post('http://'+backend+':'+roomPort+'/updateRoom', info).then(handleReponse);		
+			return $http.post('http://'+backend+':'+roomPort+'/room/updateRoom', info).then(handleReponse);		
 		}
 		
 

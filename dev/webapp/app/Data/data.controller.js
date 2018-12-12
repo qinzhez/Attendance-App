@@ -71,12 +71,16 @@
 
         vm.activityChosen = function activityChosen(selectedActivity){
             StateService.data.selectedActivity = selectedActivity;
-            $location.url("/home/data/selectActivity?enterAID="+selectedActivity.rid);
+            $location.url("/home/data/selectActivity?enterAID="+selectedActivity.aid);
         }
 
         vm.goTable = function goTable(){
             vm.showTable = true;
             vm.pieEnable = false;
+            StateService.data.selectedRoom = vm.selectedRoom;
+            StateService.data.selectedActivity = vm.selectedActivity;
+            vm.getData();
+            //$location.url("/home/data/selectedActivity?enterAID="+vm.selectedActivity.aid);
         }
 
         vm.goChart = function goChart(){
@@ -84,12 +88,17 @@
             vm.pieEnable=true;
             vm.pie = [vm.datalist.checked.length,vm.datalist.absent.length,
                 vm.datalist.noact.length];
+            StateService.data.selectedRoom = vm.selectedRoom;
+            StateService.data.selectedActivity = vm.selectedActivity;
+            vm.getData();
+            //$location.url("/home/data/selectedActivity?enterAID="+vm.selectedActivity.aid);
         }
         
         vm.getData = function getData(){
             ActivityService.getActivityParticipation(vm.selectedActivity.aid)
                 .then(function(response){
                     if(response.status==200 && response.data != null){
+                        vm.datalist = {raw:[], checked:[], absent:[], noact:[]};
                         vm.datalist.raw = response.data
                         collectName();
                     }
@@ -134,7 +143,7 @@
                 else if (cur.attendance == 1) 
                     vm.datalist.checked.push(cur);
                 else
-                    vm.datalist.noact.push(cur);
+                    vm.datalist.absent.push(cur);
             }
         }
     }

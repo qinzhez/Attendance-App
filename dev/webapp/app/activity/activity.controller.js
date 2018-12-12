@@ -162,8 +162,10 @@
             activity.name = $rootScope.globals.currentUser.token;
             ActivityService.removeActivity(activity)
                 .then(function(response){
+                    activity = {};
                     if(response.status==200 && response.data == true){
                         getActivityList();
+                        $location.url("/home/room");
                     }
                     else{
                         //FlashService.Error("Cannot find any room");

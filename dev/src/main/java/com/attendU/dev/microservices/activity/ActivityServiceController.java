@@ -145,6 +145,8 @@ public class ActivityServiceController {
 				int ret = activityMapper.createActivity(reg);
 				reg.setAid(activityMapper.getCreatedAID().longValue());
 				activityMapper.updateParticipation_activity(uid, rid, reg.getAid());
+				if(activityMapper.checkPartRoom(uid, rid)<1)
+					activityMapper.fixPartRoom(uid, rid);
 				activityMapper.updateRALink(rid, reg.getAid());
 				sqlSession.commit();
 				check = (ret == 1) ? true : false;
@@ -194,6 +196,8 @@ public class ActivityServiceController {
 
 		try{
 			int updated = activityMapper.updateParticipation_activity(part.getUid(),part.getRid(),part.getAid());
+			if(activityMapper.checkPartRoom(part.getUid(), part.getRid())<1)
+				activityMapper.fixPartRoom(part.getUid(), part.getRid());
 			sqlSession.commit();
 			if (updated == 1)
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
@@ -213,6 +217,7 @@ public class ActivityServiceController {
 			if (deleted == 1)
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		} catch (Exception e){
+			log.error(e);
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 

@@ -57,17 +57,23 @@
 	<insert id="updateParticipation_activity">
 		insert into participation_activity (uid, rid, aid)
 		values (#{uid}, #{rid}, #{aid});
-      
-            insert into participation_room (uid, rid)
-    	      values (#{uid}, #{rid});
 	</insert>
+
+	<insert id="fixPartRoom">
+		insert into participation_room (uid, rid)
+    	      values (#{uid}, #{rid});
+   	</insert>
+
+   	<select id="checkPartRoom" resultType="int">
+   		select count(*) from participation_room where uid=#{uid} and rid=#{rid}
+   	</select>
 
   <delete id="removeParticipation_activity">
 		delete from participation_activity where
-		uid=#{uid} and rid=#{rid} and aid=#{aid});
-      
+		uid=#{uid} and rid=#{rid} and aid=#{aid};
+
             delete from participation_room where
-    	      uid=#{uid} and #{rid});
+    	      uid=#{uid} and rid=#{rid};
   </delete>
 
 	<insert id="updateRALink">
@@ -96,12 +102,10 @@
 	</select>
 
 	<select id="getAdminRecent" resultType="com.attendU.dev.microservices.bean.Activity" flushCache="true">
-		select * from (select * from
-		(select * from (select rid from admin natural join ra_link where admin.uid=#{uid}) as INSIDE
-		natural join participation_activity natural join activities where participation_activity.uid=#{uid}) as A
+		(select * from (select rid from admin natural join ra_link where admin.uid=12) as INSIDE
+		natural join participation_activity natural join activities where participation_activity.uid=#{uid} order by due ASC)
 		union
-		(select * from participation_activity natural join activities where participation_activity.uid=#{uid}) as B
-		order by due ASC);
+		(select * from participation_activity natural join activities where participation_activity.uid=#{uid} order by due ASC)
 	</select>
 
 	<select id="getActivityParticipation" resultType="com.attendU.dev.microservices.bean.Participation" flushCache="true">

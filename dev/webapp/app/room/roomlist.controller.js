@@ -120,10 +120,13 @@
             
             //CurrentRid is a temporary name
             var rid = StateService.room.CurrentRid;
-            RoomService.UpdateRoomInfo(rid, vm.roomname, vm.roomdescription, vm.roomdescription, deferred);
+            RoomService.UpdateRoomInfo(vm.editRoom.rid, vm.editRoom.name, vm.editRoom.participationNum, vm.editRoom.description)
+                .then(function(response){
+                    deferred.resolve(response);
+                });
 
             promise.then(function (response) {
-                if (response.status == 200 && response.data['rid']>0) {
+                if (response.status == 200 && response.data==true) {
                     $location.path('/home/room');
                 } else {
                     vm.dataLoading = false;

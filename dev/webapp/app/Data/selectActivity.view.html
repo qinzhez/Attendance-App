@@ -11,13 +11,13 @@
 
     <ul class="nav nav-tabs">
         <li class="active" ng-show="vm.showTable" >
-            <a ng-click="vm.goTable()" style="cursor: default;">Table</a>
+            <a style="cursor: default;">Table</a>
         </li>
         <li ng-show="!vm.showTable">
             <a ng-click="vm.goTable()" style="cursor: pointer;">Table</a>
         </li>
         <li ng-show="vm.showTable"><a ng-click="vm.goChart()" style="cursor: pointer;">Chart</a></li>
-        <li class="active" ng-show="!vm.showTable"><a ng-click="vm.goChart()" style="cursor: default;">Chart</a></li>
+        <li class="active" ng-show="!vm.showTable"><a style="cursor: default;">Chart</a></li>
     </ul>
     
     <!-- show activity list -->

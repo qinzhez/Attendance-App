@@ -14,7 +14,7 @@
     </div>
 
 
-    <button type="button" class="btn btn-primary" ng-click="vm.goCreate()" ng-disable="vm.user==null"><a style = "color:white;">Add new activity</a></button>
+    <button type="button" class="btn btn-primary" ng-click="vm.goCreate()" ng-disable="vm.user==null" ng-show="vm.room.isAdmin"><a style = "color:white;">Add new activity</a></button>
 
     <button type="button" class="btn btn-primary" ng-show="vm.istest" ng-click="vm.test()" ><a style = "color:white;">test</a></button>
     

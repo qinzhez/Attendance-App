@@ -54,5 +54,9 @@ public interface ActivityMapper {
 
 	public List<Participation> getActivityParticipation(Long aid);
 
+	public Integer fixPartRoom(@Param("uid") Long uid, @Param("rid") Long rid);
+
+	public Integer checkPartRoom(@Param("uid") Long uid, @Param("rid") Long rid);
+
 }
 

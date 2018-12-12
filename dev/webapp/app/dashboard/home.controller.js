@@ -55,7 +55,7 @@
                                 vm.userLoaded = true;
                                 vm.showName = StateService.user.CurrentUser.firstName;
 
-                                vm.showName = "Logout";
+                                vm.showName = vm.showName + ", logout";
 
                                 if(StateService.dashboard.initdef != undefined ||
                                     StateService.dashboard.initdef != null)
